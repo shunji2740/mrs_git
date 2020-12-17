@@ -32,5 +32,4 @@ public class EndTimeMustBeAfterStartTimeValidator
 
 		return isEndTimeMustBeAfterStartTime;
 	}
-
 }

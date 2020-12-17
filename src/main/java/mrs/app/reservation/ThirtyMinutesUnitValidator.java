@@ -21,5 +21,4 @@ public class ThirtyMinutesUnitValidator implements ConstraintValidator<ThirtyMin
 
 		return value.getMinute() % 30 == 0;
 	}
-
 }

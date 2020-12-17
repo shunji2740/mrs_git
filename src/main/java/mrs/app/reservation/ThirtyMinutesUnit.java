@@ -27,5 +27,4 @@ public @interface ThirtyMinutesUnit {
 
 		String message() default "{mrs.app.reservation.ThirtyMinutesUnit.message}";
 	}
-
 }

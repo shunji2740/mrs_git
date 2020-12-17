@@ -29,7 +29,6 @@ public class RoomsController {
 
 		return "room/listRooms";
 	}
-
 }
 
 

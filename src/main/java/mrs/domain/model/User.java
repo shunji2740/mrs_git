@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 
 //会議室予約システムを利用するユーザー情報を格納するテーブル
+//Userエンティティー
 @Entity
 @Table(name = "usr")
 public class User implements Serializable {

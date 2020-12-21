@@ -12,9 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import mrs.domain.service.user.ReservationUserDetailsService;
 
-@Configuration
-
 //springsecurityのweb連帯機能(CSRF対策など)を有効にする
+@Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 

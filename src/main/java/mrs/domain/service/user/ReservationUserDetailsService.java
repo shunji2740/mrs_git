@@ -21,10 +21,9 @@ public class ReservationUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		//ユーザー取得処理はUserRepositoryに委譲
-		User user = userRepository.findOneForUpdateByUserId(username);
+		User user = userRepository.findById(username).get();
 
 		if (user == null) {
-
 			throw new UsernameNotFoundException(username + " is not found");
 		}
 

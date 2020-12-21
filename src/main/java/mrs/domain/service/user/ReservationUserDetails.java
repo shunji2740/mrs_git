@@ -13,6 +13,7 @@ public class ReservationUserDetails implements UserDetails {
 
 	private final User user;
 
+
 	public ReservationUserDetails(User user) {
 		this.user = user;
 	}

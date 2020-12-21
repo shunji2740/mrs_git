@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mrs.domain.model.User;
 
+
 @Repository
+
 @Transactional
 public interface UserRepository extends JpaRepository<User, String>{
 

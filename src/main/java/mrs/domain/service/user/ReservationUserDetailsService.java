@@ -20,11 +20,11 @@ public class ReservationUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-
 		//ユーザー取得処理はUserRepositoryに委譲
 		User user = userRepository.findOneForUpdateByUserId(username);
+
 		if (user == null) {
-			System.out.println("ここだよ");
+
 			throw new UsernameNotFoundException(username + " is not found");
 		}
 

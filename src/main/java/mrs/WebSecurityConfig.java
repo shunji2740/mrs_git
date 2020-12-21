@@ -12,9 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import mrs.domain.service.user.ReservationUserDetailsService;
 
-@Configuration
-
 //springsecurityのweb連帯機能(CSRF対策など)を有効にする
+@Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -39,11 +38,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				.defaultSuccessUrl("/rooms", true)
 				.failureUrl("/loginForm?error=true").permitAll();
+//
+//		http.formLogin().loginProcessingUrl("/loginForm")
+//				.loginPage("/loginForm")
+//				.failureUrl("/loginForm")
+//				.usernameParameter("userId")
+//				.passwordParameter("password")
+//				.defaultSuccessUrl("/rooms", true);
+
+		http.csrf().disable();
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		//指定のUserDetailsServiceとPasswordEncoderを使用して認証を行う
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService);
 	}
 }

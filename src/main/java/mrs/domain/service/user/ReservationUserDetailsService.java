@@ -1,6 +1,5 @@
 package mrs.domain.service.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,11 +11,15 @@ import mrs.domain.repository.user.UserRepository;
 @Service
 public class ReservationUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	UserRepository userRepository;
+	private final UserRepository userRepository;
+
+	public ReservationUserDetailsService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
 
 		//ユーザー取得処理はUserRepositoryに委譲
 		User user = userRepository.findOneForUpdateByUserId(username);

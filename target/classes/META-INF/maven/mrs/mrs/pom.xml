@@ -67,6 +67,14 @@
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
 
+		<!-- cloud.stream.app -->
+		<dependency>
+		    <groupId>org.springframework.cloud.stream.app</groupId>
+		    <artifactId>app-starters-micrometer-common</artifactId>
+		    <version>2.1.4.RELEASE</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

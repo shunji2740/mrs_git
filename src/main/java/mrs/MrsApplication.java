@@ -9,7 +9,6 @@ public class MrsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MrsApplication.class, args);
 
-		System.out.println("Hello, Spring!");
 	}
 
 }

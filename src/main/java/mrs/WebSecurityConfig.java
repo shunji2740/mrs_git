@@ -36,22 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/login")
 				.usernameParameter("username")
 				.passwordParameter("password")
-				.defaultSuccessUrl("/rooms", true)
+				.defaultSuccessUrl("/rooms/listRooms", true)
 				.failureUrl("/loginForm?error=true").permitAll();
-//
-//		http.formLogin().loginProcessingUrl("/loginForm")
-//				.loginPage("/loginForm")
-//				.failureUrl("/loginForm")
-//				.usernameParameter("userId")
-//				.passwordParameter("password")
-//				.defaultSuccessUrl("/rooms", true);
-
-		http.csrf().disable();
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		//指定のUserDetailsServiceとPasswordEncoderを使用して認証を行う
-		auth.userDetailsService(userDetailsService);
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 }

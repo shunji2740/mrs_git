@@ -20,6 +20,10 @@ public class ReservationUserDetailsService implements UserDetailsService {
 
 		//ユーザー取得処理はUserRepositoryに委譲
 		User user = userRepository.findById(username).get();
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/main
 		if (user == null) {
 			throw new UsernameNotFoundException(username + " is not found");
 		}

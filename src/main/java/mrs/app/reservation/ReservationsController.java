@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,12 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import mrs.domain.model.ReservableRoom;
 import mrs.domain.model.ReservableRoomId;
 import mrs.domain.model.Reservation;
-import mrs.domain.model.RoleName;
 import mrs.domain.model.User;
 import mrs.domain.service.reservation.AlreadyReservedException;
 import mrs.domain.service.reservation.ReservationService;
 import mrs.domain.service.reservation.UnavailableReservationException;
 import mrs.domain.service.room.RoomService;
+import mrs.domain.service.user.ReservationUserDetails;
 
 @Controller
 @RequestMapping("reservations/{date}/{roomId}")
@@ -57,7 +59,7 @@ public class ReservationsController {
 		model.addAttribute("room", roomService.findMeetingRomm(roomId));
 		model.addAttribute("reservations", reservations);
 		model.addAttribute("timeList", timeList);
-		model.addAttribute("user", dummyUser());
+		//model.addAttribute("user", dummyUser());
 
 		return "reservation/reserveForm";
 
@@ -66,6 +68,7 @@ public class ReservationsController {
 	//予約処理・予約可能かの処理
 	@RequestMapping(method = RequestMethod.POST)
 	String reserve(@Validated ReservationForm form, BindingResult bindingResult,
+			@AuthenticationPrincipal ReservationUserDetails userDetails,
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId, Model model) {
 
@@ -78,7 +81,8 @@ public class ReservationsController {
 		reservation.setEndTime(form.getEndTime());
 		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, date));
 		reservation.setReservableRoom(reservableRoom);
-		reservation.setUser(dummyUser());
+		//reservation.setUser(dummyUser());
+		reservation.setUser(userDetails.getUser());
 
 		try {
 			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェック
@@ -92,19 +96,20 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-
 	//予約削除
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")
-	String cancel(@RequestParam("reservationId") Integer reservationId, @PathVariable("roomId") Integer roomId,
-			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date")LocalDate date, Model model) {
+	String cancel(@RequestParam("reservationId") Integer reservationId,
+			@AuthenticationPrincipal ReservationUserDetails userDetails,
+			@PathVariable("roomId") Integer roomId,
+			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date, Model model) {
 
-		System.out.println("------------test-----------");
-		//まだダミーユーザー
-		User user = dummyUser();
+		//ユーザー取得
+		User user = userDetails.getUser();
+
 		try {
 			reservationService.cancel(reservationId, user);
 
-		}catch(IllegalArgumentException e) {
+		} catch (AccessDeniedException e) { //ハンドリングする例外はAccessDeniedException
 			model.addAttribute("error", e.getMessage());
 			return reserveForm(date, roomId, model);
 		}
@@ -123,14 +128,14 @@ public class ReservationsController {
 		return form;
 	}
 
-	//ダミーユーザ作成メソッド
-	private User dummyUser() {
-		User user = new User();
-		user.setUserId("taro-yamada");
-		user.setFirstName("太郎");
-		user.setLastName("山田");
-		user.setRoleName(RoleName.USER);
-		return user;
-	}
+	//	//ダミーユーザ作成メソッド
+	//	private User dummyUser() {
+	//		User user = new User();
+	//		user.setUserId("taro-yamada");
+	//		user.setFirstName("太郎");
+	//		user.setLastName("山田");
+	//		user.setRoleName(RoleName.USER);
+	//		return user;
+	//	}
 
 }

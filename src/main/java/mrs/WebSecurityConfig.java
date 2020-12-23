@@ -12,8 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import mrs.domain.service.user.ReservationUserDetailsService;
 
-//springsecurityのweb連帯機能(CSRF対策など)を有効にする
 @Configuration
+
+//springsecurityのweb連帯機能(CSRF対策など)を有効にする
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -36,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/login")
 				.usernameParameter("username")
 				.passwordParameter("password")
-				.defaultSuccessUrl("/rooms/listRooms", true)
+				.defaultSuccessUrl("/rooms", true)
 				.failureUrl("/loginForm?error=true").permitAll();
 	}
 

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-spring-security5">
 <head>
 <meta charset="UTF-8">
-<title th:text="|${#temporals.format(date, 'yyyy/M/d')}の${room.roomName}|"></title>
+<title
+	th:text="|${#temporals.format(date, 'yyyy/M/d')}の${room.roomName}|"></title>
 </head>
-<body>
+<body th:with="user=${#authentication.principal.user}">
 
 	<div>
 		<a th:href="@{'/rooms/' + ${date}}">会議室へ</a>
@@ -13,28 +15,25 @@
 	<!-- 予約が出来なかった場合の処理 -->
 	<p style="color: red" th:if="${error != null}" th:text="${error}"></p>
 
-	<form th:object="${reservationForm}" th:action = "@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post">
+	<form th:object="${reservationForm}"
+		th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
+		method="post">
 
-		会議室: <span th:text="${room.roomName}"></span>
-		<br/>
-		予約者名: <span th:text="${user.lastName + '' + user.firstName}"></span>
-		<br/>
-		日付: <span th:text="${#temporals.format(date, 'yyyy/M/d')}"></span>
-		<br/>
-		時間帯:
+		会議室: <span th:text="${room.roomName}"></span> <br /> 予約者名: <span
+			th:text="${user.lastName + '' + user.firstName}"></span> <br /> 日付: <span
+			th:text="${#temporals.format(date, 'yyyy/M/d')}"></span> <br /> 時間帯:
 		<select th:field="*{startTime}">
-			<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
-		</select>
-		<span th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" style="color:red">error!</span>
-
-		<select th:field="*{endTime}">
-			<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
-			<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
-		</select>
-
-		<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color:red">error!</span>
-
-		<br/>
+			<option th:each="time : ${timeList}" th:text="${time}"
+				th:value="${time}"></option>
+		</select> <span th:if="${#fields.hasErrors('startTime')}"
+			th:errors="*{startTime}" style="color: red">error!</span> <select
+			th:field="*{endTime}">
+			<option th:each="time : ${timeList}" th:text="${time}"
+				th:value="${time}"></option>
+			<option th:each="time : ${timeList}" th:text="${time}"
+				th:value="${time}"></option>
+		</select> <span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"
+			style="color: red">error!</span> <br />
 		<button>予約</button>
 	</form>
 
@@ -47,19 +46,17 @@
 		</tr>
 
 		<tr th:each="reservation : ${reservations}">
+			<td><span th:text="${reservation.startTime}"></span> <span
+				th:text="${reservation.endTime}"></span></td>
+			<td><span th:text="${reservation.user.lastName}"></span> <span
+				th:text="${reservation.user.firstName}"></span></td>
 			<td>
-				<span th:text = "${reservation.startTime}"></span>
-				<span th:text = "${reservation.endTime}"></span>
-			</td>
-			<td>
-				<span th:text = "${reservation.user.lastName}"></span>
-				<span th:text = "${reservation.user.firstName}"></span>
-			</td>
-			<td>
-				<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post"
-				th:if="${user.userId == reservation.user.userId}">
-					<input type="hidden" name="reservationId" th:value="${reservation.reservationId}"/>
-					<input type="submit" name="cancel" value="取り消し"/>
+				<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
+					method="post"
+					sec:authorize="${hasRole('ROLE_ADMIN') or #vars.user.userId == #vars.reservation.user.userId}">
+					<input type="hidden" name="reservationId"
+						th:value="${reservation.reservationId}" /> <input type="submit"
+						name="cancel" value="取り消し" />
 				</form>
 			</td>
 		</tr>

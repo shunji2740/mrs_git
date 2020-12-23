@@ -8,10 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import mrs.domain.model.User;
 
-//springsecurityで定義されているUserDetailsを実装する
+//springsecurityで定義されているUserDetailsを実装する.
 public class ReservationUserDetails implements UserDetails {
 
 	private final User user;
+
 
 	public ReservationUserDetails(User user) {
 

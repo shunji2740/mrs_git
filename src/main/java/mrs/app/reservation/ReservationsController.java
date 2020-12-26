@@ -2,6 +2,7 @@ package mrs.app.reservation;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -9,6 +10,7 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,8 +45,15 @@ public class ReservationsController {
 	//いわゆる確認画面だけでまだ予約は完了していない、予約可能かの確認作業はreserve()にて
 	@RequestMapping(method = RequestMethod.GET)
 	String reserveForm(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
-			@PathVariable("roomId") Integer roomId, Model model) {
+			@PathVariable("roomId") Integer roomId, Model model,
+			@AuthenticationPrincipal ReservationUserDetails userDetails) {
 
+		// authorities に想定した権限(ROLE_ADMIN など)が含まれるか？
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★");
+		System.out.println(authorities);
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★");
 		//指定日かつ指定会議室のreservableRoomIdを生成
 		ReservableRoomId reservableRoomId = new ReservableRoomId(roomId, date);
 
@@ -73,7 +82,7 @@ public class ReservationsController {
 			@PathVariable("roomId") Integer roomId, Model model) {
 
 		if (bindingResult.hasErrors()) {
-			return reserveForm(date, roomId, model);
+			return reserveForm(date, roomId, model, userDetails);
 		}
 
 		Reservation reservation = new Reservation();
@@ -90,7 +99,7 @@ public class ReservationsController {
 
 		} catch (UnavailableReservationException | AlreadyReservedException e) {
 			model.addAttribute("error", e.getMessage());
-			return reserveForm(date, roomId, model);
+			return reserveForm(date, roomId, model, userDetails);
 		}
 
 		return "redirect:/reservations/{date}/{roomId}";
@@ -111,7 +120,7 @@ public class ReservationsController {
 
 		} catch (AccessDeniedException e) { //ハンドリングする例外はAccessDeniedException
 			model.addAttribute("error", e.getMessage());
-			return reserveForm(date, roomId, model);
+			return reserveForm(date, roomId, model, userDetails);
 		}
 
 		return "redirect:/reservations/{date}/{roomId}";

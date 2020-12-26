@@ -15,11 +15,7 @@ public class ReservationUserDetails implements UserDetails {
 
 
 	public ReservationUserDetails(User user) {
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-		System.out.println(user.getRoleName());
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-
-		this.user = user;
+			this.user = user;
 	}
 
 	public User getUser() {

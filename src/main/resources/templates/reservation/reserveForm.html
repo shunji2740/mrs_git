@@ -53,7 +53,7 @@
 			<td>
 				<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
 					method="post"
-				sec:authorize="#strings.contains(#authentication.principal.authorities,'ADMIN') or #vars.user.userId == #vars.reservation.user.userId">
+				sec:authorize="hasRole('ADMIN') or #vars.user.userId == #vars.reservation.user.userId">
 					<input type="hidden" name="reservationId"
 						th:value="${reservation.reservationId}" /> <input type="submit"
 						name="cancel" value="取り消し" />

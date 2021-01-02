@@ -94,7 +94,7 @@ public class ReservationsController {
 		reservation.setUser(userDetails.getUser());
 
 		try {
-			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェック
+			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックし登録する
 			reservationService.reserve(reservation);
 
 		} catch (UnavailableReservationException | AlreadyReservedException e) {

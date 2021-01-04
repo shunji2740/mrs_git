@@ -42,7 +42,7 @@ public class ReservationsController {
 	ReservationService reservationService;
 
 	//予約確認・予約一覧画面
-	//いわゆる確認画面だけでまだ予約は完了していない、予約可能かの確認作業はreserve()にて
+	//予約可能かの確認作業はreserve()にて
 	@RequestMapping(method = RequestMethod.GET)
 	String reserveForm(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId, Model model,
@@ -95,14 +95,27 @@ public class ReservationsController {
 
 		try {
 			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックし登録する
-			reservationService.reserve(reservation);
+			reservationService.checkReservation(reservation);
 
 		} catch (UnavailableReservationException | AlreadyReservedException e) {
 			model.addAttribute("error", e.getMessage());
 			return reserveForm(date, roomId, model, userDetails);
 		}
 
-		return "redirect:/reservations/{date}/{roomId}";
+		model.addAttribute("reservations", reservation);
+
+		return "reservation/confirmReservation";
+	}
+
+
+	//予約完了
+	@RequestMapping(method = RequestMethod.POST, params = "confirmed")
+	String confirmed(@RequestParam("reservation") Reservation reservation, Model model) {
+
+		//予約を登録する
+		reservationService.reserve(reservation);
+
+		return null;
 	}
 
 	//予約削除
@@ -136,15 +149,5 @@ public class ReservationsController {
 
 		return form;
 	}
-
-	//	//ダミーユーザ作成メソッド
-	//	private User dummyUser() {
-	//		User user = new User();
-	//		user.setUserId("taro-yamada");
-	//		user.setFirstName("太郎");
-	//		user.setLastName("山田");
-	//		user.setRoleName(RoleName.USER);
-	//		return user;
-	//	}
 
 }

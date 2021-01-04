@@ -26,7 +26,7 @@ public class ReservationService {
 	ReservableRoomRepository reservableRoomRepository;
 
 	//引数reservationには予約情報のすべてが格納されている(予約したい状態)
-	public Reservation reserve(Reservation reservation) {
+	public Reservation checkReservation(Reservation reservation) {
 		//複合キー(会議室IDと指定日)を取得
 		ReservableRoomId reservableRoomId = reservation.getReservableRoom().getReservableRoomId();
 
@@ -58,9 +58,13 @@ public class ReservationService {
 			throw new AlreadyReservedException("指定日は既に予約されています。");
 		}
 
-		//予約情報の登録
-		reservationRepository.save(reservation);
 		return reservation;
+
+	}
+
+	//予約情報の登録
+	public void reserve(Reservation reservation) {
+		reservationRepository.save(reservation);
 
 	}
 

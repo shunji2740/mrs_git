@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-spring-security5">
+<head>
+<meta charset="UTF-8">
+<title></title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+
+</head>
+<body>
+	<div class="container">
+		<h2 style="text-align: center;">ご予約内容の確認</h2>
+
+		<table>
+				<tr>
+					<th>時間帯</th>
+					<th>予約者</th>
+					<th>操作</th>
+				</tr>
+
+				<tr th:each="reservation : ${reservations}">
+					<td><span th:text="${reservation.startTime}"></span>
+					<span th:text="${reservation.endTime}"></span></td>
+
+					<td><span th:text="${reservation.user.lastName}"></span>
+					<span th:text="${reservation.user.firstName}"></span></td>
+				</tr>
+		</table>
+		</div>
+
+		<!-- 登録完了処理 -->
+		<form class="form-reservation" th:action="@{/}" method="post" name="confirmed">
+			<button class="btn btn-lg btn-primary btn-block" type="submit">予約完了</button>
+		</form>
+</body>
+</html>

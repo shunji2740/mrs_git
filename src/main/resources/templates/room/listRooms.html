@@ -2,25 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ログイン</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+	<title th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</title>
 </head>
 <body>
-	<h3>会議室</h3>
-	<a th:href="@{'/rooms/' + ${date.minusDays(1)}}">&lt; 前日</a>
-	<sapn th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</sapn>
-	<a th:href="@{'/rooms/' + ${date.plusDays(1)}}">翌日 &gt; </a>
+	<div class="container">
+		<a th:href="@{'/rooms/' + ${date.minusDays(1)}}">&lt; 前日</a>
+		<sapn th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</sapn>
+		<a th:href="@{'/rooms/' + ${date.plusDays(1)}}">翌日 &gt; </a>
 
-	<ul>
-		<li th:each="room: ${rooms}"><a
-			th:href="@{'/reservations/' + ${date} + '/' + ${room.meetingRoom.roomId}}"
-			th:text="${room.meetingRoom.roomName}"></a>
-		</li>
-	</ul>
+		<ul class="center" style="list-style: none;">
+			<li th:each="room: ${rooms}"><a
+				th:href="@{'/reservations/' + ${date} + '/' + ${room.meetingRoom.roomId}}"
+				th:text="${room.meetingRoom.roomName}" class="form-control"></a>
+			</li>
+		</ul>
 
-	<!-- ログアウト処理 -->
-	<form th:action="@{/logout}" method="post">
-		<button>ログアウト</button>
-	</form>
-
+		<!-- ログアウト処理 -->
+		<form class="form-logout" th:action="@{/logout}" method="post">
+			<button class="btn btn-lg btn-primary btn-block" type="submit">ログアウト</button>
+		</form>
+	</div>
 </body>
 </html>

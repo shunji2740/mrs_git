@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>ログイン画面</title>
+	<meta charset="UTF-8">
+	<!-- Bootstrapの設定 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ログイン</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
 <body>
-	<h3>ログインフォーム</h3>
+	<div class="container">
+	 <h2 style="text-align: center;">ログインフォーム</h2>
+	<form class="form-signin" th:action="@{/login}" method="post">
+		<p th:if="${param.error}">Error!</p>
+		<!-- ユーザーID -->
+		<p>
+		<input type="text" id="username"name="username" class="form-control" placeholder="ユーザーID" required autofocus/>
+		 <p/>
 
-	<p th:if="${param.error}">Error!</p>
+		<!-- パスワード -->
+		<p>
+		<input type="password" id="password" name="password" class="form-control" placeholder="パスワード" required/>
+		<p/>
 
-	<form th:action="@{/login}" method="POST">
-		<table>
-			<tr>
-				<td><label for="username">User:</label></td>
-				<td><input type="text" id="username" name="username" value="aaaa"/></td>
-			</tr>
-			<tr>
-				<td><label for="password">Password:</label></td>
-				<td><input type="password" id="password" name="password" value="demo"/></td>
-			</tr>
-
-			<tr>
-				<td>&nbsp;</td>
-				<td><button type="submit">ログイン</button></td>
-			</tr>
-		</table>
+		 <!-- ログインボタン -->
+		<button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
 	</form>
 
+	 <!-- ユーザー登録画面へのリンク -->
+    <a th:href="@{'/registration'}"><button class="btn btn-lg btn-block" type="button" style="color:blue">新規登録ユーザーはこちら</button></a>
+	</div>
 </body>
 </html>
+

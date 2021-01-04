@@ -24,7 +24,7 @@ public class ReservationUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return AuthorityUtils.createAuthorityList("ROLE" + this.user.getRoleName().name());
+		return AuthorityUtils.createAuthorityList("ROLE_" + this.user.getRoleName().name());
 	}
 
 	@Override

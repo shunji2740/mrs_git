@@ -7,6 +7,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
 
 
 //会議室予約システムを利用するユーザー情報を格納するテーブル
@@ -16,9 +19,17 @@ import javax.persistence.Table;
 public class User implements Serializable {
 
 	@Id
+	@NotBlank(groups=ValidGroup1.class)
 	private String userId;
+
+	@NotBlank(groups=ValidGroup1.class)
+	@Length(min=4, max=100, groups=ValidGroup2.class)
 	private String password;
+
+	@NotBlank(groups=ValidGroup1.class)
 	private String firstName;
+
+	@NotBlank(groups=ValidGroup1.class)
 	private String lastName;
 
 	@Enumerated(EnumType.STRING)

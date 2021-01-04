@@ -10,9 +10,7 @@
 <body th:with="user=${#authentication.principal.user}">
 
 	<div class="container">
-		<div>
-			<h2><a th:href="@{'/rooms/' + ${date}}">会議室へ</a></h2>
-		</div>
+		<h3>会議室予約一覧</h3>
 
 		<!-- 予約が出来なかった場合の処理 -->
 		<p style="color: red" th:if="${error != null}" th:text="${error}"></p>
@@ -63,6 +61,11 @@
 				</td>
 			</tr>
 		</table>
+
+		<div>
+			<h5><a th:href="@{'/rooms/' + ${date}}">会議室一覧へ戻る</a></h5>
+		</div>
+
 	</div>
 </body>
 </html>

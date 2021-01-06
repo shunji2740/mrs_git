@@ -102,7 +102,7 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model, userDetails);
 		}
 
-		model.addAttribute("reservations", reservation);
+		model.addAttribute("reservation", reservation);
 
 		return "reservation/confirmReservation";
 	}
@@ -110,12 +110,15 @@ public class ReservationsController {
 
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmed")
-	String confirmed(@RequestParam("reservation") Reservation reservation, Model model) {
+	String confirmed(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
+			@PathVariable("roomId") Integer roomId, @RequestParam("reservation") Reservation reservation, Model model) {
+
+		System.out.println("( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)");
 
 		//予約を登録する
 		reservationService.reserve(reservation);
 
-		return null;
+		return "room/listRooms";
 	}
 
 	//予約削除

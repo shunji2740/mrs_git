@@ -71,9 +71,9 @@ public class ReservationsController {
 		model.addAttribute("reservations", reservations);
 		model.addAttribute("timeList", timeList);
 
-        // Flash Scopeから値の取り出し
-         Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
-         model.addAttribute("booleanResult", booleanResult);
+		// Flash Scopeから値の取り出し
+		Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
+		model.addAttribute("booleanResult", booleanResult);
 
 		return "reservation/reserveForm";
 
@@ -89,8 +89,6 @@ public class ReservationsController {
 		if (bindingResult.hasErrors()) {
 			return reserveForm(date, roomId, model, userDetails);
 		}
-
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★");
 
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
@@ -108,40 +106,23 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model, userDetails);
 		}
 
-<<<<<<< HEAD
-		model.addAttribute("reservation", reservation);
-=======
 		session.setAttribute("reservation", reservation);
-		//model.addAttribute("reservation", reservation);
->>>>>>> branch 'main' of https://github.com/shunji2740/mrs_git.git
 
 		return "reservation/confirmReservation";
 	}
 
-
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmed")
-<<<<<<< HEAD
-	String confirmed(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
-			@PathVariable("roomId") Integer roomId, @RequestParam("reservation") Reservation reservation, Model model) {
-
-		System.out.println("( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)");
-=======
 	String confirmed(RedirectAttributes redirectAttributes, Model model) {
 
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
->>>>>>> branch 'main' of https://github.com/shunji2740/mrs_git.git
 
 		//予約を登録する
 		reservationService.reserve(reservation);
 
-<<<<<<< HEAD
-		return "room/listRooms";
-=======
 		redirectAttributes.addFlashAttribute("booleanResult", true);
 
 		return "redirect:/reservations/{date}/{roomId}";
->>>>>>> branch 'main' of https://github.com/shunji2740/mrs_git.git
 	}
 
 	//予約削除

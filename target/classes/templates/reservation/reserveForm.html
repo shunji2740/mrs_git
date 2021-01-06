@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-spring-security5">
 <head>
 <meta charset="UTF-8">
 	<title th:text="|${#temporals.format(date, 'yyyy/M/d')}の${room.roomName}|"></title>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+	 <!-- Bootstrapの設定 -->
+    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
+    <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/demo.js}"></script>
+
+	<!-- CSSの読込 -->
+    <link th:href="@{/css/home.css}" rel="stylesheet"></link>
 </head>
 <body th:with="user=${#authentication.principal.user}">
 
@@ -39,28 +47,27 @@
 		</form>
 
 		<!-- 予約済みリスト -->
-		<table>
-			<tr>
-				<th>時間帯</th>
-				<th>予約者</th>
-				<th>操作</th>
-			</tr>
-
-			<tr th:each="reservation : ${reservations}">
-				<td><span th:text="${reservation.startTime}"></span>
+		 <table class="table table-bordered table-hover table-striped">
+            <tr>
+                <th class="info col-sm-2">時間帯</th>
+                <th class="info col-sm-2">予約者</th>
+                <th class="info col-sm-2">操作</th>
+            </tr>
+          <tr th:each="reservation : ${reservations}">
+				<td><span th:text="${reservation.startTime} + ' ～'"></span>
 				 <span th:text="${reservation.endTime}"></span></td>
 
 				<td><span th:text="${reservation.user.lastName}"></span>
-				 <span th:text="${reservation.user.firstName}" ></span></td>
+				 <span th:text="${reservation.user.firstName} + ' 様'" ></span></td>
 				<td>
 					<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post"
 						sec:authorize="hasRole('ADMIN') or #vars.user.userId == #vars.reservation.user.userId">
 						<input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
 						<input type="submit" name="cancel" value="取り消し" />
 					</form>
-				</td>
-			</tr>
-		</table>
+                </td>
+            </tr>
+        </table>
 
 		<div>
 			<h5><a th:href="@{'/rooms/' + ${date}}">会議室一覧へ戻る</a></h5>
@@ -71,12 +78,6 @@
    			alert('予約が完了しました');
 			</script>
         </div>
-
-        <ul>
-            <li th:if="${booleanTrue}">booleanTrue</li>
-        </ul>
-
-
 	</div>
 </body>
 </html>

@@ -6,34 +6,35 @@
 	<title th:text="|${#temporals.format(date, 'yyyy/M/d')}の${room.roomName}|"></title>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+	<script type="text/javascript" th:src="@{/demo.js}"></script>
 </head>
 <body th:with="user=${#authentication.principal.user}">
 
 	<div class="container">
 		<h3>会議室予約一覧</h3>
 
+		<h1 th:text="${title}"></h1>
+
 		<!-- 予約が出来なかった場合の処理 -->
 		<p style="color: red" th:if="${error != null}" th:text="${error}"></p>
 
-		<form th:object="${reservationForm}"
-			th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
+
+		<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
 			method="post">
 
-			会議室: <span th:text="${room.roomName}"></span> <br /> 予約者名: <span
-				th:text="${user.lastName + '' + user.firstName}"></span> <br /> 日付: <span
-				th:text="${#temporals.format(date, 'yyyy/M/d')}"></span> <br /> 時間帯:
+			会議室: <span th:text="${room.roomName}"></span> <br />
+			予約者名: <span th:text="${user.lastName + '' + user.firstName}"></span> <br />
+			日付: <span th:text="${#temporals.format(date, 'yyyy/M/d')}"></span> <br />
+			時間帯:
 			<select th:field="*{startTime}">
-				<option th:each="time : ${timeList}" th:text="${time}"
-					th:value="${time}"></option>
-			</select> <span th:if="${#fields.hasErrors('startTime')}"
-				th:errors="*{startTime}" style="color: red">error!</span> <select
-				th:field="*{endTime}">
-				<option th:each="time : ${timeList}" th:text="${time}"
-					th:value="${time}"></option>
-				<option th:each="time : ${timeList}" th:text="${time}"
-					th:value="${time}"></option>
-			</select> <span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"
-				style="color: red">error!</span> <br />
+				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
+			</select>
+			<span th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" style="color: red">error!</span>
+			<select th:field="*{endTime}">
+				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
+				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
+			</select>
+			<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
 			<button type="submit">予約</button>
 		</form>
 
@@ -46,17 +47,16 @@
 			</tr>
 
 			<tr th:each="reservation : ${reservations}">
-				<td><span th:text="${reservation.startTime}"></span> <span
-					th:text="${reservation.endTime}"></span></td>
-				<td><span th:text="${reservation.user.lastName}"></span> <span
-					th:text="${reservation.user.firstName}"></span></td>
+				<td><span th:text="${reservation.startTime}"></span>
+				 <span th:text="${reservation.endTime}"></span></td>
+
+				<td><span th:text="${reservation.user.lastName}"></span>
+				 <span th:text="${reservation.user.firstName}" ></span></td>
 				<td>
-					<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
-						method="post"
-					sec:authorize="hasRole('ADMIN') or #vars.user.userId == #vars.reservation.user.userId">
-						<input type="hidden" name="reservationId"
-							th:value="${reservation.reservationId}" /> <input type="submit"
-							name="cancel" value="取り消し" />
+					<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post"
+						sec:authorize="hasRole('ADMIN') or #vars.user.userId == #vars.reservation.user.userId">
+						<input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
+						<input type="submit" name="cancel" value="取り消し" />
 					</form>
 				</td>
 			</tr>
@@ -65,6 +65,17 @@
 		<div>
 			<h5><a th:href="@{'/rooms/' + ${date}}">会議室一覧へ戻る</a></h5>
 		</div>
+
+        <div th:if="${booleanResult}">
+        	<script>
+   			alert('予約が完了しました');
+			</script>
+        </div>
+
+        <ul>
+            <li th:if="${booleanTrue}">booleanTrue</li>
+        </ul>
+
 
 	</div>
 </body>

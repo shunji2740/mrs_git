@@ -9,8 +9,8 @@
 
 </head>
 <body>
-	<div class="container">
-		<h2 style="text-align: center;">ご予約内容の確認</h2>
+	<div>
+		<h2>ご予約内容の確認</h2>
 
 		<table>
 				<tr>
@@ -19,19 +19,23 @@
 					<th>操作</th>
 				</tr>
 
-				<tr th:each="reservation : ${reservations}">
-					<td><span th:text="${reservation.startTime}"></span>
-					<span th:text="${reservation.endTime}"></span></td>
-
-					<td><span th:text="${reservation.user.lastName}"></span>
-					<span th:text="${reservation.user.firstName}"></span></td>
+				<tr>
+					<td>
+						<span th:text="${session.reservation.startTime}"></span>
+						<span th:text="${session.reservation.endTime}"></span>
+					</td>
+					<td>
+						<span th:text="${session.reservation.user.lastName}"></span>
+						<span th:text="${session.reservation.user.firstName}"></span>
+					</td>
 				</tr>
 		</table>
 		</div>
 
 		<!-- 登録完了処理 -->
-		<form class="form-reservation" th:action="@{/}" method="post" name="confirmed">
-			<button class="btn btn-lg btn-primary btn-block" type="submit">予約完了</button>
+		<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
+			<input type="hidden" name="reservation" th:value="${session.reservation}" />
+			<input type="submit" name="confirmed" value="完了" />
 		</form>
 </body>
 </html>

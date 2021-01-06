@@ -2,15 +2,15 @@ package mrs.app.reservation;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import mrs.domain.model.ReservableRoom;
 import mrs.domain.model.ReservableRoomId;
@@ -38,22 +39,23 @@ public class ReservationsController {
 
 	@Autowired
 	RoomService roomService;
+
 	@Autowired
 	ReservationService reservationService;
+
+	@Autowired
+	HttpSession session;
 
 	//予約確認・予約一覧画面
 	//予約可能かの確認作業はreserve()にて
 	@RequestMapping(method = RequestMethod.GET)
 	String reserveForm(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId, Model model,
-			@AuthenticationPrincipal ReservationUserDetails userDetails) {
+			@AuthenticationPrincipal ReservationUserDetails userDetailss) {
 
 		// authorities に想定した権限(ROLE_ADMIN など)が含まれるか？
-		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+		//Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★");
-		System.out.println(authorities);
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★");
 		//指定日かつ指定会議室のreservableRoomIdを生成
 		ReservableRoomId reservableRoomId = new ReservableRoomId(roomId, date);
 
@@ -68,7 +70,10 @@ public class ReservationsController {
 		model.addAttribute("room", roomService.findMeetingRomm(roomId));
 		model.addAttribute("reservations", reservations);
 		model.addAttribute("timeList", timeList);
-		//model.addAttribute("user", dummyUser());
+
+        // Flash Scopeから値の取り出し
+         Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
+         model.addAttribute("booleanResult", booleanResult);
 
 		return "reservation/reserveForm";
 
@@ -85,16 +90,17 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model, userDetails);
 		}
 
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★");
+
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
 		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, date));
 		reservation.setReservableRoom(reservableRoom);
-		//reservation.setUser(dummyUser());
 		reservation.setUser(userDetails.getUser());
 
 		try {
-			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックし登録する
+			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする
 			reservationService.checkReservation(reservation);
 
 		} catch (UnavailableReservationException | AlreadyReservedException e) {
@@ -102,7 +108,12 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model, userDetails);
 		}
 
+<<<<<<< HEAD
 		model.addAttribute("reservation", reservation);
+=======
+		session.setAttribute("reservation", reservation);
+		//model.addAttribute("reservation", reservation);
+>>>>>>> branch 'main' of https://github.com/shunji2740/mrs_git.git
 
 		return "reservation/confirmReservation";
 	}
@@ -110,15 +121,27 @@ public class ReservationsController {
 
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmed")
+<<<<<<< HEAD
 	String confirmed(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId, @RequestParam("reservation") Reservation reservation, Model model) {
 
 		System.out.println("( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)( *´艸｀)");
+=======
+	String confirmed(RedirectAttributes redirectAttributes, Model model) {
+
+		Reservation reservation = (Reservation) session.getAttribute("reservation");
+>>>>>>> branch 'main' of https://github.com/shunji2740/mrs_git.git
 
 		//予約を登録する
 		reservationService.reserve(reservation);
 
+<<<<<<< HEAD
 		return "room/listRooms";
+=======
+		redirectAttributes.addFlashAttribute("booleanResult", true);
+
+		return "redirect:/reservations/{date}/{roomId}";
+>>>>>>> branch 'main' of https://github.com/shunji2740/mrs_git.git
 	}
 
 	//予約削除

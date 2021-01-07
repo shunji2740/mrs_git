@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-spring-security5">
 <head>
 <meta charset="UTF-8">
 	<title th:text="|${#temporals.format(date, 'yyyy/M/d')}の${room.roomName}|"></title>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
 	 <!-- Bootstrapの設定 -->
     <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
     <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
-	<script type="text/javascript" th:src="@{/demo.js}"></script>
 
 	<!-- CSSの読込 -->
     <link th:href="@{/css/home.css}" rel="stylesheet"></link>
+    <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
 </head>
 <body th:with="user=${#authentication.principal.user}">
 
 	<div class="container">
-		<h3>会議室予約一覧</h3>
+		<h3>会議室予約画面</h3>
 
 		<h1 th:text="${title}"></h1>
 
@@ -45,7 +41,10 @@
 			<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
 			<button type="submit">予約</button>
 		</form>
+		<br>
+		<br>
 
+		<h4>会議室:<span th:text="${room.roomName}"></span>の予約表</h4>
 		<!-- 予約済みリスト -->
 		 <table class="table table-bordered table-hover table-striped">
             <tr>
@@ -74,10 +73,24 @@
 		</div>
 
         <div th:if="${booleanResult}">
-        	<script>
-   			alert('予約が完了しました');
+			<!-- モーダルウィンドウここから -->
+			<div id="modal-content">
+				<p>予約が完了しました</p>
+				<p><a id="modal-close" class="button-link" onclick="modal_onclick_close()" >閉じる</a></p>
+			</div>
+			<!-- 2番目に表示されるモーダル（オーバーウエィ)半透明な膜 -->
+			<div id="modal-overlay" ></div>
+			<!-- モーダルウィンドウここまで -->
+
+			<!-- JavaScript -->
+			<script type="text/javascript">
+			function modal_onclick_close(){
+			document.getElementById("modal-content").style.display = "none";
+			document.getElementById("modal-overlay").style.display = "none";
+			}
 			</script>
-        </div>
+		 </div>
+
 	</div>
 </body>
 </html>

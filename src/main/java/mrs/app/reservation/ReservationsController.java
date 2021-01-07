@@ -114,15 +114,14 @@ public class ReservationsController {
 
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmed")
-	String confirmed(RedirectAttributes redirectAttributes, @ModelAttribute("reservation") String reservation, Model model){
+	String confirmed(RedirectAttributes redirectAttributes, Model model){
 
-		//Reservation reservation = (Reservation) session.getAttribute("reservation");
-		System.out.println("★★★★★★★★★★★★★★★★★★");
+		Reservation reservation = (Reservation)session.getAttribute("reservation");
+
 		System.out.println(reservation);
-		System.out.println("★★★★★★★★★★★★★★★★★★");
 
 		//予約を登録する
-		//reservationService.reserve(reservation);
+		reservationService.reserve(reservation);
 
 		redirectAttributes.addFlashAttribute("booleanResult", true);
 

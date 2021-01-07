@@ -77,7 +77,7 @@ public class ReservationService {
 
 
 	//予約キャンセルメソッド
-	public void cancel(Integer reservationId, User requestUser) {
+	public Boolean checkCancel(Integer reservationId, User requestUser) {
 		Reservation reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
 
 		if (RoleName.ADMIN != requestUser.getRoleName()
@@ -85,6 +85,12 @@ public class ReservationService {
 
 			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
 		}
+
+		return true;
+	}
+
+	//予約キャンセル完了
+	public void cancell(Reservation reservation) {
 
 		reservationRepository.delete(reservation);
 	}

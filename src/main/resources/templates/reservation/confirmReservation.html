@@ -33,7 +33,7 @@
 		<!-- 登録完了処理 -->
 		<div class="col text-center">
 		<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
-			<input class="btn btn-primary btn-sm" type="submit" name="confirmed" value="予約完了" />
+			<input class="btn btn-primary btn-sm" type="submit" name="confirmedReservation" value="予約完了" />
 		</form>
 		</div>
 

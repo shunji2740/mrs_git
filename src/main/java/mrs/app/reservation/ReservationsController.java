@@ -75,6 +75,10 @@ public class ReservationsController {
 		Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
 		model.addAttribute("booleanResult", booleanResult);
 
+		//メッセージの取り出し
+		String message = (String) model.getAttribute("message");
+		model.addAttribute("message", message);
+
 		return "reservation/reserveForm";
 
 	}
@@ -113,22 +117,23 @@ public class ReservationsController {
 	}
 
 	//予約完了
-	@RequestMapping(method = RequestMethod.POST, params = "confirmed")
-	String confirmed(RedirectAttributes redirectAttributes, Model model){
+	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
+	String confirmedReservation(RedirectAttributes redirectAttributes, Model model) {
 
-		Reservation reservation = (Reservation)session.getAttribute("reservation");
+		Reservation reservation = (Reservation) session.getAttribute("reservation");
 
-		System.out.println(reservation);
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★");
 
 		//予約を登録する
 		reservationService.reserve(reservation);
 
+		redirectAttributes.addFlashAttribute("message", "予約が完了しました");
 		redirectAttributes.addFlashAttribute("booleanResult", true);
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-	//予約削除
+	//予約削除可能かの処理
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")
 	String cancel(@RequestParam("reservationId") Integer reservationId,
 			@AuthenticationPrincipal ReservationUserDetails userDetails,
@@ -139,12 +144,27 @@ public class ReservationsController {
 		User user = userDetails.getUser();
 
 		try {
-			reservationService.cancel(reservationId, user);
+			reservationService.checkCancel(reservationId, user);
 
 		} catch (AccessDeniedException e) { //ハンドリングする例外はAccessDeniedException
 			model.addAttribute("error", e.getMessage());
 			return reserveForm(date, roomId, model, userDetails);
 		}
+
+		return "reservation/confirmCancellation";
+	}
+
+	//予約キャンセル完了
+	@RequestMapping(method = RequestMethod.POST, params = "confirmedCancellation")
+	String confirmedCancellation(RedirectAttributes redirectAttributes, Model model) {
+
+		Reservation reservation = (Reservation) session.getAttribute("reservation");
+
+		//予約キャンセル
+		reservationService.cancell(reservation);
+
+		redirectAttributes.addFlashAttribute("message", "予約がキャンセルされました");
+		redirectAttributes.addFlashAttribute("booleanResult", true);
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}

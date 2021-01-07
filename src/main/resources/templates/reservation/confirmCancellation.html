@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div class="container">
-		<h2>ご予約内容の確認</h2>
+		<h2>予約キャンセル内容の確認</h2>
 
 		<table class="table table-bordered table-hover table-striped">
 				<tr>
@@ -33,7 +33,7 @@
 		<!-- 登録完了処理 -->
 		<div class="col text-center">
 		<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
-			<input class="btn btn-primary btn-sm" type="submit" name="confirmedReservation" value="予約完了" />
+			<input class="btn btn-primary btn-sm" type="submit" name="confirmedCancellation" value="キャンセル完了" />
 		</form>
 		</div>
 

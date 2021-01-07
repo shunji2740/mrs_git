@@ -68,6 +68,7 @@
             </tr>
         </table>
 
+		<br>
 		<div>
 			<h5><a th:href="@{'/rooms/' + ${date}}">会議室一覧へ戻る</a></h5>
 		</div>
@@ -75,7 +76,7 @@
         <div th:if="${booleanResult}">
 			<!-- モーダルウィンドウここから -->
 			<div id="modal-content">
-				<p>予約が完了しました</p>
+				<span th:text="${message}"></span>
 				<p><a id="modal-close" class="button-link" onclick="modal_onclick_close()" >閉じる</a></p>
 			</div>
 			<!-- 2番目に表示されるモーダル（オーバーウエィ)半透明な膜 -->

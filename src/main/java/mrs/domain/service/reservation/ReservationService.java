@@ -86,11 +86,21 @@ public class ReservationService {
 			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
 		}
 
+		reservationRepository.delete(reservation);
+
 		return true;
 	}
 
 	//予約キャンセル完了
-	public void cancell(Reservation reservation) {
+	public void cancell(Integer reservationId, User requestUser) {
+
+		Reservation reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
+
+		if (RoleName.ADMIN != requestUser.getRoleName()
+				&& !Objects.equals(reservation.getUser().getUserId(), requestUser.getUserId())) {
+
+			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
+		}
 
 		reservationRepository.delete(reservation);
 	}

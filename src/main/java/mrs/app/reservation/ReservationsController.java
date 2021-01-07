@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -122,8 +121,6 @@ public class ReservationsController {
 
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★");
-
 		//予約を登録する
 		reservationService.reserve(reservation);
 
@@ -143,25 +140,30 @@ public class ReservationsController {
 		//ユーザー取得
 		User user = userDetails.getUser();
 
-		try {
-			reservationService.checkCancel(reservationId, user);
 
-		} catch (AccessDeniedException e) { //ハンドリングする例外はAccessDeniedException
-			model.addAttribute("error", e.getMessage());
-			return reserveForm(date, roomId, model, userDetails);
-		}
+		session.setAttribute("user", user);
+		session.setAttribute("reservationId", reservationId);
+
+//		try {
+//			reservationService.checkCancel(reservationId, user);
+//
+//		} catch (AccessDeniedException e) { //ハンドリングする例外はAccessDeniedException
+//			model.addAttribute("error", e.getMessage());
+//			return reserveForm(date, roomId, model, userDetails);
+//		}
 
 		return "reservation/confirmCancellation";
 	}
 
 	//予約キャンセル完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedCancellation")
-	String confirmedCancellation(RedirectAttributes redirectAttributes, Model model) {
+	String confirmedCancellation( RedirectAttributes redirectAttributes, Model model) {
 
-		Reservation reservation = (Reservation) session.getAttribute("reservation");
+		User user = (User) session.getAttribute("user");
+		Integer reservationId = (Integer) session.getAttribute("reservationId");
 
 		//予約キャンセル
-		reservationService.cancell(reservation);
+		reservationService.checkCancel(reservationId, user);
 
 		redirectAttributes.addFlashAttribute("message", "予約がキャンセルされました");
 		redirectAttributes.addFlashAttribute("booleanResult", true);

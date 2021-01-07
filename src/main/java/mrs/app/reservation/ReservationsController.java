@@ -71,9 +71,9 @@ public class ReservationsController {
 		model.addAttribute("reservations", reservations);
 		model.addAttribute("timeList", timeList);
 
-        // Flash Scopeから値の取り出し
-         Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
-         model.addAttribute("booleanResult", booleanResult);
+		// Flash Scopeから値の取り出し
+		Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
+		model.addAttribute("booleanResult", booleanResult);
 
 		return "reservation/reserveForm";
 
@@ -106,12 +106,11 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model, userDetails);
 		}
 
-		//session.setAttribute("reservation", reservation);
-		model.addAttribute("reservation", reservation);
+		session.setAttribute("reservation", reservation);
+		//model.addAttribute("reservation", reservation);
 
 		return "reservation/confirmReservation";
 	}
-
 
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmed")

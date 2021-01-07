@@ -144,14 +144,6 @@ public class ReservationsController {
 		session.setAttribute("user", user);
 		session.setAttribute("reservationId", reservationId);
 
-//		try {
-//			reservationService.checkCancel(reservationId, user);
-//
-//		} catch (AccessDeniedException e) { //ハンドリングする例外はAccessDeniedException
-//			model.addAttribute("error", e.getMessage());
-//			return reserveForm(date, roomId, model, userDetails);
-//		}
-
 		return "reservation/confirmCancellation";
 	}
 

@@ -90,8 +90,6 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model, userDetails);
 		}
 
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★");
-
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
@@ -108,8 +106,8 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model, userDetails);
 		}
 
-		session.setAttribute("reservation", reservation);
-		//model.addAttribute("reservation", reservation);
+		//session.setAttribute("reservation", reservation);
+		model.addAttribute("reservation", reservation);
 
 		return "reservation/confirmReservation";
 	}
@@ -117,12 +115,15 @@ public class ReservationsController {
 
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmed")
-	String confirmed(RedirectAttributes redirectAttributes, Model model) {
+	String confirmed(RedirectAttributes redirectAttributes, @ModelAttribute("reservation") String reservation, Model model){
 
-		Reservation reservation = (Reservation) session.getAttribute("reservation");
+		//Reservation reservation = (Reservation) session.getAttribute("reservation");
+		System.out.println("★★★★★★★★★★★★★★★★★★");
+		System.out.println(reservation);
+		System.out.println("★★★★★★★★★★★★★★★★★★");
 
 		//予約を登録する
-		reservationService.reserve(reservation);
+		//reservationService.reserve(reservation);
 
 		redirectAttributes.addFlashAttribute("booleanResult", true);
 

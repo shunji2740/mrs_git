@@ -9,7 +9,7 @@
     <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
 
 	<!-- CSSの読込 -->
-    <link th:href="@{/css/home.css}" rel="stylesheet"></link>
+	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
     <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
 </head>
 <body th:with="user=${#authentication.principal.user}">
@@ -52,7 +52,7 @@
                 <th class="info col-sm-2">予約者</th>
                 <th class="info col-sm-2">操作</th>
             </tr>
-          <tr th:each="reservation : ${reservations}">
+          <tr class="table-light" th:each="reservation : ${reservations}">
 				<td><span th:text="${reservation.startTime} + ' ～'"></span>
 				 <span th:text="${reservation.endTime}"></span></td>
 

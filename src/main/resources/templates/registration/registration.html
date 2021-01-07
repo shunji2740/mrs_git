@@ -2,22 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"></meta>
-     <!-- Bootstrapの設定 -->
+ 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+	<!-- Bootstrapの設定 -->
     <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
-    <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
-    <title>SignUp</title>
+
+    <!-- CSSの読込 -->
+	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
+    <title>ユーザー登録画面</title>
 </head>
 <body>
-    <div class="col-sm-5">
+    <div class="container">
         <div class="page-header">
             <h1>ユーザー登録画面</h1>
         </div>
         <form method="post" th:action="@{/registration}" th:object="${user}">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover table-striped">
                 <!-- ユーザーIDの入力エリア -->
                 <tr>
-                    <th class="active col-sm-3">ユーザID</th>
-                    <td>
+                    <th class="active">ユーザID</th>
+                    <td class="table-light">
                         <div class="form-group" th:classappend="${#fields.hasErrors('userId')} ? 'has-error'">
                             <input type="text" class="form-control"
                                 th:field="*{userId}" />
@@ -33,7 +37,7 @@
                 <!-- パスワードの入力エリア -->
                 <tr>
                     <th class="active">パスワード</th>
-                    <td>
+                    <td class="table-light">
                         <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
                             <input type="text" class="form-control"
                                 th:field="*{password}" />
@@ -49,7 +53,7 @@
                 <!-- firstの入力エリア -->
                 <tr>
                     <th class="active">First name</th>
-                    <td>
+                    <td class="table-light">
                         <div class="form-group" th:classappend="${#fields.hasErrors('firstName')} ? 'has-error'">
                             <input type="text" class="form-control"
                                 th:field="*{firstName}" />
@@ -67,7 +71,7 @@
                 <!-- lastnameの入力エリア -->
                 <tr>
                     <th class="active">Last name</th>
-                    <td>
+                    <td class="table-light">
                         <div class="form-group" th:classappend="${#fields.hasErrors('lastName')} ? 'has-error'">
                             <input type="text" class="form-control"
                                 th:field="*{lastName}" />
@@ -85,12 +89,17 @@
 
             <input type="hidden" name="roleName" th:value="USER" >
 
-            <!-- ユーザー登録ボタン -->
-            <button class="btn btn-primary" type="submit">ユーザー登録</button>
+            <div class="col text-center">
+            	<!-- ユーザー登録ボタン -->
+            	<button class="btn btn-primary" type="submit">ユーザー登録</button>
+            </div>
+            <br>
+            <div class="col text-center">
+            	<!-- ログイン画面へのリンク -->
+   	 			<a th:href="@{'login/login'}"><button class="btn btn-primary btn-sm" type="button">ログイン画面に戻る</button></a>
+            </div>
         </form>
-
-         <!-- ログイン画面へのリンク -->
-    <a th:href="@{'login/login'}"><button class="btn btn-lg btn-block" type="button" style="color:blue">ログイン画面に戻る</button></a>
     </div>
+
 </body>
 </html>

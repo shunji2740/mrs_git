@@ -1,24 +1,8 @@
+@charset "UTF-8";
+
 body {
   padding-top: 50px;
-}
-
-.sidebar {
-  position: fixed;
-  display: block;
-  top: 50px;
-  bottom: 0;
-  background-color: #F4F5F7;
-}
-
-.main {
-  padding-top: 50px;
-  padding-left: 20px;
-  position: fixed;
-  display: block;
-  top: 0px;
-  bottom: 0;
-}
-
-.page-header {
-  margin-top: 0px;
+  background-image: url("https://publicdomainq.net/images/201708/29s/publicdomainq-0012742nxu.jpg");
+  background-color:rgba(255,255,255,0.8);
+  background-blend-mode:lighten;
 }

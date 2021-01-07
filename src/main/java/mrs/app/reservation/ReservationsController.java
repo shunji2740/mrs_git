@@ -73,8 +73,6 @@ public class ReservationsController {
 		// Flash Scopeから値の取り出し
 		Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
 		model.addAttribute("booleanResult", booleanResult);
-
-		//メッセージの取り出し
 		String message = (String) model.getAttribute("message");
 		model.addAttribute("message", message);
 
@@ -124,6 +122,7 @@ public class ReservationsController {
 		//予約を登録する
 		reservationService.reserve(reservation);
 
+		//リダイレクト先に値を渡す
 		redirectAttributes.addFlashAttribute("message", "予約が完了しました");
 		redirectAttributes.addFlashAttribute("booleanResult", true);
 
@@ -140,7 +139,7 @@ public class ReservationsController {
 		//ユーザー取得
 		User user = userDetails.getUser();
 
-
+		//セッションにuser,reservationIdをセットする
 		session.setAttribute("user", user);
 		session.setAttribute("reservationId", reservationId);
 
@@ -149,7 +148,7 @@ public class ReservationsController {
 
 	//予約キャンセル完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedCancellation")
-	String confirmedCancellation( RedirectAttributes redirectAttributes, Model model) {
+	String confirmedCancellation(RedirectAttributes redirectAttributes, Model model) {
 
 		User user = (User) session.getAttribute("user");
 		Integer reservationId = (Integer) session.getAttribute("reservationId");
@@ -159,6 +158,10 @@ public class ReservationsController {
 
 		redirectAttributes.addFlashAttribute("message", "予約がキャンセルされました");
 		redirectAttributes.addFlashAttribute("booleanResult", true);
+
+		//user,reservationIdを解放する
+		session.removeAttribute("user");
+		session.removeAttribute("reservationId");
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}

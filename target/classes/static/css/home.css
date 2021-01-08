@@ -1,8 +1,261 @@
 @charset "UTF-8";
 
 body {
-  padding-top: 50px;
-  background-image: url("https://publicdomainq.net/images/201708/29s/publicdomainq-0012742nxu.jpg");
-  background-color:rgba(255,255,255,0.5);
-  background-blend-mode:lighten;
+	padding-top: 50px;
+	background-image:
+		url("https://publicdomainq.net/images/201708/29s/publicdomainq-0012742nxu.jpg");
+	background-color: rgba(255, 255, 255, 0.5);
+	background-blend-mode: lighten;
+}
+
+.location_button {
+	position: left;
+}
+
+.top-banner {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.top-banner li {
+	width: calc(100%/ 4); /*←画像を横に4つ並べる場合*/
+	padding: 0 5px; /*←画像の左右に5pxの余白を入れる場合*/
+	box-sizing: border-box;
+}
+
+.top-banner li img {
+	max-width: 100%; /*画像のはみだしを防ぐ*/
+	height: auto; /*画像の縦横比を維持 */
+	border: solid 1px #ccc; /*←画像を1pxのグレーの枠線で囲む指定の場合*/
+}
+
+.imgWrap_sinkijyou {
+	overflow: hidden;
+}
+
+.imgEff_sinkijyou {
+	position: relative;
+	width: 320px;
+	height: 230px;
+	transition-duration: 0.3s;
+}
+
+.imgEff_sinkijyou:hover {
+	transform: scale(1.1);
+}
+
+.imgEff_sinkijyou:before {
+	content: "新木場会議室"; /* 表示するテキスト */
+	background: radial-gradient(rgba(0, 0, 0, 0.6), #000000);
+	/* けっこう暗くしないと文字が見にくいので注意 */
+	display: flex; /* 文字の中央配置 */
+	justify-content: center; /* 文字の中央配置 */
+	align-items: center; /* 文字の中央配置 */
+	color: #fff;
+	font-size: 22px;
+	text-shadow: 0 0 2px #000;
+	position: relative;
+}
+
+.imgEff_sinkijyou:hover:before {
+	opacity: 1; /* マウスオーバーで可視化 */
+	transform: scale(1.0); /* 文字の拡大率 */
+}
+
+.imgWrap_tatumi {
+	overflow: hidden;
+}
+
+.imgEff_tatumi {
+	position: relative;
+	width: 320px;
+	height: 230px;
+	transition-duration: 0.3s;
+}
+
+.imgEff_tatumi:hover {
+	transform: scale(1.1);
+}
+
+.imgEff_tatumi:before {
+	content: "辰巳会議室"; /* 表示するテキスト */
+	background: radial-gradient(rgba(0, 0, 0, 0.6), #000000);
+	/* けっこう暗くしないと文字が見にくいので注意 */
+	display: flex; /* 文字の中央配置 */
+	justify-content: center; /* 文字の中央配置 */
+	align-items: center; /* 文字の中央配置 */
+	color: #fff;
+	font-size: 22px;
+	text-shadow: 0 0 2px #000;
+	position: relative;
+}
+
+.imgEff_sinkijyou:hover:before {
+	opacity: 1; /* マウスオーバーで可視化 */
+	transform: scale(1.0); /* 文字の拡大率 */
+}
+
+.imgWrap_toyosu {
+	overflow: hidden;
+}
+
+.imgEff_toyosu {
+	position: relative;
+	width: 320px;
+	height: 230px;
+	transition-duration: 0.3s;
+}
+
+.imgEff_toyosu:hover {
+	transform: scale(1.1);
+}
+
+.imgEff_toyosu:before {
+	content: "豊洲会議室"; /* 表示するテキスト */
+	background: radial-gradient(rgba(0, 0, 0, 0.6), #000000);
+	/* けっこう暗くしないと文字が見にくいので注意 */
+	display: flex; /* 文字の中央配置 */
+	justify-content: center; /* 文字の中央配置 */
+	align-items: center; /* 文字の中央配置 */
+	color: #fff;
+	font-size: 22px;
+	text-shadow: 0 0 2px #000;
+	position: relative;
+}
+
+.imgEff_toyosu:hover:before {
+	opacity: 1; /* マウスオーバーで可視化 */
+	transform: scale(1.0); /* 文字の拡大率 */
+}
+
+.imgWrap_tukisima {
+	overflow: hidden;
+}
+
+.imgEff_tukisima {
+	position: relative;
+	width: 320px;
+	height: 230px;
+	transition-duration: 0.3s;
+}
+
+.imgEff_tukisima:hover {
+	transform: scale(1.1);
+}
+
+.imgEff_tukisima:before {
+	content: "月島会議室"; /* 表示するテキスト */
+	background: radial-gradient(rgba(0, 0, 0, 0.6), #000000);
+	/* けっこう暗くしないと文字が見にくいので注意 */
+	display: flex; /* 文字の中央配置 */
+	justify-content: center; /* 文字の中央配置 */
+	align-items: center; /* 文字の中央配置 */
+	color: #fff;
+	font-size: 22px;
+	text-shadow: 0 0 2px #000;
+	position: relative;
+}
+
+.imgEff_tukisima:hover:before {
+	opacity: 1; /* マウスオーバーで可視化 */
+	transform: scale(1.0); /* 文字の拡大率 */
+}
+
+.imgWrap_sintomimati {
+	overflow: hidden;
+}
+
+.imgEff_sintomimati {
+	position: relative;
+	width: 320px;
+	height: 230px;
+	transition-duration: 0.3s;
+}
+
+.imgEff_sintomimati:hover {
+	transform: scale(1.1);
+}
+
+.imgEff_sintomimati:before {
+	content: "新富町会議室"; /* 表示するテキスト */
+	background: radial-gradient(rgba(0, 0, 0, 0.6), #000000);
+	/* けっこう暗くしないと文字が見にくいので注意 */
+	display: flex; /* 文字の中央配置 */
+	justify-content: center; /* 文字の中央配置 */
+	align-items: center; /* 文字の中央配置 */
+	color: #fff;
+	font-size: 22px;
+	text-shadow: 0 0 2px #000;
+	position: relative;
+}
+
+.imgEff_sintomimati:hover:before {
+	opacity: 1; /* マウスオーバーで可視化 */
+	transform: scale(1.0); /* 文字の拡大率 */
+}
+
+.imgWrap_ginnzaicchoume {
+	overflow: hidden;
+}
+
+.imgEff_ginnzaicchoume {
+	position: relative;
+	width: 320px;
+	height: 230px;
+	transition-duration: 0.3s;
+}
+
+.imgEff_ginnzaicchoume:hover {
+	transform: scale(1.1);
+}
+
+.imgEff_ginnzaicchoume:before {
+	content: "銀座一丁目会議室"; /* 表示するテキスト */
+	background: radial-gradient(rgba(0, 0, 0, 0.6), #000000);
+	/* けっこう暗くしないと文字が見にくいので注意 */
+	display: flex; /* 文字の中央配置 */
+	justify-content: center; /* 文字の中央配置 */
+	align-items: center; /* 文字の中央配置 */
+	color: #fff;
+	font-size: 22px;
+	text-shadow: 0 0 2px #000;
+	position: relative;
+}
+
+.imgEff_ginnzaicchoume:hover:before {
+	opacity: 1; /* マウスオーバーで可視化 */
+	transform: scale(1.0); /* 文字の拡大率 */
+}
+
+.imgWrap_yuurakuchou {
+	overflow: hidden;
+}
+
+.imgEff_yuurakuchou {
+	position: relative;
+	width: 320px;
+	height: 230px;
+	transition-duration: 0.3s;
+}
+
+.imgEff_yuurakuchou:hover {
+	transform: scale(1.1);
+}
+
+.imgEff_yuurakuchou:before {
+	content: "有楽町会議室"; /* 表示するテキスト */
+	background: radial-gradient(rgba(0, 0, 0, 0.6), #000000);
+	/* けっこう暗くしないと文字が見にくいので注意 */
+	display: flex; /* 文字の中央配置 */
+	justify-content: center; /* 文字の中央配置 */
+	align-items: center; /* 文字の中央配置 */
+	color: #fff;
+	font-size: 22px;
+	text-shadow: 0 0 2px #000;
+	position: relative;
+}
+
+.imgEff_yuurakuchou:hover:before {
+	opacity: 1; /* マウスオーバーで可視化 */
+	transform: scale(1.0); /* 文字の拡大率 */
 }

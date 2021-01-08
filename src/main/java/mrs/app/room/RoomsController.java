@@ -26,21 +26,56 @@ public class RoomsController {
 
 		LocalDate today = LocalDate.now();
 		List<ReservableRoom> rooms = roomService.findReservableRooms(today);
+
+		//各会議室をmodelに登録する
+		model = restoreEachRoomsToModel(rooms, model);
+
 		model.addAttribute("date", today);
 		model.addAttribute("rooms", rooms);
 
 		return "room/listRooms";
 	}
 
-
 	@RequestMapping(method = RequestMethod.GET, path = "{date}")
-    String listRooms(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date, Model model) {
-        List<ReservableRoom> rooms = roomService.findReservableRooms(date);
-        model.addAttribute("rooms", rooms);
-        return "room/listRooms";
-    }
+	String listRooms(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date, Model model) {
+
+		List<ReservableRoom> rooms = roomService.findReservableRooms(date);
+
+		//各会議室をmodelに登録する
+		model = restoreEachRoomsToModel(rooms, model);
+
+		//各会議室をmodelに登録する
+		//model = restoreEachRoomsToModel(rooms, model);
+
+		model.addAttribute("rooms", rooms);
+		return "room/listRooms";
+	}
+
+	//各会議室をmodelに登録するメソッド
+	public Model restoreEachRoomsToModel(List<ReservableRoom> rooms, Model model) {
+
+		for (ReservableRoom room : rooms) {
+			if (room.getMeetingRoom().getRoomId() == 1) {
+				model.addAttribute("room_shinkiba", room);
+			}
+			if (room.getMeetingRoom().getRoomId() == 2) {
+				model.addAttribute("room_tatumi", room);
+			}
+			if (room.getMeetingRoom().getRoomId() == 3) {
+				model.addAttribute("room_toyosu", room);
+			}
+			if (room.getMeetingRoom().getRoomId() == 4) {
+				model.addAttribute("room_tukisima", room);
+			}
+			if (room.getMeetingRoom().getRoomId() == 5) {
+				model.addAttribute("room_sintomimati", room);
+			}
+			if (room.getMeetingRoom().getRoomId() == 6) {
+				model.addAttribute("room_ginnzaicchoume", room);
+			} else {
+				model.addAttribute("room_yuurakuchou", room);
+			}
+		}
+		return model;
+	}
 }
-
-
-
-

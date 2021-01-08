@@ -13,21 +13,77 @@
 </head>
 <body>
 	<div class="container">
+		<!-- ログアウト処理 -->
+		<div class="location_button">
+			<form class="col text-center" th:action="@{/logout}" method="post">
+				<button class="btn btn-primary btn-sm" type="submit">ログアウト</button>
+			</form>
+		</div>
 		<a th:href="@{'/rooms/' + ${date.minusDays(1)}}">&lt; 前日</a>
 		<sapn th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</sapn>
 		<a th:href="@{'/rooms/' + ${date.plusDays(1)}}">翌日 &gt; </a>
 
+		<!--
 		<ul class="center" style="list-style: none;">
 			<li th:each="room: ${rooms}"><a
 				th:href="@{'/reservations/' + ${date} + '/' + ${room.meetingRoom.roomId}}"
-				th:text="${room.meetingRoom.roomName}" class="form-control"></a>
+				th:text="${room.meetingRoom.roomName + room.meetingRoom.roomId}" class="form-control"></a>
 			</li>
 		</ul>
+		 -->
 
-		<!-- ログアウト処理 -->
-		<form class="col text-center" th:action="@{/logout}" method="post">
-			<button class="btn btn-primary btn-sm" type="submit">ログアウト</button>
-		</form>
+		<ul class="top-banner">
+			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_shinkiba.meetingRoom.roomId}}">
+			<div class="imgWrap_sinkijyou">
+				<div class="imgEff_sinkijyou">
+					<img src="https://www.work-design.co.jp/up_file/20140305171024_2.jpg"  width="100%" height="100%" />
+				</div>
+			</div>
+			</a>
+			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_tatumi.meetingRoom.roomId}}">
+			<div class="imgWrap_tatumi">
+				<div class="imgEff_tatumi">
+					<img src="https://static.amanaimages.com/imgroom/rf_preview640/10132/10132103874.jpg"  width="100%" height="100%"/>
+				</div>
+			</div>
+			</a>
+			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_toyosu.meetingRoom.roomId}}">
+			<div class="imgWrap_toyosu">
+				<div class="imgEff_toyosu">
+					<img src="https://ayaemo.skr.jp/images/material/office/800x600/office08_day%20by%20mercedes818.jpg"  width="100%" height="100%"/>
+				</div>
+			</div>
+			</a>
+			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_tukisima.meetingRoom.roomId}}">
+			<div class="imgWrap_tukisima">
+				<div class="imgEff_tukisima">
+					<img src="https://publicdomainq.net/images/201704/28s/publicdomainq-0008542srd.jpg"  width="100%" height="100%"/>
+				</div>
+			</div>
+			</a>
+			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_sintomimati.meetingRoom.roomId}}">
+			<div class="imgWrap_sintomimati">
+				<div class="imgEff_sintomimati">
+					<img src="https://st.depositphotos.com/1026649/1861/i/950/depositphotos_18617057-stock-photo-business-meeting-room-in-modern.jpg"  width="100%" height="100%"/>
+				</div>
+			</div>
+			</a>
+			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_ginnzaicchoume.meetingRoom.roomId}}">
+			<div class="imgWrap_ginnzaicchoume">
+				<div class="imgEff_ginnzaicchoume">
+					<img src="https://static.amanaimages.com/imgroom/rf_preview640/11019/11019020028.jpg"  width="100%" height="100%"/>
+				</div>
+			</div>
+			</a>
+			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_yuurakuchou.meetingRoom.roomId}}">
+			<div class="imgWrap_yuurakuchou">
+				<div class="imgEff_yuurakuchou">
+					<img src="https://www.photolibrary.jp/mhd5/img525/450-20170515084848261.jpg"  width="100%" height="100%"/>
+				</div>
+			</div>
+			</a>
+		</ul>
+
 	</div>
 </body>
 </html>

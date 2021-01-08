@@ -26,6 +26,7 @@ import mrs.domain.model.ReservableRoom;
 import mrs.domain.model.ReservableRoomId;
 import mrs.domain.model.Reservation;
 import mrs.domain.model.User;
+import mrs.domain.repository.reservation.ReservationRepository;
 import mrs.domain.service.reservation.AlreadyReservedException;
 import mrs.domain.service.reservation.ReservationService;
 import mrs.domain.service.reservation.UnavailableReservationException;
@@ -44,6 +45,9 @@ public class ReservationsController {
 
 	@Autowired
 	HttpSession session;
+
+	@Autowired
+	ReservationRepository reservationRepository;
 
 	//予約確認・予約一覧画面
 	//予約可能かの確認作業はreserve()にて
@@ -108,7 +112,8 @@ public class ReservationsController {
 		}
 
 		session.setAttribute("reservation", reservation);
-		//model.addAttribute("reservation", reservation);
+
+		model.addAttribute("reservation", reservation);
 
 		return "reservation/confirmReservation";
 	}
@@ -117,6 +122,7 @@ public class ReservationsController {
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
 	String confirmedReservation(RedirectAttributes redirectAttributes, Model model) {
 
+		//セッションからreservationエンティティを取得
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 
 		//予約を登録する
@@ -125,6 +131,9 @@ public class ReservationsController {
 		//リダイレクト先に値を渡す
 		redirectAttributes.addFlashAttribute("message", "予約が完了しました");
 		redirectAttributes.addFlashAttribute("booleanResult", true);
+
+		//セッションを開放する
+		session.removeAttribute("reservation");
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
@@ -136,8 +145,15 @@ public class ReservationsController {
 			@PathVariable("roomId") Integer roomId,
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date, Model model) {
 
+		Reservation reservation = new Reservation();
+
+		//削除するreservationエンティティを取得・格納
+		reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
+
 		//ユーザー取得
 		User user = userDetails.getUser();
+
+		model.addAttribute("reservation", reservation);
 
 		//セッションにuser,reservationIdをセットする
 		session.setAttribute("user", user);
@@ -159,7 +175,7 @@ public class ReservationsController {
 		redirectAttributes.addFlashAttribute("message", "予約がキャンセルされました");
 		redirectAttributes.addFlashAttribute("booleanResult", true);
 
-		//user,reservationIdを解放する
+		//セッションからuser,reservationIdを解放する
 		session.removeAttribute("user");
 		session.removeAttribute("reservationId");
 

@@ -23,12 +23,12 @@
 
 				<tr class="table-light">
 					<td>
-						<span th:text="${session.reservation.startTime} + ' ～'"></span>
-						<span th:text="${session.reservation.endTime}"></span>
+						<span th:text="${reservation.startTime} + ' ～'"></span>
+						<span th:text="${reservation.endTime}"></span>
 					</td>
 					<td>
-						<span th:text="${session.reservation.user.lastName}"></span>
-						<span th:text="${session.reservation.user.firstName} + ' 様'"></span>
+						<span th:text="${reservation.user.lastName}"></span>
+						<span th:text="${reservation.user.firstName} + ' 様'"></span>
 					</td>
 				</tr>
 		</table>

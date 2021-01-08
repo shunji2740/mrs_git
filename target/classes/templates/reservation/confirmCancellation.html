@@ -20,12 +20,12 @@
 
 				<tr>
 					<td>
-						<span th:text="${session.reservation.startTime} + ' ～'"></span>
-						<span th:text="${session.reservation.endTime}"></span>
+						<span th:text="${reservation.startTime} + ' ～'"></span>
+						<span th:text="${reservation.endTime}"></span>
 					</td>
 					<td>
-						<span th:text="${session.reservation.user.lastName}"></span>
-						<span th:text="${session.reservation.user.firstName} + ' 様'"></span>
+						<span th:text="${reservation.user.lastName}"></span>
+						<span th:text="${reservation.user.firstName} + ' 様'"></span>
 					</td>
 				</tr>
 		</table>
@@ -33,7 +33,7 @@
 		<!-- 登録完了処理 -->
 		<div class="col text-center">
 		<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
-			<input type="hidden" name="reservationId" th:value="${session.reservation.reservationId}" />
+			<input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
 			<input class="btn btn-primary btn-sm" type="submit" name="confirmedCancellation" value="キャンセル完了" />
 		</form>
 		</div>

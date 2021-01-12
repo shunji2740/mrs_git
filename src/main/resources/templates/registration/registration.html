@@ -9,12 +9,14 @@
 
     <!-- CSSの読込 -->
 	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
+	<!-- Antonの読み込み -->
+	<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
     <title>ユーザー登録画面</title>
 </head>
 <body>
     <div class="container">
         <div class="page-header">
-            <h1>ユーザー登録画面</h1>
+            <h1>Registration Page</h1>
         </div>
         <form method="post" th:action="@{/registration}" th:object="${user}">
             <table class="table table-bordered table-hover table-striped">

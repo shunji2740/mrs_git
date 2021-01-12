@@ -34,7 +34,7 @@ import mrs.domain.service.room.RoomService;
 import mrs.domain.service.user.ReservationUserDetails;
 
 @Controller
-@RequestMapping("reservations/{roomId}")
+@RequestMapping("reservations/{date}/{roomId}")
 public class ReservationsController {
 
 	@Autowired
@@ -52,7 +52,6 @@ public class ReservationsController {
 	//予約確認・予約一覧画面
 	//予約可能かの確認作業はreserve()にて
 	@RequestMapping(method = RequestMethod.GET)
-
 	String reserveForm(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId, Model model) {
 
@@ -61,19 +60,15 @@ public class ReservationsController {
 		reservableRoomId = new ReservableRoomId(roomId, selected_date);
 
 		//指定日かつ指定会議室の予約リストを取得
-		//List<Reservation> reservations = reservationService.findReservations(reservableRoomId);
+		List<Reservation> reservations = reservationService.findReservations(reservableRoomId);
 
 		//LocalDateオブジェクトを作成してリストに格納する
 		List<LocalTime> timeList = Stream.iterate(LocalTime.of(0, 0), t -> t.plusMinutes(30))
 				.limit(24 * 2)
 				.collect(Collectors.toList());
 
-		//日付を取得
-		LocalDate today = LocalDate.now();
-
 		model.addAttribute("room", roomService.findMeetingRomm(roomId));
-		//model.addAttribute("reservations", reservations);
-		model.addAttribute("date", today);
+		model.addAttribute("reservations", reservations);
 		model.addAttribute("timeList", timeList);
 
 		// Flash Scopeから値の取り出し
@@ -85,6 +80,7 @@ public class ReservationsController {
 		return "reservation/reserveForm";
 	}
 
+
 	@RequestMapping(method = RequestMethod.POST, params = "schedule")
 	String confirmSchedule(@Validated ReservationForm form,
 			RedirectAttributes redirectAttributes, Model model) {
@@ -95,6 +91,7 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
+
 	//予約処理・予約可能かの処理
 	@RequestMapping(method = RequestMethod.POST)
 	String reserve(@Validated ReservationForm form, BindingResult bindingResult,
@@ -103,7 +100,6 @@ public class ReservationsController {
 			@PathVariable("roomId") Integer roomId, Model model) {
 
 		if (bindingResult.hasErrors()) {
-
 			return reserveForm(date, roomId, model);
 		}
 
@@ -120,7 +116,6 @@ public class ReservationsController {
 
 		} catch (UnavailableReservationException | AlreadyReservedException e) {
 			model.addAttribute("error", e.getMessage());
-
 			return reserveForm(date, roomId, model);
 		}
 
@@ -130,6 +125,7 @@ public class ReservationsController {
 
 		return "reservation/confirmReservation";
 	}
+
 
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
@@ -150,6 +146,7 @@ public class ReservationsController {
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
+
 
 	//予約削除可能かの処理
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")
@@ -175,6 +172,7 @@ public class ReservationsController {
 		return "reservation/confirmCancellation";
 	}
 
+
 	//予約キャンセル完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedCancellation")
 	String confirmedCancellation(RedirectAttributes redirectAttributes, Model model) {
@@ -195,13 +193,11 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
+
 	//予約時間のデフォルトForm
 	@ModelAttribute
 	ReservationForm setUpForm() {
 		ReservationForm form = new ReservationForm();
-		//日付を取得
-		LocalDate today = LocalDate.now();
-
 		//デフォルト値
 		form.setStartTime(LocalTime.of(9, 0));
 		form.setEndTime(LocalTime.of(10, 0));

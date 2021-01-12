@@ -43,6 +43,7 @@
 			会議室: <span th:text="${room.roomName}"></span> <br/>
 			予約者名: <span th:text="${user.lastName + '' + user.firstName}"></span> <br/>
 			日付: <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
+			<br/>
 			時間帯:
 			<select th:field="*{startTime}">
 				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>

@@ -8,6 +8,37 @@ body {
 	background-blend-mode: lighten;
 }
 
+
+h1 {
+  position: relative;
+  font-family: 'Anton', sans-serif;
+  color: black;
+  font-size: 50px;
+  padding: 25px 0;
+  text-align: center;
+  margin: 1.5em 0;
+}
+h1:before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 250px;
+  height: 120px;
+  border-radius: 50%;
+  border: 5px solid #FF9900;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+select {
+	border :1px solid #eee;
+	font-size :19px;
+}
+
+
 .location_button {
 	position: left;
 }

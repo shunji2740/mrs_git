@@ -6,23 +6,31 @@
 	<title th:text="|${#temporals.format(date, 'yyyy/M/d')}の${room.roomName}|"></title>
 	 <!-- Bootstrapの設定 -->
     <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
+    <!-- jQuery -->
     <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+
+    <!-- Bootstrap-datepicker -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.ja.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
 
 	<!-- CSSの読込 -->
 	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
     <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
 
+<<<<<<< HEAD
     <!-- bootstrap-datepickerを読み込む -->
 	<link rel="stylesheet" type="text/css" href="/mrs/src/main/resources/templates/reservation/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.min.css">
 	<script type="text/javascript" src="/mrs/src/main/resources/templates/reservation/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/mrs/src/main/resources/templates/reservation/bootstrap-datepicker-1.9.0-dist/locales/bootstrap-datepicker.ja.min.js"></script>
+=======
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+>>>>>>> branch 'main' of https://github.com/shunji2740/mrs_git.git
 </head>
 <body th:with="user=${#authentication.principal.user}">
 
 	<div class="container">
-		<h3>会議室予約画面</h3>
-
-		<h1 th:text="${title}"></h1>
+		<h1>Reservation Page</h1>
 
 		<!-- 予約が出来なかった場合の処理 -->
 		<p style="color: red" th:if="${error != null}" th:text="${error}"></p>
@@ -33,6 +41,7 @@
 	        </div>
 	        <div class="col-5">
 
+<<<<<<< HEAD
 	            <!-- ここにカレンダー表示用のテキストボックスを追加 -->
 	            <input type="text" class="form-control" id="date_sample">
 
@@ -44,13 +53,23 @@
 	<script>
 	    $('#date_sample').datepicker();
 	</script>
+=======
+		<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
+			method="post">
+			日付: <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
+			<input type="submit" name="schedule" value="指定日の予約状況を確認" />
+		</form>
+
+		<br/>
+		<br/>
+>>>>>>> branch 'main' of https://github.com/shunji2740/mrs_git.git
 
 		<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
 			method="post">
 
-			会議室: <span th:text="${room.roomName}"></span> <br />
-			予約者名: <span th:text="${user.lastName + '' + user.firstName}"></span> <br />
-			日付: <span th:text="${#temporals.format(date, 'yyyy/M/d')}"></span> <br />
+			会議室: <span th:text="${room.roomName}"></span> <br/>
+			予約者名: <span th:text="${user.lastName + '' + user.firstName}"></span> <br/>
+			日付: <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
 			時間帯:
 			<select th:field="*{startTime}">
 				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
@@ -119,4 +138,10 @@
 
   </body>
 </body>
+		<script type="text/javascript">
+		$('.datepicker').datepicker({
+		    format: "yyyy/mm/dd",
+		    language: 'ja'
+		});
+		</script>
 </html>

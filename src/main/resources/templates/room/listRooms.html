@@ -9,9 +9,15 @@
    <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
    <!-- CSSの読込 -->
    <link th:href="@{/css/home.css}" rel="stylesheet"></link>
+	<!-- Atonの読み込み -->
+   <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+
    <title th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</title>
 </head>
 <body>
+
+	<h1>Meeting Room Booking System</h1>
+
 	<div class="container">
 		<!-- ログアウト処理 -->
 		<div class="location_button">

@@ -44,23 +44,20 @@ public class ReservationsController {
 	ReservationService reservationService;
 
 	@Autowired
-	HttpSession session;
+	ReservationRepository reservationRepository;
 
 	@Autowired
-	ReservationRepository reservationRepository;
+	HttpSession session;
 
 	//予約確認・予約一覧画面
 	//予約可能かの確認作業はreserve()にて
 	@RequestMapping(method = RequestMethod.GET)
 	String reserveForm(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
-			@PathVariable("roomId") Integer roomId, Model model,
-			@AuthenticationPrincipal ReservationUserDetails userDetailss) {
+			@PathVariable("roomId") Integer roomId, Model model) {
 
-		// authorities に想定した権限(ROLE_ADMIN など)が含まれるか？
-		//Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-
-		//指定日かつ指定会議室のreservableRoomIdを生成
-		ReservableRoomId reservableRoomId = new ReservableRoomId(roomId, date);
+		ReservableRoomId reservableRoomId;
+		LocalDate selected_date = (LocalDate) model.getAttribute("schedule_date");
+		reservableRoomId = new ReservableRoomId(roomId, selected_date);
 
 		//指定日かつ指定会議室の予約リストを取得
 		List<Reservation> reservations = reservationService.findReservations(reservableRoomId);
@@ -81,8 +78,19 @@ public class ReservationsController {
 		model.addAttribute("message", message);
 
 		return "reservation/reserveForm";
-
 	}
+
+
+	@RequestMapping(method = RequestMethod.POST, params = "schedule")
+	String confirmSchedule(@Validated ReservationForm form,
+			RedirectAttributes redirectAttributes, Model model) {
+
+		LocalDate schedule_date = form.getDate();
+		redirectAttributes.addFlashAttribute("schedule_date", schedule_date);
+
+		return "redirect:/reservations/{date}/{roomId}";
+	}
+
 
 	//予約処理・予約可能かの処理
 	@RequestMapping(method = RequestMethod.POST)
@@ -92,13 +100,13 @@ public class ReservationsController {
 			@PathVariable("roomId") Integer roomId, Model model) {
 
 		if (bindingResult.hasErrors()) {
-			return reserveForm(date, roomId, model, userDetails);
+			return reserveForm(date, roomId, model);
 		}
 
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
-		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, date));
+		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, form.getDate()));
 		reservation.setReservableRoom(reservableRoom);
 		reservation.setUser(userDetails.getUser());
 
@@ -108,7 +116,7 @@ public class ReservationsController {
 
 		} catch (UnavailableReservationException | AlreadyReservedException e) {
 			model.addAttribute("error", e.getMessage());
-			return reserveForm(date, roomId, model, userDetails);
+			return reserveForm(date, roomId, model);
 		}
 
 		session.setAttribute("reservation", reservation);
@@ -117,6 +125,7 @@ public class ReservationsController {
 
 		return "reservation/confirmReservation";
 	}
+
 
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
@@ -137,6 +146,7 @@ public class ReservationsController {
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
+
 
 	//予約削除可能かの処理
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")
@@ -162,6 +172,7 @@ public class ReservationsController {
 		return "reservation/confirmCancellation";
 	}
 
+
 	//予約キャンセル完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedCancellation")
 	String confirmedCancellation(RedirectAttributes redirectAttributes, Model model) {
@@ -182,6 +193,7 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
+
 	//予約時間のデフォルトForm
 	@ModelAttribute
 	ReservationForm setUpForm() {
@@ -192,5 +204,4 @@ public class ReservationsController {
 
 		return form;
 	}
-
 }

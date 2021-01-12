@@ -1,6 +1,7 @@
 package mrs.app.reservation;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,19 @@ public class ReservationForm implements Serializable{
 	@NotNull(message = "必須です")
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime endTime;
+
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	private LocalDate ReservationDate;
+
+
+	public LocalDate getReservationDate() {
+		return ReservationDate;
+	}
+
+
+	public void setReservationDate(LocalDate today) {
+		ReservationDate = today;
+	}
 
 
 	public LocalTime getStartTime() {

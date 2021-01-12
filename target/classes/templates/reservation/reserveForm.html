@@ -11,6 +11,11 @@
 	<!-- CSSの読込 -->
 	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
     <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
+
+    <!-- bootstrap-datepickerを読み込む -->
+	<link rel="stylesheet" type="text/css" href="/mrs/src/main/resources/templates/reservation/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.min.css">
+	<script type="text/javascript" src="/mrs/src/main/resources/templates/reservation/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js"></script>
+	<script type="text/javascript" src="/mrs/src/main/resources/templates/reservation/bootstrap-datepicker-1.9.0-dist/locales/bootstrap-datepicker.ja.min.js"></script>
 </head>
 <body th:with="user=${#authentication.principal.user}">
 
@@ -21,7 +26,24 @@
 
 		<!-- 予約が出来なかった場合の処理 -->
 		<p style="color: red" th:if="${error != null}" th:text="${error}"></p>
+	<div class="container">
+	    <div class="row mt-4">
+	        <div class="col-2">
+	            <label>日付：</label>
+	        </div>
+	        <div class="col-5">
 
+	            <!-- ここにカレンダー表示用のテキストボックスを追加 -->
+	            <input type="text" class="form-control" id="date_sample">
+
+	        </div>
+	    </div>
+	</div>
+
+	<!-- bootstrap-datepickerのjavascriptコード -->
+	<script>
+	    $('#date_sample').datepicker();
+	</script>
 
 		<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
 			method="post">
@@ -93,5 +115,8 @@
 		 </div>
 
 	</div>
+
+
+  </body>
 </body>
 </html>

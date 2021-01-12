@@ -3,7 +3,7 @@
 body {
 	padding-top: 50px;
 	background-image:
-		url("https://publicdomainq.net/images/201708/29s/publicdomainq-0012742nxu.jpg");
+		url("https://storage.needpix.com/rsynced_images/iocenters-2673328_1280.jpg");
 	background-color: rgba(255, 255, 255, 0.5);
 	background-blend-mode: lighten;
 }
@@ -37,7 +37,6 @@ select {
 	border :1px solid #eee;
 	font-size :19px;
 }
-
 
 .location_button {
 	position: left;

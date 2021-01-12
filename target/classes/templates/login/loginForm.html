@@ -7,12 +7,15 @@
 	<!-- Bootstrapの設定 -->
     <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
 
-    <!-- CSSの読込 -->
+    <!-- CSSの読み込み -->
 	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
+	<!-- Antonの読み込み -->
+	<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
 </head>
 <body>
+	 <h1>Login Form</h1>
 	<div class="container">
-	 <h2 style="text-align: center;">ログインフォーム</h2>
+
 	<form class="form-signin" th:action="@{/login}" method="post">
 		<p th:if="${param.error}">Error!</p>
 		<!-- ユーザーID -->

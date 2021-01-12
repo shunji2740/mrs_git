@@ -14,37 +14,44 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.ja.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
 
-	<!-- CSSの読込 -->
+	<!-- CSSの読み込み -->
 	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
     <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
-
+	<!-- Antonの読み込み -->
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
 </head>
 <body th:with="user=${#authentication.principal.user}">
 
-	<div class="container">
+
 		<h1>Reservation Page</h1>
 
 		<!-- 予約が出来なかった場合の処理 -->
 		<p style="color: red" th:if="${error != null}" th:text="${error}"></p>
 
+		<div class="container" style="width: 700px; text-align: center;">
+		<div class="panel panel-default">
+        <div class="panel-heading">予約フォーム</div>
+        <div class="panel-body">
 		<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
 			method="post">
-			日付: <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
-			<input type="submit" name="schedule" value="指定日の予約状況を確認" />
+		<div class="form-group">
+			<label class="control-label">日付: </label>
+			<input class="datepicker" autocomplete="off" th:field="*{date}"><br/><br/>
+			<button class="btn btn-primary btn btn-default" type="submit" name="schedule" value="指定日の予約状況を確認" >指定日の予約状況を確認</button>
+		</div>
 		</form>
-
 		<br/>
-		<br/>
-
-		<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
+		<form class="form-signin" th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
 			method="post">
 
-			会議室: <span th:text="${room.roomName}"></span> <br/>
-			予約者名: <span th:text="${user.lastName + '' + user.firstName}"></span> <br/>
-			日付: <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
+			<label class="control-label">会議室:</label>
+			 <span th:text="${room.roomName}"></span> <br/>
+			<label class="control-label">予約者名:</label>
+			 <span th:text="${user.lastName + '' + user.firstName}"></span> <br/>
+			<label class="control-label">日付:</label>
+			 <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
 			<br/>
-			時間帯:
+			<label class="control-label">時間帯:</label>
 			<select th:field="*{startTime}">
 				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
 			</select>
@@ -54,11 +61,15 @@
 				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
 			</select>
 			<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
-			<button type="submit">予約</button>
+			<br/>
+			<button class="btn btn-primary btn btn-default" type="submit">予約</button>
 		</form>
-		<br>
+		</div>
+		</div>
+		</div>
 		<br>
 
+		<div class="container">
 		<h4>会議室:<span th:text="${room.roomName}"></span>の予約表</h4>
 		<!-- 予約済みリスト -->
 		 <table class="table table-bordered table-hover table-striped">

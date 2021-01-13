@@ -9,6 +9,19 @@
     <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
 </head>
 <body>
+	<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Home</a>
+            </div>
+            <!-- ログアウト処理 -->
+			<form class="col text-center" th:action="@{/logout}" method="post">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト</button>
+			</form>
+        </div>
+    </nav>
+
 	<div class="container">
 		<h2>予約キャンセル内容の確認</h2>
 

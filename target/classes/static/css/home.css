@@ -16,7 +16,7 @@ h1 {
   font-size: 50px;
   padding: 25px 0;
   text-align: center;
-  margin: 0.4em 0;
+  margin: 1.0em 0;
 }
 h1:before {
   content: "";

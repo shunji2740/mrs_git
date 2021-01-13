@@ -21,7 +21,18 @@
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
 </head>
 <body th:with="user=${#authentication.principal.user}">
-
+	<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Home</a>
+            </div>
+            <!-- ログアウト処理 -->
+			<form class="col text-center" th:action="@{/logout}" method="post">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト</button>
+			</form>
+        </div>
+    </nav>
 
 		<h1>Reservation Page</h1>
 
@@ -47,7 +58,7 @@
 							<div class="form-group">
 								<label class="control-label">日付: </label>
 								<input class="datepicker" autocomplete="off" th:field="*{date}"><br/><br/>
-								<button class="btn btn-primary btn btn-default" type="submit" name="schedule" value="指定日の予約状況を確認" >指定日の予約状況を確認</button>
+								<button class="btn btn-primary btn btn-default" type="submit" name="schedule" value="指定日の予約状況を検索" >指定日の予約状況を確認</button>
 							</div>
 						</form>
 						<br/>

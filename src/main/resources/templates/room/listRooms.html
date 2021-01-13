@@ -16,21 +16,22 @@
 </head>
 <body data-spy="scroll" data-target="#h-nav" data-offset="86">
 
+	<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Home</a>
+            </div>
+            <!-- ログアウト処理 -->
+			<form class="col text-center" th:action="@{/logout}" method="post">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト</button>
+			</form>
+        </div>
+    </nav>
+
 	<h1>Meeting Room Booking System</h1>
 
-	<div class="container" >
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
-		  <div class="collapse navbar-collapse justify-content-center" id="navbar1">
-		    <div class="navbar-nav">
-		      <a class="nav-item nav-link text-center" href="#">home</a>
-		      <a class="nav-item nav-link text-center" href="#">会議室紹介</a>
-		      <a class="nav-item nav-link text-center" href="#">料金</a>
-		      <a class="nav-item nav-link text-center" href="#">about us</a>
-		    </div>
-		  </div>
-		</nav>
-		<br/>
-		<br/>
+
 		<br/>
 		<br/>
 		<div class="row" >
@@ -102,12 +103,6 @@
 			</a>
 		</ul>
 
-		<!-- ログアウト処理 -->
-		<div class="location_button">
-			<form class="col text-center" th:action="@{/logout}" method="post">
-				<button class="btn btn-primary btn-sm" type="submit">ログアウト</button>
-			</form>
-		</div>
 	</div>
 </body>
 	<script>

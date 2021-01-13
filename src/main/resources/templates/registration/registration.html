@@ -18,7 +18,9 @@
         <div class="page-header">
             <h1>Registration Page</h1>
         </div>
-        <form method="post" th:action="@{/registration}" th:object="${user}">
+
+
+        <form method="post" th:action="@{/registration}" th:object="${user}" id="Registrationform">
             <table class="table table-bordered table-hover table-striped">
                 <!-- ユーザーIDの入力エリア -->
                 <tr>
@@ -102,6 +104,11 @@
             </div>
         </form>
     </div>
-
 </body>
+	<script>
+			$(function() {
+			  // 一旦hide()で隠してフェードインさせる
+			  $('h1').hide().fadeIn('slow');
+			});
+	</script>
 </html>

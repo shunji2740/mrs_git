@@ -14,29 +14,41 @@
 
    <title th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</title>
 </head>
-<body>
+<body data-spy="scroll" data-target="#h-nav" data-offset="86">
 
 	<h1>Meeting Room Booking System</h1>
 
-	<div class="container">
-		<!-- ログアウト処理 -->
-		<div class="location_button">
-			<form class="col text-center" th:action="@{/logout}" method="post">
-				<button class="btn btn-primary btn-sm" type="submit">ログアウト</button>
-			</form>
+	<div class="container" >
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+		  <div class="collapse navbar-collapse justify-content-center" id="navbar1">
+		    <div class="navbar-nav">
+		      <a class="nav-item nav-link text-center" href="#">home</a>
+		      <a class="nav-item nav-link text-center" href="#">会議室紹介</a>
+		      <a class="nav-item nav-link text-center" href="#">料金</a>
+		      <a class="nav-item nav-link text-center" href="#">about us</a>
+		    </div>
+		  </div>
+		</nav>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<div class="row" >
+			<div class="col-md-6 col-md-offset-3">
+			  <p>ようこそ、Meeting Room Booking Systemへ。</p>
+			  <br/>
+			  <p>私たちMeeting Room Booking Systemは快適なミーティングルームを提供し、お客様から満足度の高い評価を頂いております。</p>
+			  <br/>
+			  <p>リーズナブルな価格で、快適な空間をぜひご利用ください。</p>
+			  <br/>
+			</div>
 		</div>
+		<br/>
+
 		<a th:href="@{'/rooms/' + ${date.minusDays(1)}}">&lt; 前日</a>
 		<sapn th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</sapn>
 		<a th:href="@{'/rooms/' + ${date.plusDays(1)}}">翌日 &gt; </a>
 
-		<!--
-		<ul class="center" style="list-style: none;">
-			<li th:each="room: ${rooms}"><a
-				th:href="@{'/reservations/' + ${date} + '/' + ${room.meetingRoom.roomId}}"
-				th:text="${room.meetingRoom.roomName + room.meetingRoom.roomId}" class="form-control"></a>
-			</li>
-		</ul>
-		 -->
 
 		<ul class="top-banner">
 			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_shinkiba.meetingRoom.roomId}}">
@@ -90,6 +102,18 @@
 			</a>
 		</ul>
 
+		<!-- ログアウト処理 -->
+		<div class="location_button">
+			<form class="col text-center" th:action="@{/logout}" method="post">
+				<button class="btn btn-primary btn-sm" type="submit">ログアウト</button>
+			</form>
+		</div>
 	</div>
 </body>
+	<script>
+		$(function() {
+		  // 一旦hide()で隠してフェードインさせる
+		  $('p').hide().fadeIn('slow');
+		});
+	</script>
 </html>

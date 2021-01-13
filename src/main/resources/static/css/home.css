@@ -1,9 +1,9 @@
 @charset "UTF-8";
 
 body {
-	padding-top: 50px;
+	padding-top: 30px;
 	background-image:
-		url("https://storage.needpix.com/rsynced_images/iocenters-2673328_1280.jpg");
+		url("https://static.amanaimages.com/imgroom/rf_preview640/11019/11019027572.jpg");
 	background-color: rgba(255, 255, 255, 0.5);
 	background-blend-mode: lighten;
 }
@@ -16,7 +16,7 @@ h1 {
   font-size: 50px;
   padding: 25px 0;
   text-align: center;
-  margin: 1.5em 0;
+  margin: 0.4em 0;
 }
 h1:before {
   content: "";
@@ -31,6 +31,14 @@ h1:before {
   border-right-color: transparent;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
+}
+
+p {
+	font-size: large;
+}
+
+td {
+	background-color: white;
 }
 
 select {
@@ -288,4 +296,25 @@ select {
 .imgEff_yuurakuchou:hover:before {
 	opacity: 1; /* マウスオーバーで可視化 */
 	transform: scale(1.0); /* 文字の拡大率 */
+}
+
+
+
+/*
+	navの設定
+*/
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar-nav .nav-link{
+    padding:0 1rem;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .navbar-nav .nav-link{
+    padding:0 2rem;
+  }
+}
+@media (min-width: 1200px) {
+  .navbar-nav .nav-link{
+    padding:0 3rem;
+  }
 }

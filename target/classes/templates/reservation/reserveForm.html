@@ -29,18 +29,28 @@
 		<p style="color: red" th:if="${error != null}" th:text="${error}"></p>
 
 		<div class="container" style="width: 700px; text-align: center;">
-		<div class="panel panel-default">
-        <div class="panel-heading">予約フォーム</div>
-        <div class="panel-body">
-		<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
-			method="post">
-		<div class="form-group">
-			<label class="control-label">日付: </label>
-			<input class="datepicker" autocomplete="off" th:field="*{date}"><br/><br/>
-			<button class="btn btn-primary btn btn-default" type="submit" name="schedule" value="指定日の予約状況を確認" >指定日の予約状況を確認</button>
-		</div>
-		</form>
-		<br/>
+
+			<br/>
+			<br/>
+			<div>
+			  <p>指定日の予約状況を確認の上、ご予約下さい。</p>
+			  <p>予約可能日は本日から7日までとさせて頂きます。</p>
+			</div>
+
+			<br/>
+
+			<div class="panel panel-default">
+        		<div class="panel-heading">予約フォーム</div>
+        			<div class="panel-body">
+						<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
+							method="post">
+							<div class="form-group">
+								<label class="control-label">日付: </label>
+								<input class="datepicker" autocomplete="off" th:field="*{date}"><br/><br/>
+								<button class="btn btn-primary btn btn-default" type="submit" name="schedule" value="指定日の予約状況を確認" >指定日の予約状況を確認</button>
+							</div>
+						</form>
+						<br/>
 		<form class="form-signin" th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
 			method="post">
 
@@ -52,14 +62,14 @@
 			 <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
 			<br/>
 			<label class="control-label">時間帯:</label>
-			<select th:field="*{startTime}">
-				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
-			</select>
+				<select th:field="*{startTime}">
+					<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
+				</select>
 			<span th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" style="color: red">error!</span>
-			<select th:field="*{endTime}">
-				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
-				<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
-			</select>
+				<select th:field="*{endTime}">
+					<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
+					<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
+				</select>
 			<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
 			<br/>
 			<button class="btn btn-primary btn btn-default" type="submit">予約</button>
@@ -72,7 +82,7 @@
 		<div class="container">
 		<h4>会議室:<span th:text="${room.roomName}"></span>の予約表</h4>
 		<!-- 予約済みリスト -->
-		 <table class="table table-bordered table-hover table-striped">
+		 <table class="table table-bordered table-hover" style="background-color: white">
             <tr>
                 <th class="info col-sm-2">時間帯</th>
                 <th class="info col-sm-2">予約者</th>
@@ -121,9 +131,15 @@
 	</div>
 </body>
 		<script type="text/javascript">
-		$('.datepicker').datepicker({
-		    format: "yyyy/mm/dd",
-		    language: 'ja'
-		});
+			$('.datepicker').datepicker({
+			    format: "yyyy/mm/dd",
+			    language: 'ja'
+			});
+		</script>
+		<script>
+			$(function() {
+			  // 一旦hide()で隠してフェードインさせる
+			  $('div').hide().fadeIn('slow');
+			});
 		</script>
 </html>

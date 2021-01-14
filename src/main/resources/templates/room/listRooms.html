@@ -115,31 +115,29 @@
     </h3>
     <div>
       <p>以下を入力して送信ボタンをクリックしてください。</p>
-      <form name="contactform" id="contactform" role="form">
+      <form th:object="${contactForm}"th:action="@{'/sendmail'}" method="post">
         <div class="form-group">
           <label for="inputName" class="col-sm-3">お名前</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" name="name"
-                   placeholder="お名前" value="">
+            <input type="text" class="form-control" th:field="*{name}" placeholder="お名前">
           </div>
         </div>
         <div class="form-group">
           <label for="inputEmail" class="col-sm-3">メールアドレス</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" name="email"
-                   placeholder="メールアドレス" value="">
+            <input type="email" class="form-control" th:field="*{email}" placeholder="メールアドレス">
           </div>
         </div>
         <div class="form-group">
           <label for="inputMessage" class="col-sm-3">お問い合わせ内容</label>
           <div class="col-sm-9">
-            <textarea class="form-control" name="message" rows="5">
+            <textarea class="form-control" th:field="*{message}" rows="5">
             </textarea>
           </div>
         </div>
+
         <div class="text-center">
-          <button type="button" name="btnSubmit"
-                  class="btn btn-success" id="btnSend">送信する</button>
+          <button type="submit" class="btn btn-success">送信する</button>
         </div>
       </form>
     </div>

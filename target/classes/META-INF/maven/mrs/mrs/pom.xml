@@ -88,6 +88,12 @@
 			<version>3.3.7-1</version>
 		</dependency>
 
+		<!-- gmail受信設定 -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
 	</dependencies>
 
 	<build>

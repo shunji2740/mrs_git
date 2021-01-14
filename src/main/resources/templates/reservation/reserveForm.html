@@ -83,6 +83,30 @@
 				</select>
 			<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
 			<br/>
+
+			<!-- 決済方法の選択 -->
+			<div class="form-group">
+		      <div class="radio-inline">
+		        <input type="radio" value="1" name="money" id="cash">
+		          <label for="cash">現金</label>
+		      </div>
+		      <div class="radio-inline">
+		        <input type="radio" value="2" name="money" id="credit">
+		        <label for="credit">クレジットカード決済</label>
+		      </div>
+		      <div class="radio-inline">
+		        <input type="radio" value="3" name="money" id="electronic money">
+		        <label for="electronic money">電子マネー</label>
+		      </div>
+		    </div>
+			<!-- メール通知の有無 -->
+			<div class="form-group">
+				<div class="radio-inline">
+					<input class="checkbox style-2 pull-right" type="checkbox" value="4" name="notification" id="mail_notificatioin" >
+					<label for="notificatioin">メール通知を受け取る</label><br/>
+				</div>
+			</div>
+
 			<button class="btn btn-primary btn btn-default" type="submit">予約</button>
 		</form>
 		</div>

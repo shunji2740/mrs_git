@@ -8,6 +8,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -32,8 +34,26 @@ public class User implements Serializable {
 	@NotBlank(groups=ValidGroup1.class)
 	private String lastName;
 
+	/**
+	* 電話番号
+	*/
+	@NotBlank(groups=ValidGroup1.class)
+	@Pattern(regexp = "0\\d{1,4}\\d{1,4}\\d{4}", groups=ValidGroup2.class)
+	private String phoneNumber;
+
+	@NotBlank(groups=ValidGroup1.class)
+	private String zipCode;
+
+	/**
+	* 住所
+	*/
+	@NotBlank(groups=ValidGroup1.class)
+	@Size(max = 200, groups=ValidGroup2.class)
+	private String address;
+
 	@Enumerated(EnumType.STRING)
 	private RoleName roleName;
+
 
 	public String getUserId() {
 		return userId;
@@ -73,6 +93,30 @@ public class User implements Serializable {
 
 	public void setRoleName(RoleName roleName) {
 		this.roleName = roleName;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

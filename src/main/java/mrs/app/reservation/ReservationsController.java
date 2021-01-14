@@ -80,7 +80,6 @@ public class ReservationsController {
 		return "reservation/reserveForm";
 	}
 
-
 	@RequestMapping(method = RequestMethod.POST, params = "schedule")
 	String confirmSchedule(@Validated ReservationForm form,
 			RedirectAttributes redirectAttributes, Model model) {
@@ -90,7 +89,6 @@ public class ReservationsController {
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
-
 
 	//予約処理・予約可能かの処理
 	@RequestMapping(method = RequestMethod.POST)
@@ -126,7 +124,6 @@ public class ReservationsController {
 		return "reservation/confirmReservation";
 	}
 
-
 	//予約完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
 	String confirmedReservation(RedirectAttributes redirectAttributes, Model model) {
@@ -146,7 +143,6 @@ public class ReservationsController {
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
-
 
 	//予約削除可能かの処理
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")
@@ -172,7 +168,6 @@ public class ReservationsController {
 		return "reservation/confirmCancellation";
 	}
 
-
 	//予約キャンセル完了
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedCancellation")
 	String confirmedCancellation(RedirectAttributes redirectAttributes, Model model) {
@@ -192,7 +187,6 @@ public class ReservationsController {
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
-
 
 	//予約時間のデフォルトForm
 	@ModelAttribute

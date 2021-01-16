@@ -1,5 +1,6 @@
 package mrs.app.reservation;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -99,14 +100,32 @@ public class ReservationsController {
 
 		if (bindingResult.hasErrors()) {
 			return reserveForm(date, roomId, model);
+
 		}
+
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
+		System.out.println("→" + form.getInputSingleCheck());
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
+
 
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
+		reservation.setInputSingleCheck(form.getInputSingleCheck());
 		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, form.getDate()));
 		reservation.setReservableRoom(reservableRoom);
 		reservation.setUser(userDetails.getUser());
+
+		SendMailAfterThirtyMinitues sendMailAfterThirtyMinitues = new SendMailAfterThirtyMinitues();
+
+		try {
+			sendMailAfterThirtyMinitues.sendMailAfterThirtyMinitues(reservation);
+		} catch (ParseException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+
+
 
 		try {
 			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする

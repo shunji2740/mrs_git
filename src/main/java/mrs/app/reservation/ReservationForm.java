@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,8 +25,21 @@ public class ReservationForm implements Serializable {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
 
+	@Pattern(regexp="checked")
+	private String inputSingleCheck;
+
+
+
 	public LocalDate getDate() {
 		return date;
+	}
+
+	public String getInputSingleCheck() {
+		return inputSingleCheck;
+	}
+
+	public void setInputSingleCheck(String inputSingleCheck) {
+		this.inputSingleCheck = inputSingleCheck;
 	}
 
 	public void setDate(LocalDate date) {

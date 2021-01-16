@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Pattern;
 
 
 //予約情報を格納するテーブル
@@ -22,6 +23,10 @@ public class Reservation implements Serializable {
 
 	private LocalTime startTime;
 	private LocalTime endTime;
+
+	@Pattern(regexp="checked")
+	private String inputSingleCheck;
+
 
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "reserved_date"), @JoinColumn(name = "room_id") })
@@ -92,6 +97,15 @@ public class Reservation implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+
+	public String getInputSingleCheck() {
+		return inputSingleCheck;
+	}
+
+	public void setInputSingleCheck(String inputSingleCheck) {
+		this.inputSingleCheck = inputSingleCheck;
 	}
 
 }

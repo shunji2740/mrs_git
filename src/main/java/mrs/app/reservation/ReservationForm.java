@@ -29,7 +29,6 @@ public class ReservationForm implements Serializable {
 	private String inputSingleCheck;
 
 
-
 	public LocalDate getDate() {
 		return date;
 	}

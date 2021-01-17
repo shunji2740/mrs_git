@@ -3,7 +3,12 @@ package mrs.app.reservation;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,6 +54,9 @@ public class ReservationsController {
 
 	@Autowired
 	HttpSession session;
+
+	static Map<UUID, Timer> mapIdForTimer = new HashMap<>();
+
 
 	//予約確認・予約一覧画面
 	//予約可能かの確認作業はreserve()にて
@@ -103,11 +111,6 @@ public class ReservationsController {
 
 		}
 
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
-		System.out.println("→" + form.getInputSingleCheck());
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
-
-
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
@@ -116,16 +119,29 @@ public class ReservationsController {
 		reservation.setReservableRoom(reservableRoom);
 		reservation.setUser(userDetails.getUser());
 
-		SendMailAfterThirtyMinitues sendMailAfterThirtyMinitues = new SendMailAfterThirtyMinitues();
+		//合計金額の計算
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		long localDiffDays5 = ChronoUnit.MINUTES.between(form.getStartTime(), form.getEndTime());
+		System.out.println("分　:" + localDiffDays5);
+		Integer totalPrice = (int) ((localDiffDays5/30) * 500);
+		reservation.setTotalPrice(totalPrice);
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+
+
+
+		//予約番号をセットする
+		reservation.setReservationIdForTimer(UUID.randomUUID());
+		//Timer宣言
+		Timer timer = new Timer(false);
+		//予約番号、timerオブジェクトをmapに格納
+		mapIdForTimer.put(reservation.getReservationIdForTimer(), timer);
 
 		try {
-			sendMailAfterThirtyMinitues.sendMailAfterThirtyMinitues(reservation);
-		} catch (ParseException e1) {
+			reservationService.sendNotificationMail(form, reservation, mapIdForTimer);
+		} catch (ParseException e2) {
 			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
+			e2.printStackTrace();
 		}
-
-
 
 		try {
 			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする
@@ -194,6 +210,13 @@ public class ReservationsController {
 		User user = (User) session.getAttribute("user");
 		Integer reservationId = (Integer) session.getAttribute("reservationId");
 
+		//削除するreservationエンティティを取得・格納
+		Reservation reservation = new Reservation();
+		reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
+
+		Timer timer = mapIdForTimer.get(reservation.getReservationIdForTimer());
+		timer.cancel();
+
 		//予約キャンセル
 		reservationService.checkCancel(reservationId, user);
 
@@ -217,4 +240,6 @@ public class ReservationsController {
 
 		return form;
 	}
+
+
 }

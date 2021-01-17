@@ -55,6 +55,16 @@
                         </div>
                     </td>
                 </tr>
+                <!-- 合計金額 -->
+                <tr>
+                    <th class="active">お支払金額</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.totalPrice} + '円'"></span>
+                        </div>
+                    </td>
+                </tr>
+
 				<!-- 支払い方法のエリア -->
                 <tr>
                     <th class="active">お支払方法</th>

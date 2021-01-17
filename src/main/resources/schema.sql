@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS reservation (
   room_id INT4 NOT NULL,
   user_id VARCHAR(255) NOT NULL,
   input_single_check VARCHAR(255) NOT NULL,
+  total_price Integer NOT NULL,
+  reservation_id_for_timer UUID,
   PRIMARY KEY (reservation_id)
 );
 

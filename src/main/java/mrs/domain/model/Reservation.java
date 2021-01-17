@@ -3,6 +3,7 @@ package mrs.domain.model;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Pattern;
-
 
 //予約情報を格納するテーブル
 @Entity
@@ -24,9 +24,8 @@ public class Reservation implements Serializable {
 	private LocalTime startTime;
 	private LocalTime endTime;
 
-	@Pattern(regexp="checked")
+	@Pattern(regexp = "checked")
 	private String inputSingleCheck;
-
 
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "reserved_date"), @JoinColumn(name = "room_id") })
@@ -39,6 +38,10 @@ public class Reservation implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	private Integer totalPrice;
+
+	private UUID reservationIdForTimer;
 
 	//1件でもtrueが返された場合はtrue(重複あり)となる
 	public boolean overlap(Reservation target) {
@@ -99,13 +102,28 @@ public class Reservation implements Serializable {
 		this.user = user;
 	}
 
-
 	public String getInputSingleCheck() {
 		return inputSingleCheck;
 	}
 
 	public void setInputSingleCheck(String inputSingleCheck) {
 		this.inputSingleCheck = inputSingleCheck;
+	}
+
+	public Integer getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public UUID getReservationIdForTimer() {
+		return reservationIdForTimer;
+	}
+
+	public void setReservationIdForTimer(UUID uuid) {
+		this.reservationIdForTimer = uuid;
 	}
 
 }

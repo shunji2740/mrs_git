@@ -1,13 +1,24 @@
 package mrs.domain.service.reservation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import mrs.app.reservation.ReservationForm;
 import mrs.domain.model.ReservableRoom;
 import mrs.domain.model.ReservableRoomId;
 import mrs.domain.model.Reservation;
@@ -24,6 +35,9 @@ public class ReservationService {
 	ReservationRepository reservationRepository;
 	@Autowired
 	ReservableRoomRepository reservableRoomRepository;
+	@Autowired
+	private MailSender mailSender;
+
 
 	//引数reservationには予約情報のすべてが格納されている(予約したい状態)
 	public Reservation checkReservation(Reservation reservation) {
@@ -103,5 +117,41 @@ public class ReservationService {
 		}
 
 		reservationRepository.delete(reservation);
+	}
+
+	//メール通知メソッド
+	public void sendNotificationMail(ReservationForm form, Reservation reservation, Map<UUID, Timer> mapIdForTimer) throws ParseException {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
+		Timer timer = mapIdForTimer.get(reservation.getReservationIdForTimer());
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				SimpleMailMessage msg = new SimpleMailMessage();
+				msg.setFrom("shunjimunemoto@gmail.com");
+				msg.setTo("shunjimunemoto@gmail.com");
+				msg.setText("ご予約時間の30分前となりました。"
+						+ "\n\n------------------------------------------\n" +
+						"\n------------------------------------------");
+				mailSender.send(msg);
+				timer.cancel();
+			}
+		};
+
+		LocalDateTime dt = LocalDateTime.of(form.getDate(), form.getStartTime());
+		//30分引く
+		dt = dt.minusMinutes(30);
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+		String dtFormated = dt.format(dateTimeFormatter);
+
+		//timer.schedule(task, sdf.parse("2021/01/17 21:36"));
+		//timer.schedule(task, sdf.parse(dtFormated));
+
+		//予約番号をセットする
+		reservation.setReservationIdForTimer(UUID.randomUUID());
+		//予約番号、timerオブジェクトをmapに格納
+		mapIdForTimer.put(reservation.getReservationIdForTimer(), timer);
+
 	}
 }

@@ -40,14 +40,6 @@ public class SendMailAfterThirtyMinitues {
 			}
 		};
 
-//		LocalDate reservedDate = reservation.getReservableRoom().getReservableRoomId().getReservedDate();
-//
-//		String formattedDate = reservedDate.toString();
-//
-//		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-//		System.out.println(formattedDate);
-//		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-
 		timer.schedule(task,sdf.parse("2021/01/15 15:24"));
 
 	}

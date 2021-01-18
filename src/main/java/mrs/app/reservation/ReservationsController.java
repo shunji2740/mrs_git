@@ -57,7 +57,6 @@ public class ReservationsController {
 
 	static Map<UUID, Timer> mapIdForTimer = new HashMap<>();
 
-
 	//予約確認・予約一覧画面
 	//予約可能かの確認作業はreserve()にて
 	@RequestMapping(method = RequestMethod.GET)
@@ -104,7 +103,9 @@ public class ReservationsController {
 	String reserve(@Validated ReservationForm form, BindingResult bindingResult,
 			@AuthenticationPrincipal ReservationUserDetails userDetails,
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
-			@PathVariable("roomId") Integer roomId, Model model) {
+			@PathVariable("roomId") Integer roomId,
+			@RequestParam("equipments") String[] checkBoxValues,
+			Model model) {
 
 		if (bindingResult.hasErrors()) {
 			return reserveForm(date, roomId, model);
@@ -118,16 +119,14 @@ public class ReservationsController {
 		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, form.getDate()));
 		reservation.setReservableRoom(reservableRoom);
 		reservation.setUser(userDetails.getUser());
+		if(checkBoxValues != null) {
+			reservation.setAdditionalEquipments(checkBoxValues);
+		}
 
 		//合計金額の計算
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 		long localDiffDays5 = ChronoUnit.MINUTES.between(form.getStartTime(), form.getEndTime());
-		System.out.println("分　:" + localDiffDays5);
-		Integer totalPrice = (int) ((localDiffDays5/30) * 500);
+		Integer totalPrice = (int) ((localDiffDays5 / 30) * 500);
 		reservation.setTotalPrice(totalPrice);
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-
-
 
 		//予約番号をセットする
 		reservation.setReservationIdForTimer(UUID.randomUUID());
@@ -240,6 +239,5 @@ public class ReservationsController {
 
 		return form;
 	}
-
 
 }

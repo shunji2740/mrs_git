@@ -55,6 +55,8 @@
 						<form th:object="${reservationForm}" th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}"
 							method="post">
 							<div class="form-group">
+								<br/>
+								<br/>
 								<label class="control-label">日付: </label>
 								<input class="datepicker" autocomplete="off" th:field="*{date}"><br/><br/>
 								<button class="btn btn-primary btn btn-default" type="submit" name="schedule" value="指定日の予約状況を検索" >指定日の予約状況を確認</button>
@@ -81,9 +83,117 @@
 					<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
 				</select>
 			<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
+
 			<br/>
+			<hr color="#333333;">
+
+			<!-- 追加備品の選択 -->
+			<p>追加備品を選択してください(無料)</p>
+			<div class="form-group">
+		      <div class="radio-inline">
+		        <input class="checkbox style-2 pull-right"  type="checkbox"  value="追加ホワイトボード" name="equipments" id="cash">
+		          <label for="additionalWhiteBorad">追加ホワイトボード</label>
+		      </div>
+		      <div class="radio-inline">
+		        <input class="checkbox style-2 pull-right"  type="checkbox"  value="プロジェクタ" name="equipments" id="credit">
+		        <label for="projector">プロジェクタ</label>
+		      </div>
+		      <div class="radio-inline">
+		        <input class="checkbox style-2 pull-right"  type="checkbox"  value="スクリーン" name="equipments" id="electronic equipments">
+		        <label for="screen">スクリーン</label>
+		      </div>
+		      <br/>
+		      <div class="radio-inline">
+		        <input class="checkbox style-2 pull-right"  type="checkbox"  value="音響システム" name="equipments" id="electronic equipments">
+		        <label for="audioEquipment">音響システム</label>
+		      </div>
+		      <div class="radio-inline">
+		        <input class="checkbox style-2 pull-right"  type="checkbox"  value="ポータブルマイク" name="equipments" id="electronic equipments">
+		        <label for="microphone">ポータブルマイク</label>
+		      </div>
+		      <div class="radio-inline">
+		        <input class="checkbox style-2 pull-right"  type="checkbox"  value="演台" name="equipments" id="electronic equipments">
+		        <label for="lectern">演台</label>
+		      </div>
+		    </div>
+
+			<br/>
+			<hr color="#333333;">
+
+			<!-- ケータリングの選択 -->
+			<p>ケータリングを選択してください</p>
+			<div class="form-group">
+		      <div class="radio-inline">
+	                <label>
+	                <input type="checkbox" name="fd" id="fd1" value="1000"  />
+	                お弁当（1,000円）</label> ×
+	                <select id="fd1n" name="fd1n" class="short">
+	                  <option value="0">0</option>
+	                  <option value="20">20</option>
+	                  <option value="30">30</option>
+	                  <option value="40">40</option>
+	                  <option value="50">50</option>
+	                </select>
+                </div>
+		      <div class="radio-inline">
+					<label>
+	                 <input type="checkbox" name="fd" id="fd2" value="3000" />
+	                 ポットコーヒー（無料）</label> ×
+	                 <select id="fd2n" name="fd2n" class="short">
+	                   <option value="0">0</option>
+	                   <option value="1">1</option>
+	                   <option value="2">2</option>
+	                   <option value="3">3</option>
+	                   <option value="4">4</option>
+	                   <option value="5">5</option>
+	                   <option value="6">6</option>
+	                   <option value="7">7</option>
+	                   <option value="8">8</option>
+	                   <option value="9">9</option>
+	                   <option value="10">10</option>
+	                   <option value="11">11</option>
+	                   <option value="12">12</option>
+	                   <option value="13">13</option>
+	                   <option value="14">14</option>
+	                   <option value="15">15</option>
+	                   <option value="20">20</option>
+	                   <option value="25">25</option>
+	                 </select>
+	                 <span id="coffee"></span><br />
+                 </div>
+		      <div class="radio-inline">
+					<label>
+                    <input type="checkbox" name="fd" id="fd3" value="150" />
+                    お茶ペットボトル(170円)</label> ×
+                    <select id="fd3n" name="fd3n" class="short">
+                      <option value="0">0</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="50">50</option>
+                    </select>
+   				</div>
+		      <div class="radio-inline">
+                    <label>
+                    <input type="checkbox" name="fd" id="fd4" value="150" />
+                    水ペットボトル(150円)</label> ×
+                    <select id="fd4n" name="fd4n" class="short">
+                      <option value="0">0</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="50">50</option>
+                    </select>
+   				</div>
+		    </div>
+		    <br/>
+
+			<hr color="#333333;">
 
 			<!-- 決済方法の選択 -->
+			<p>決済方法を選択してください</p>
 			<div class="form-group">
 		      <div class="radio-inline">
 		        <input type="radio" value="1" name="money" id="cash">
@@ -98,6 +208,9 @@
 		        <label for="electronic money">電子マネー</label>
 		      </div>
 		    </div>
+
+		    <hr color="#333333;">
+
 			<!-- メール通知の有無 -->
 			<div class="form-group">
 				<div class="radio-inline">

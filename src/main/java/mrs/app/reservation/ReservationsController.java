@@ -104,9 +104,9 @@ public class ReservationsController {
 			@AuthenticationPrincipal ReservationUserDetails userDetails,
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId,
-			@RequestParam("equipments") List<String> additionalEquipments,
-			@RequestParam("fdn") int[] cateringQuantity,
-			@RequestParam("fd") List<String> selectedCateringStrs,
+			@RequestParam(value="equipments", required=false) List<String> additionalEquipments,
+			@RequestParam(value="fdn", required=false) int[] cateringQuantity,
+			@RequestParam(value="fd", required=false) List<String> selectedCateringStrs,
 			Model model) {
 
 
@@ -126,6 +126,7 @@ public class ReservationsController {
 
 
 		//Mapにケータリングの種類、数量を格納およびmodelに格納
+
 		Map<String,Integer>cateringMapCategoryForQuantity = reservationService.createMapCategoryForQuantity(cateringQuantity,selectedCateringStrs);
 		model.addAttribute("cateringMap", cateringMapCategoryForQuantity);
 

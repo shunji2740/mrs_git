@@ -104,11 +104,14 @@ public class ReservationsController {
 			@AuthenticationPrincipal ReservationUserDetails userDetails,
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId,
-			@RequestParam(value="equipments", required=false) List<String> additionalEquipments,
-			@RequestParam(value="fdn", required=false) int[] cateringQuantity,
-			@RequestParam(value="fd", required=false) List<String> selectedCateringStrs,
+			@RequestParam(value = "equipments", required = false) List<String> additionalEquipments,
+			@RequestParam(value = "fdn", required = false) int[] cateringQuantity,
+			@RequestParam(value = "fd", required = false) List<String> selectedCateringStrs,
 			Model model) {
 
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
+		System.out.println(additionalEquipments);
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
 
 		//合計金額を格納する変数
 		int totalPrice = 0;
@@ -120,18 +123,22 @@ public class ReservationsController {
 		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, form.getDate()));
 		reservation.setReservableRoom(reservableRoom);
 		reservation.setUser(userDetails.getUser());
-		reservation.setAdditionalEquipments(additionalEquipments);
 		reservation.setCateringQuantity(cateringQuantity);
 		reservation.setCateringSelection(selectedCateringStrs);
 
+		//追加設備を格納
+		if (additionalEquipments != null) {
+			reservation.setAdditionalEquipments(additionalEquipments);
+		}
 
 		//Mapにケータリングの種類、数量を格納およびmodelに格納
-
-		Map<String,Integer>cateringMapCategoryForQuantity = reservationService.createMapCategoryForQuantity(cateringQuantity,selectedCateringStrs);
-		model.addAttribute("cateringMap", cateringMapCategoryForQuantity);
-
-		//ケータリングの合計金額を計算する
-		totalPrice = reservationService.calculateCateringPrice(cateringQuantity, selectedCateringStrs);
+		if (cateringQuantity != null && selectedCateringStrs != null) {
+			Map<String, Integer> cateringMapCategoryForQuantity = reservationService
+					.createMapCategoryForQuantity(cateringQuantity, selectedCateringStrs);
+			model.addAttribute("cateringMap", cateringMapCategoryForQuantity);
+			//ケータリングの合計金額を計算する
+			totalPrice = reservationService.calculateCateringPrice(cateringQuantity, selectedCateringStrs);
+		}
 
 		//予約時間の合計金額の計算する
 		long localDiffDays5 = ChronoUnit.MINUTES.between(form.getStartTime(), form.getEndTime());

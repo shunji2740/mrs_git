@@ -55,6 +55,26 @@
                         </div>
                     </td>
                 </tr>
+                 <!-- 追加設備のご利用 -->
+                <tr>
+                    <th class="active">追加設備のご利用内容</th>
+                    <td class="table-light">
+                        <div class="form-group">
+                        	<span th:each="equipmentsName : ${reservation.additionalEquipments}" th:text="${equipmentsName + '　'}"></span>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ケータリングサービスのご利用金額 -->
+                <tr>
+                    <th class="active">ケータリングサービスのご利用内容</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:each="entry : ${cateringMap}" th:text="${entry.key + ': ' + entry.value + '個　'}"></span><br/>
+                        </div>
+                    </td>
+                </tr>
+
                 <!-- 合計金額 -->
                 <tr>
                     <th class="active">お支払金額</th>

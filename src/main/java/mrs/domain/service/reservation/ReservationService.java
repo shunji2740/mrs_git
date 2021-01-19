@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -37,7 +38,6 @@ public class ReservationService {
 	ReservableRoomRepository reservableRoomRepository;
 	@Autowired
 	private MailSender mailSender;
-
 
 	//引数reservationには予約情報のすべてが格納されている(予約したい状態)
 	public Reservation checkReservation(Reservation reservation) {
@@ -82,13 +82,11 @@ public class ReservationService {
 
 	}
 
-
 	//予約リストを返却
 	public List<Reservation> findReservations(ReservableRoomId reservableRoomId) {
 
 		return reservationRepository.findByReservableRoom_ReservableRoomIdOrderByStartTimeAsc(reservableRoomId);
 	}
-
 
 	//予約キャンセルメソッド
 	public Boolean checkCancel(Integer reservationId, User requestUser) {
@@ -120,7 +118,8 @@ public class ReservationService {
 	}
 
 	//メール通知メソッド
-	public void sendNotificationMail(ReservationForm form, Reservation reservation, Map<UUID, Timer> mapIdForTimer) throws ParseException {
+	public void sendNotificationMail(ReservationForm form, Reservation reservation, Map<UUID, Timer> mapIdForTimer)
+			throws ParseException {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
@@ -146,12 +145,81 @@ public class ReservationService {
 		String dtFormated = dt.format(dateTimeFormatter);
 
 		//timer.schedule(task, sdf.parse("2021/01/17 21:36"));
-		//timer.schedule(task, sdf.parse(dtFormated));
+		timer.schedule(task, sdf.parse(dtFormated));
 
 		//予約番号をセットする
 		reservation.setReservationIdForTimer(UUID.randomUUID());
 		//予約番号、timerオブジェクトをmapに格納
 		mapIdForTimer.put(reservation.getReservationIdForTimer(), timer);
 
+	}
+
+	public int calculateCateringPrice(int[] cateringQuantity, List<String> selectedCateringStrs) {
+		int totalPrice = 0;
+
+		for (String selectedCateringStr : selectedCateringStrs) {
+			switch (selectedCateringStr) {
+			case "お弁当":
+				totalPrice = totalPrice + (cateringQuantity[0] * 1000);
+				System.out.println("お弁当" + totalPrice);
+				break;
+			case "ポットコーヒー":
+				totalPrice = totalPrice + (cateringQuantity[1] * 100);
+				System.out.println("ポットコーヒー" + totalPrice);
+				break;
+			case "お茶ペットボトル":
+				totalPrice = totalPrice + (cateringQuantity[2] * 170);
+				System.out.println("お茶ペットボトル" + totalPrice);
+				break;
+			case "水ペットボトル":
+				totalPrice = totalPrice + (cateringQuantity[3] * 150);
+				System.out.println("水ペットボトル" + totalPrice);
+				break;
+			}
+		}
+
+		return totalPrice;
+	}
+
+	public Map<String, Integer> createMapCategoryForQuantity(int[] cateringQuantity,
+			List<String> selectedCateringStrs) {
+
+		Map<String, Integer> cateringMapCategoryForQuantity = new HashMap<>();
+
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		for (String selectedCateringStr : selectedCateringStrs) {
+			switch (selectedCateringStr) {
+			case "お弁当":
+				if (cateringQuantity[0] != 0) {
+					cateringMapCategoryForQuantity.put(selectedCateringStr, cateringQuantity[0]);
+				}
+				break;
+			case "ポットコーヒー":
+				if (cateringQuantity[1] != 0) {
+					cateringMapCategoryForQuantity.put(selectedCateringStr, cateringQuantity[1]);
+				}
+				break;
+			case "お茶ペットボトル":
+				if (cateringQuantity[2] != 0) {
+					cateringMapCategoryForQuantity.put(selectedCateringStr, cateringQuantity[2]);
+				}
+				break;
+			case "水ペットボトル":
+				if (cateringQuantity[3] != 0) {
+					cateringMapCategoryForQuantity.put(selectedCateringStr, cateringQuantity[3]);
+				}
+				break;
+			}
+		}
+
+		// forEachのパターン
+		cateringMapCategoryForQuantity.forEach((k, v) -> {
+			System.out.println(k);
+			System.out.println(v);
+		});
+
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+
+		return cateringMapCategoryForQuantity;
 	}
 }

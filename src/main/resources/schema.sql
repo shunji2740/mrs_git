@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS reservation (
   total_price Integer NOT NULL,
   reservation_id_for_timer UUID,
   additional_equipments text[6],
-  catering integer[][],
+  catering integer[],
+  catering_selection text[],
   PRIMARY KEY (reservation_id)
 );
 

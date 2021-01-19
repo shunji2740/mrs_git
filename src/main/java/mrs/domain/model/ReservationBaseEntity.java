@@ -16,18 +16,23 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import com.vladmihalcea.hibernate.type.array.IntArrayType;
-import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
 @TypeDefs({
     @TypeDef(
         name = "string-array",
-        typeClass = StringArrayType.class
+        typeClass = ListArrayType.class
     ),
     @TypeDef(
         name = "int-array",
         typeClass = IntArrayType.class
+    ),
+    @TypeDef(
+    	name = "list-array",
+    	typeClass = ListArrayType.class
     )
 })
+
 @MappedSuperclass
 public class ReservationBaseEntity {
 

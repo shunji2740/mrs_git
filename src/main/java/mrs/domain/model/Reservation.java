@@ -2,6 +2,7 @@
 package mrs.domain.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -17,17 +18,20 @@ public class Reservation extends ReservationBaseEntity implements Serializable {
 
 	private UUID reservationIdForTimer;
 
-	//追加備品(配列型)
-	@Type(type = "string-array")
+	//追加備品
+	@Type(type = "list-array")
 	@Column(name = "additional_equipments", columnDefinition = "text[]")
-	private String[] additionalEquipment;
+	private List<String> additionalEquipments;
 
 	//ケータリング
 	@Type(type = "int-array")
 	@Column(name = "catering", columnDefinition = "int[]")
-	private int[] catering;
+	private int[] cateringQuantity;
 
-
+	//選択されたケータリングを格納
+	@Type(type = "list-array")
+	@Column(name = "catering_selection", columnDefinition = "text[]")
+	private List<String> cateringSelection;
 
 	public Integer getTotalPrice() {
 		return totalPrice;
@@ -45,20 +49,30 @@ public class Reservation extends ReservationBaseEntity implements Serializable {
 		this.reservationIdForTimer = uuid;
 	}
 
-	public String[] getAdditionalEquipments() {
-		return additionalEquipment;
+	public List<String> getAdditionalEquipments() {
+		return additionalEquipments;
 	}
 
-	public void setAdditionalEquipments(String[] additionalEquipments) {
-		this.additionalEquipment = additionalEquipments;
+	public void setAdditionalEquipments(List<String> additionalEquipments) {
+		this.additionalEquipments = additionalEquipments;
 	}
 
-	public int[] getCatering() {
-		return catering;
+	public int[] getCateringQuantity() {
+		return cateringQuantity;
 	}
 
-	public void setCatering(int[] catering) {
-		this.catering = catering;
+	public void setCateringQuantity(int[] cateringQuantity) {
+		this.cateringQuantity = cateringQuantity;
 	}
+
+	public List<String> getCateringSelection() {
+		return cateringSelection;
+	}
+
+	public void setCateringSelection(List<String> cateringSelection) {
+		this.cateringSelection = cateringSelection;
+	}
+
+
 
 }

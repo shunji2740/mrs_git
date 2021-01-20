@@ -33,6 +33,9 @@ public class Reservation extends ReservationBaseEntity implements Serializable {
 	@Column(name = "catering_selection", columnDefinition = "text[]")
 	private List<String> cateringSelection;
 
+	//選択されたお支払方法
+	private String selectedPaymentMethod;
+
 	public Integer getTotalPrice() {
 		return totalPrice;
 	}
@@ -71,6 +74,14 @@ public class Reservation extends ReservationBaseEntity implements Serializable {
 
 	public void setCateringSelection(List<String> cateringSelection) {
 		this.cateringSelection = cateringSelection;
+	}
+
+	public String getSelectedPaymentMethod() {
+		return selectedPaymentMethod;
+	}
+
+	public void setSelectedPaymentMethod(String selectedPaymentMethod) {
+		this.selectedPaymentMethod = selectedPaymentMethod;
 	}
 
 

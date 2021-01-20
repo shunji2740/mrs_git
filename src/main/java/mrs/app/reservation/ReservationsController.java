@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 
 import mrs.domain.model.ReservableRoom;
 import mrs.domain.model.ReservableRoomId;
@@ -107,6 +112,8 @@ public class ReservationsController {
 			@RequestParam(value = "equipments", required = false) List<String> additionalEquipments,
 			@RequestParam(value = "fdn", required = false) int[] cateringQuantity,
 			@RequestParam(value = "fd", required = false) List<String> selectedCateringStrs,
+			@RequestParam(value = "money") String selectedPaymentMethod,
+			@RequestParam(value = "inputSingleCheck", required = false) String inputSingleCheck,
 			Model model) {
 
 		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
@@ -125,6 +132,7 @@ public class ReservationsController {
 		reservation.setUser(userDetails.getUser());
 		reservation.setCateringQuantity(cateringQuantity);
 		reservation.setCateringSelection(selectedCateringStrs);
+		reservation.setSelectedPaymentMethod(selectedPaymentMethod);
 
 		//追加設備を格納
 		if (additionalEquipments != null) {
@@ -175,7 +183,7 @@ public class ReservationsController {
 		return "reservation/confirmReservation";
 	}
 
-	//予約完了
+	//予約完了(現金払いの場合)
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
 	String confirmedReservation(RedirectAttributes redirectAttributes, Model model) {
 
@@ -194,6 +202,50 @@ public class ReservationsController {
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
+
+
+
+	//予約完了(クレジットカード決済の場合)
+	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservationCredit")
+	String confirmedReservationCredit(
+			@RequestParam("stripeToken") String stripeToken,
+            @RequestParam("stripeTokenType") String stripeTokenType,
+            @RequestParam("stripeEmail") String stripeEmail,
+			RedirectAttributes redirectAttributes, Model model) {
+
+		//セッションからreservationエンティティを取得
+		Reservation reservation = (Reservation) session.getAttribute("reservation");
+
+        Stripe.apiKey = "sk_test_51IBK2tBYXTAwdZzcBTT70XqkVatAilqmwW7Ogt3mxF3TbtmLnJe5sA7JmIw3kAmmIa7rxBWeoKR5OOjc2AJBst9C001NQ16bBt";
+
+        Map<String, Object> chargeMap = new HashMap<String, Object>();
+        chargeMap.put("amount", reservation.getTotalPrice());
+        chargeMap.put("description", "ご利用金額");
+        chargeMap.put("currency", "jpy");
+        chargeMap.put("source", stripeToken);
+
+        try {
+            Charge charge = Charge.create(chargeMap);
+            System.out.println(charge);
+        } catch (StripeException e) {
+            e.printStackTrace();
+        }
+
+        ResponseEntity.ok().build();
+
+		//予約を登録する
+		reservationService.reserve(reservation);
+
+		//リダイレクト先に値を渡す
+		redirectAttributes.addFlashAttribute("message", "予約が完了しました");
+		redirectAttributes.addFlashAttribute("booleanResult", true);
+
+		//セッションを開放する
+		session.removeAttribute("reservation");
+
+		return "redirect:/reservations/{date}/{roomId}";
+	}
+
 
 	//予約削除可能かの処理
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")

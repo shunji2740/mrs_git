@@ -63,6 +63,9 @@ public class ReservationBaseEntity {
 	//1件でもtrueが返された場合はtrue(重複あり)となる
 	public boolean overlap(Reservation target) {
 
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		System.out.println("hogehogehogehogehogehoge");
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 		//自分自身のreservableroomIdとtargetのreservableroomIdを比較し、重複判定を行っている
 		if (!Objects.equals(this.reservableRoom.getReservableRoomId(),
 				target.getReservableRoom().getReservableRoomId())) {

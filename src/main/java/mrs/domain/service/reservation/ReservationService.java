@@ -41,6 +41,7 @@ public class ReservationService {
 
 	//引数reservationには予約情報のすべてが格納されている(予約したい状態)
 	public Reservation checkReservation(Reservation reservation) {
+		
 		//複合キー(会議室IDと指定日)を取得
 		ReservableRoomId reservableRoomId = reservation.getReservableRoom().getReservableRoomId();
 

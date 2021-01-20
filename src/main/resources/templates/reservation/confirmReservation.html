@@ -135,11 +135,25 @@
 
 		<!-- 登録完了処理 -->
 		<div class="col text-center">
-		<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
-			<input class="btn btn-primary btn-sm" type="submit" name="confirmedReservation" value="予約完了" />
-		</form>
+		<div th:if="${reservation.selectedPaymentMethod == 'cash'}">
+			<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
+				<input class="btn btn-primary btn btn-default" type="submit" name="confirmedReservation" value="予約完了"/>
+			</form>
 		</div>
 
+		<div th:if="${reservation.selectedPaymentMethod == 'credit'}">
+			<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
+			   <p>テスト用ダミーカード番号: 4000002500001001</p>
+			   <script
+			     src="https://checkout.stripe.com/checkout.js"
+			     class="stripe-button"
+			     data-key="pk_test_51IBK2tBYXTAwdZzcg6lv3WlX4WpOkr7y13DthX1xN4oXJqYU0h1HZCoNQ6VMCsNmga4b9MW6iCwjg9l7Xf0HR3wH00H1CX5xl0"
+			     data-currency="jpy">
+			   </script>
+			   <input type="hidden" name="confirmedReservationCredit" />
+		    </form>
+		</div>
+		</div>
 	</div>
 
 

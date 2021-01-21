@@ -70,19 +70,20 @@
 			 <span th:text="${room.roomName}"></span> <br/>
 			<label class="control-label">予約者名:</label>
 			 <span th:text="${user.lastName + '' + user.firstName}"></span> <br/>
+			 <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color: red">error!</span> <br />
 			<label class="control-label">日付:</label>
 			 <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
 			<br/>
+			<span th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" style="color: red">error!</span>
+						<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
 			<label class="control-label">時間帯:</label>
 				<select th:field="*{startTime}">
 					<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
 				</select>
-			<span th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" style="color: red">error!</span>
 				<select th:field="*{endTime}">
 					<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
 					<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
 				</select>
-			<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
 
 			<br/>
 			<hr color="#333333;">

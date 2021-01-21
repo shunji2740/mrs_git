@@ -2,6 +2,7 @@ package mrs.domain.service.reservation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -41,9 +42,15 @@ public class ReservationService {
 
 	//引数reservationには予約情報のすべてが格納されている(予約したい状態)
 	public Reservation checkReservation(Reservation reservation) {
-		
+
 		//複合キー(会議室IDと指定日)を取得
 		ReservableRoomId reservableRoomId = reservation.getReservableRoom().getReservableRoomId();
+
+		//予約指定日が現在より前の場合
+		if(reservableRoomId.getReservedDate().isBefore(LocalDate.now())){
+			//例外ステートメントをスローする
+			throw new UnavailableReservationException("日付が間違っています");
+		}
 
 		//複合キーによって指定された日の予約可能な指定会議室を取得
 		//ここで初めてreservableroomに登録されているかどうかを識別している
@@ -54,6 +61,8 @@ public class ReservationService {
 			//例外ステートメントをスローする
 			throw new UnavailableReservationException("その日の指定会議室は使えません。");
 		}
+
+
 
 		/*	overlapメソッドにて重複チェック
 			１件でもtrueが返された場合は重複と判定
@@ -141,7 +150,7 @@ public class ReservationService {
 
 		LocalDateTime dt = LocalDateTime.of(form.getDate(), form.getStartTime());
 		//30分引く
-		dt = dt.minusMinutes(10);
+		dt = dt.minusMinutes(20);
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 		String dtFormated = dt.format(dateTimeFormatter);
 

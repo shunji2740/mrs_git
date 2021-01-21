@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,9 +95,12 @@ public class ReservationsController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, params = "schedule")
-	String confirmSchedule(@Validated ReservationForm form,
+	String confirmSchedule(ReservationForm form,
 			RedirectAttributes redirectAttributes, Model model) {
 
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		System.out.println("hogehogehogehogehogehoge2");
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 		LocalDate schedule_date = form.getDate();
 		redirectAttributes.addFlashAttribute("schedule_date", schedule_date);
 
@@ -104,6 +108,7 @@ public class ReservationsController {
 	}
 
 	//予約処理・予約可能かの処理
+	@SuppressWarnings("null")
 	@RequestMapping(method = RequestMethod.POST)
 	String reserve(@Validated ReservationForm form, BindingResult bindingResult,
 			@AuthenticationPrincipal ReservationUserDetails userDetails,
@@ -112,12 +117,37 @@ public class ReservationsController {
 			@RequestParam(value = "equipments", required = false) List<String> additionalEquipments,
 			@RequestParam(value = "fdn", required = false) int[] cateringQuantity,
 			@RequestParam(value = "fd", required = false) List<String> selectedCateringStrs,
-			@RequestParam(value = "money") String selectedPaymentMethod,
 			@RequestParam(value = "inputSingleCheck", required = false) String inputSingleCheck,
 			Model model) {
 
+		if (bindingResult.hasErrors()) {
+			return reserveForm(date, roomId, model);
+		}
+
 		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
-		System.out.println(additionalEquipments);
+
+		if (additionalEquipments == null) {
+			List<String> additionalEquipments1 = new ArrayList<>();
+			additionalEquipments1.add("なし");
+			additionalEquipments = additionalEquipments1;
+		}
+
+		if (selectedCateringStrs == null) {
+			List<String> selectedCateringStrs1 = new ArrayList<>();
+			selectedCateringStrs1.add("なし");
+			selectedCateringStrs = selectedCateringStrs1;
+			cateringQuantity[0] = 0;
+		}
+
+		for (String equipment : additionalEquipments) {
+			System.out.println(equipment);
+		}
+		for (int num : cateringQuantity) {
+			System.out.println(num);
+		}
+		for (String catering : selectedCateringStrs) {
+			System.out.println(catering);
+		}
 		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
 
 		//合計金額を格納する変数
@@ -132,7 +162,7 @@ public class ReservationsController {
 		reservation.setUser(userDetails.getUser());
 		reservation.setCateringQuantity(cateringQuantity);
 		reservation.setCateringSelection(selectedCateringStrs);
-		reservation.setSelectedPaymentMethod(selectedPaymentMethod);
+		reservation.setSelectedPaymentMethod(form.getSelectedPaymentMethod());
 
 		//追加設備を格納
 		if (additionalEquipments != null) {
@@ -203,35 +233,35 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-
-
 	//予約完了(クレジットカード決済の場合)
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservationCredit")
 	String confirmedReservationCredit(
 			@RequestParam("stripeToken") String stripeToken,
-            @RequestParam("stripeTokenType") String stripeTokenType,
-            @RequestParam("stripeEmail") String stripeEmail,
+			@RequestParam("stripeTokenType") String stripeTokenType,
+			@RequestParam("stripeEmail") String stripeEmail,
 			RedirectAttributes redirectAttributes, Model model) {
 
 		//セッションからreservationエンティティを取得
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 
-        Stripe.apiKey = "sk_test_51IBK2tBYXTAwdZzcBTT70XqkVatAilqmwW7Ogt3mxF3TbtmLnJe5sA7JmIw3kAmmIa7rxBWeoKR5OOjc2AJBst9C001NQ16bBt";
+		Stripe.apiKey = "sk_test_51IBK2tBYXTAwdZzcBTT70XqkVatAilqmwW7Ogt3mxF3TbtmLnJe5sA7JmIw3kAmmIa7rxBWeoKR5OOjc2AJBst9C001NQ16bBt";
 
-        Map<String, Object> chargeMap = new HashMap<String, Object>();
-        chargeMap.put("amount", reservation.getTotalPrice());
-        chargeMap.put("description", "ご利用金額");
-        chargeMap.put("currency", "jpy");
-        chargeMap.put("source", stripeToken);
+		Map<String, Object> chargeMap = new HashMap<String, Object>();
+		chargeMap.put("amount", reservation.getTotalPrice());
+		chargeMap.put("description", "ご利用金額");
+		chargeMap.put("currency", "jpy");
+		chargeMap.put("source", stripeToken);
 
-        try {
-            Charge charge = Charge.create(chargeMap);
-            System.out.println(charge);
-        } catch (StripeException e) {
-            e.printStackTrace();
-        }
+		try {
+			Charge charge = Charge.create(chargeMap);
+			System.out.println(charge);
+		} catch (StripeException e) {
+			e.printStackTrace();
+		}
 
-        ResponseEntity.ok().build();
+		ResponseEntity.ok().build();
+
+		System.out.println(reservation.getTotalPrice());
 
 		//予約を登録する
 		reservationService.reserve(reservation);
@@ -245,7 +275,6 @@ public class ReservationsController {
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
-
 
 	//予約削除可能かの処理
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")

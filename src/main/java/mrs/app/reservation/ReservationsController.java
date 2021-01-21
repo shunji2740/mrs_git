@@ -130,13 +130,15 @@ public class ReservationsController {
 			List<String> additionalEquipments1 = new ArrayList<>();
 			additionalEquipments1.add("なし");
 			additionalEquipments = additionalEquipments1;
+			System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
+			System.out.println(additionalEquipments.get(0));
+
 		}
 
 		if (selectedCateringStrs == null) {
 			List<String> selectedCateringStrs1 = new ArrayList<>();
 			selectedCateringStrs1.add("なし");
 			selectedCateringStrs = selectedCateringStrs1;
-			cateringQuantity[0] = 0;
 		}
 
 		for (String equipment : additionalEquipments) {

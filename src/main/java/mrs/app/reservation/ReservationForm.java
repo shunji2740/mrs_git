@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @EndTimeMustBeAfterStartTime(message = "終了時刻は開始時刻より後にしてください")
+@StartTimeMustBeAfterPresent(message = "指定時刻の予約は無効です")
 public class ReservationForm implements Serializable {
 	@ThirtyMinutesUnit(message = "30分単位で入力してください")
 	@NotNull(message = "必須です")

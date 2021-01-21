@@ -114,7 +114,6 @@ public class ReservationsController {
 			@RequestParam(value = "equipments", required = false) List<String> additionalEquipments,
 			@RequestParam(value = "fdn", required = false) int[] cateringQuantity,
 			@RequestParam(value = "fd", required = false) List<String> selectedCateringStrs,
-			@RequestParam(value = "money") String selectedPaymentMethod,
 			@RequestParam(value = "inputSingleCheck", required = false) String inputSingleCheck,
 			Model model) {
 
@@ -160,7 +159,7 @@ public class ReservationsController {
 		reservation.setUser(userDetails.getUser());
 		reservation.setCateringQuantity(cateringQuantity);
 		reservation.setCateringSelection(selectedCateringStrs);
-		reservation.setSelectedPaymentMethod(selectedPaymentMethod);
+		reservation.setSelectedPaymentMethod(form.getSelectedPaymentMethod());
 
 		//追加設備を格納
 		if (additionalEquipments != null) {

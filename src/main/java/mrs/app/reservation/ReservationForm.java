@@ -28,6 +28,10 @@ public class ReservationForm implements Serializable {
 	@Pattern(regexp="checked")
 	private String inputSingleCheck;
 
+	//選択されたお支払方法
+	@NotNull(message = "必須です")
+	private String selectedPaymentMethod;
+
 
 	public LocalDate getDate() {
 		return date;
@@ -59,6 +63,14 @@ public class ReservationForm implements Serializable {
 
 	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getSelectedPaymentMethod() {
+		return selectedPaymentMethod;
+	}
+
+	public void setSelectedPaymentMethod(String selectedPaymentMethod) {
+		this.selectedPaymentMethod = selectedPaymentMethod;
 	}
 
 }

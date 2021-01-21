@@ -75,7 +75,7 @@
 			 <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
 			<br/>
 			<span th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" style="color: red">error!</span>
-						<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
+			<span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" style="color: red">error!</span> <br />
 			<label class="control-label">時間帯:</label>
 				<select th:field="*{startTime}">
 					<option th:each="time : ${timeList}" th:text="${time}" th:value="${time}"></option>
@@ -195,13 +195,14 @@
 
 			<!-- 決済方法の選択 -->
 			<p>決済方法を選択してください</p>
+			<span th:if="${#fields.hasErrors('selectedPaymentMethod')}" th:errors="*{selectedPaymentMethod}" style="color: red">error!</span> <br />
 			<div class="form-group">
 		      <div class="radio-inline">
-		        <input type="radio" value="cash" name="money">
+		        <input type="radio" value="cash" name="money" th:field="*{selectedPaymentMethod}">
 		          <label for="cash">現金</label>
 		      </div>
 		      <div class="radio-inline">
-		        <input type="radio" value="credit" name="money">
+		        <input type="radio" value="credit" name="money" th:field="*{selectedPaymentMethod}">
 		        <label for="credit">クレジットカード決済</label>
 		      </div>
 		    </div>

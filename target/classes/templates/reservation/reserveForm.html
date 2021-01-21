@@ -71,6 +71,7 @@
 			<label class="control-label">予約者名:</label>
 			 <span th:text="${user.lastName + '' + user.firstName}"></span> <br/>
 			 <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color: red">error!</span> <br />
+			 <span th:if="${error != null}" th:text="${error}" style="color: red">error!</span> <br />
 			<label class="control-label">日付:</label>
 			 <input class="datepicker" autocomplete="off" th:field="*{date}"><br/>
 			<br/>
@@ -198,7 +199,7 @@
 			<span th:if="${#fields.hasErrors('selectedPaymentMethod')}" th:errors="*{selectedPaymentMethod}" style="color: red">error!</span> <br />
 			<div class="form-group">
 		      <div class="radio-inline">
-		        <input type="radio" value="cash" name="money" th:field="*{selectedPaymentMethod}">
+		        <input type="radio" value="cash" name="money" th:field="*{selectedPaymentMethod}" checked="checked">
 		          <label for="cash">現金</label>
 		      </div>
 		      <div class="radio-inline">

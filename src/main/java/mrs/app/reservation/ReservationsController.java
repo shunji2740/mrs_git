@@ -95,9 +95,12 @@ public class ReservationsController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, params = "schedule")
-	String confirmSchedule(@Validated ReservationForm form,
+	String confirmSchedule(ReservationForm form,
 			RedirectAttributes redirectAttributes, Model model) {
 
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		System.out.println("hogehogehogehogehogehoge2");
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 		LocalDate schedule_date = form.getDate();
 		redirectAttributes.addFlashAttribute("schedule_date", schedule_date);
 

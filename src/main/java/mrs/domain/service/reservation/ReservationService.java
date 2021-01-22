@@ -150,7 +150,7 @@ public class ReservationService {
 
 		LocalDateTime dt = LocalDateTime.of(form.getDate(), form.getStartTime());
 		//30分引く
-		dt = dt.minusMinutes(20);
+		dt = dt.minusMinutes(30);
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 		String dtFormated = dt.format(dateTimeFormatter);
 

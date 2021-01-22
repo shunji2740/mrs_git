@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,12 +96,7 @@ public class ReservationsController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, params = "schedule")
-	String confirmSchedule(ReservationForm form,
-			RedirectAttributes redirectAttributes, Model model) {
-
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-		System.out.println("hogehogehogehogehogehoge2");
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+	String confirmSchedule(ReservationForm form,RedirectAttributes redirectAttributes, Model model) {
 		LocalDate schedule_date = form.getDate();
 		redirectAttributes.addFlashAttribute("schedule_date", schedule_date);
 
@@ -124,33 +120,20 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model);
 		}
 
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
-
 		if (additionalEquipments == null) {
 			List<String> additionalEquipments1 = new ArrayList<>();
 			additionalEquipments1.add("なし");
 			additionalEquipments = additionalEquipments1;
-			System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
 			System.out.println(additionalEquipments.get(0));
-
 		}
 
-		if (selectedCateringStrs == null) {
+		//System.out.println(list.stream().allMatch(val -> val.length() >= 5)); //=> true
+
+		if (selectedCateringStrs == null || Arrays.stream(cateringQuantity).allMatch(val -> val == 0)) {
 			List<String> selectedCateringStrs1 = new ArrayList<>();
 			selectedCateringStrs1.add("なし");
 			selectedCateringStrs = selectedCateringStrs1;
 		}
-
-		for (String equipment : additionalEquipments) {
-			System.out.println(equipment);
-		}
-		for (int num : cateringQuantity) {
-			System.out.println(num);
-		}
-		for (String catering : selectedCateringStrs) {
-			System.out.println(catering);
-		}
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★");
 
 		//合計金額を格納する変数
 		int totalPrice = 0;
@@ -209,7 +192,6 @@ public class ReservationsController {
 		}
 
 		session.setAttribute("reservation", reservation);
-
 		model.addAttribute("reservation", reservation);
 
 		return "reservation/confirmReservation";
@@ -221,14 +203,12 @@ public class ReservationsController {
 
 		//セッションからreservationエンティティを取得
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
-
 		//予約を登録する
 		reservationService.reserve(reservation);
 
 		//リダイレクト先に値を渡す
 		redirectAttributes.addFlashAttribute("message", "予約が完了しました");
 		redirectAttributes.addFlashAttribute("booleanResult", true);
-
 		//セッションを開放する
 		session.removeAttribute("reservation");
 
@@ -262,8 +242,6 @@ public class ReservationsController {
 		}
 
 		ResponseEntity.ok().build();
-
-		System.out.println(reservation.getTotalPrice());
 
 		//予約を登録する
 		reservationService.reserve(reservation);

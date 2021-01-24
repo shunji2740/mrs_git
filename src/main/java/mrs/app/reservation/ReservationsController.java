@@ -175,12 +175,6 @@ public class ReservationsController {
 		//予約番号、timerオブジェクトをmapに格納
 		mapIdForTimer.put(reservation.getReservationIdForTimer(), timer);
 
-		try {
-			reservationService.sendNotificationMail(form, reservation, mapIdForTimer);
-		} catch (ParseException e2) {
-			// TODO 自動生成された catch ブロック
-			e2.printStackTrace();
-		}
 
 		try {
 			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする
@@ -206,6 +200,15 @@ public class ReservationsController {
 		//予約を登録する
 		reservationService.reserve(reservation);
 
+		try {
+			reservationService.sendNotificationMail(reservation, mapIdForTimer);
+			reservationService.sendInfoMail(reservation);
+		} catch (ParseException e2) {
+			// TODO 自動生成された catch ブロック
+			e2.printStackTrace();
+		}
+
+
 		//リダイレクト先に値を渡す
 		redirectAttributes.addFlashAttribute("message", "予約が完了しました");
 		redirectAttributes.addFlashAttribute("booleanResult", true);
@@ -225,6 +228,14 @@ public class ReservationsController {
 
 		//セッションからreservationエンティティを取得
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
+
+		try {
+			reservationService.sendNotificationMail(reservation, mapIdForTimer);
+			reservationService.sendInfoMail(reservation);
+		} catch (ParseException e2) {
+			// TODO 自動生成された catch ブロック
+			e2.printStackTrace();
+		}
 
 		Stripe.apiKey = "sk_test_51IBK2tBYXTAwdZzcBTT70XqkVatAilqmwW7Ogt3mxF3TbtmLnJe5sA7JmIw3kAmmIa7rxBWeoKR5OOjc2AJBst9C001NQ16bBt";
 

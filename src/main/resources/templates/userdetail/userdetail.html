@@ -20,7 +20,7 @@
         </div>
 
 
-        <form method="post" th:action="@{/registration}" th:object="${user}" id="Registrationform">
+        <form method="post" th:action="@{/user}" th:object="${user}" id="Registrationform">
             <table class="table table-bordered table-hover">
                 <!-- ユーザーIDの入力エリア -->
                 <tr>
@@ -142,11 +142,9 @@
                 </tr>
             </table>
 
-            <input type="hidden" name="roleName" th:value="USER" >
-
             <div class="col text-center">
             	<!-- ユーザー登録ボタン -->
-            	<button class="btn btn-primary" type="submit">ユーザー登録</button>
+            	<button class="btn btn-primary" type="submit">ユーザー更新</button>
             </div>
             <br>
             <div class="col text-center">

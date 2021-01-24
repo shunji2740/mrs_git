@@ -20,7 +20,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import mrs.app.reservation.ReservationForm;
 import mrs.domain.model.ReservableRoom;
 import mrs.domain.model.ReservableRoomId;
 import mrs.domain.model.Reservation;
@@ -127,8 +126,24 @@ public class ReservationService {
 		reservationRepository.delete(reservation);
 	}
 
+	//予約情報通知メール送信メソッド
+	public void sendInfoMail(Reservation reservation ) {
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
+					  "メールアドレス: " + reservation.getUser().getUserId() + "\n" +
+					  "ご予約内容: \n" +
+					  "ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n";
+
+
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setFrom(reservation.getUser().getUserId());
+		msg.setTo("shunjimunemoto@gmail.com");
+		msg.setText("ご予約内容は下記の通りです。\n\n------------------------------------------\n" + body + "\n------------------------------------------");
+		mailSender.send(msg);
+	}
+
 	//メール通知メソッド
-	public void sendNotificationMail(ReservationForm form, Reservation reservation, Map<UUID, Timer> mapIdForTimer)
+	public void sendNotificationMail(Reservation reservation, Map<UUID, Timer> mapIdForTimer)
 			throws ParseException {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -148,7 +163,7 @@ public class ReservationService {
 			}
 		};
 
-		LocalDateTime dt = LocalDateTime.of(form.getDate(), form.getStartTime());
+		LocalDateTime dt = LocalDateTime.of(reservation.getReservableRoom().getReservableRoomId().getReservedDate(), reservation.getStartTime());
 		//30分引く
 		dt = dt.minusMinutes(30);
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");

@@ -27,10 +27,11 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/registration")
-	public String postSignUp( @ModelAttribute @Validated(GroupOrder.class) User user, BindingResult bindingResult, Model model) {
+	public String saveOrUpdateUser(@ModelAttribute @Validated(GroupOrder.class) User user, BindingResult bindingResult,
+			Model model) {
 
 		//validationのチェック
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			//エラーなら入力フォームにもどす
 			return getRegistration(user, model);
 		}
@@ -41,11 +42,10 @@ public class RegistrationController {
 		 * returnは登録成功後と失敗用の画面を用意する。
 		 */
 
-		System.out.println(user);
-
 		registrationService.save(user);
 
 		//login.htmlに画面遷移
-        return "login/loginForm";
+		return "login/loginForm";
 	}
+
 }

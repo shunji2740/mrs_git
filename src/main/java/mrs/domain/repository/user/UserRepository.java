@@ -6,6 +6,4 @@ import mrs.domain.model.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
-
-
 }

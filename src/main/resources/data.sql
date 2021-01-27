@@ -39,9 +39,9 @@ INSERT INTO reservable_room (reserved_date, room_id) VALUES (CURRENT_DATE+1, 7);
 
 
 -- 認証確認用のテストユーザー
-INSERT INTO usr (user_id, first_name, last_name, password, phone_number, zip_code, address, role_name) VALUES('aaaa', 'Aaa', 'Aaa', '$2a$10$oxSJl.keBwxmsMLkcT9lPeAIxfNTPNQxpeywMrF7A3kVszwUTqfTK', '08048262740', '5918023','大阪府堺市北区中百舌鳥町6丁目962岡田マンション406号室','USER');
-INSERT INTO usr (user_id, first_name, last_name, password, phone_number, zip_code, address, role_name) VALUES('bbbb', 'Bbb', 'Bbb', '$2a$10$oxSJl.keBwxmsMLkcT9lPeAIxfNTPNQxpeywMrF7A3kVszwUTqfTK', '08048262740', '5918023','大阪府堺市北区中百舌鳥町6丁目962岡田マンション406号室','USER');
-INSERT INTO usr (user_id, first_name, last_name, password, phone_number, zip_code, address, role_name) VALUES('cccc', 'Ccc', 'Ccc', '$2a$10$oxSJl.keBwxmsMLkcT9lPeAIxfNTPNQxpeywMrF7A3kVszwUTqfTK', '08048262740', '5918023','大阪府堺市北区中百舌鳥町6丁目962岡田マンション406号室','ADMIN');
+INSERT INTO usr (user_id, first_name, last_name, password, phone_number, zip_code, address, role_name) VALUES('hoge@gmail.com', 'Aaa', 'Aaa', '$2a$10$oxSJl.keBwxmsMLkcT9lPeAIxfNTPNQxpeywMrF7A3kVszwUTqfTK', '08048262740', '5918023','大阪府堺市北区中百舌鳥町6丁目962岡田マンション406号室','USER');
+INSERT INTO usr (user_id, first_name, last_name, password, phone_number, zip_code, address, role_name) VALUES('bbbb_munemoto@gmail.com', 'Bbb', 'Bbb', '$2a$10$oxSJl.keBwxmsMLkcT9lPeAIxfNTPNQxpeywMrF7A3kVszwUTqfTK', '08048262740', '5918023','大阪府堺市北区中百舌鳥町6丁目962岡田マンション406号室','USER');
+INSERT INTO usr (user_id, first_name, last_name, password, phone_number, zip_code, address, role_name) VALUES('cccc_munemoto@gmail.com', 'Ccc', 'Ccc', '$2a$10$oxSJl.keBwxmsMLkcT9lPeAIxfNTPNQxpeywMrF7A3kVszwUTqfTK', '08048262740', '5918023','大阪府堺市北区中百舌鳥町6丁目962岡田マンション406号室','ADMIN');
 
 
 

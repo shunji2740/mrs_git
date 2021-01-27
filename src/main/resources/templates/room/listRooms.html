@@ -7,6 +7,7 @@
    <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
    <!-- CSSの読込 -->
    <link th:href="@{/css/home.css}" rel="stylesheet"></link>
+    <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
 	<!-- Atonの読み込み -->
    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
 
@@ -155,19 +156,47 @@
         <div class="form-group">
           <label for="inputMessage" class="col-sm-3">お問い合わせ内容</label>
           <div class="col-sm-9">
-            <textarea class="form-control" th:field="*{message}" rows="5">
+            <textarea class="form-control" th:field="*{message}" rows="5" placeholder="お問い合わせ内容">
             </textarea>
           </div>
         </div>
 
         <div class="text-center">
-          <button type="submit" class="btn btn-success">送信する</button>
+          <button type="submit" id="inquiry" class="btn btn-success">送信する</button>
         </div>
       </form>
     </div>
   </div>
-	</div>
+</div>
+        <div th:if="${booleanResult}">
+		<!-- モーダルウィンドウここから -->
+		<div id="modal-content">
+			<span th:text="${message}"></span>
+			<p><a id="modal-close" class="button-link" onclick="modal_onclick_close()" >閉じる</a></p>
+		</div>
+		<!-- 2番目に表示されるモーダル（オーバーウエィ)半透明な膜 -->
+		<div id="modal-overlay" ></div>
+		<!-- モーダルウィンドウここまで -->
+
+		<!-- JavaScript -->
+		<script type="text/javascript">
+		function modal_onclick_close(){
+		document.getElementById("modal-content").style.display = "none";
+		document.getElementById("modal-overlay").style.display = "none";
+		}
+		</script>
+</div>
+
 </body>
+	<script type="text/javascript">
+	//送信ボタンを押した際に送信ボタンを無効化する（連打による多数送信回避）
+	$(function(){
+		$('[id="inquiry"]').click(function(){
+			$(this).prop('disabled',true);//ボタンを無効化する
+			$('form').submit();//フォームを送信する
+		});
+	});
+	</script>
 	<script>
 		$(function() {
 		  // 一旦hide()で隠してフェードインさせる

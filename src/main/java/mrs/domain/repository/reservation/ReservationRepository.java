@@ -20,4 +20,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	Reservation findOneForUpdateByReservationId(Integer reservationId);
 
+	void delete(Reservation reservation);
+
 }

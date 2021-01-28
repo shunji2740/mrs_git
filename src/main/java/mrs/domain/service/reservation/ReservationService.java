@@ -99,15 +99,15 @@ public class ReservationService {
 
 	//予約キャンセルメソッド
 	public Boolean checkCancel(Integer reservationId, User requestUser) {
-		Reservation reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
+		//Reservation reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
 
-		if (RoleName.ADMIN != requestUser.getRoleName()
-				&& !Objects.equals(reservation.getUser().getUserId(), requestUser.getUserId())) {
+//		if (RoleName.ADMIN != requestUser.getRoleName()
+//				&& !Objects.equals(reservation.getUser().getUserId(), requestUser.getUserId())) {
+//
+//			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
+//		}
 
-			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
-		}
-
-		reservationRepository.delete(reservation);
+		reservationRepository.delete(reservationRepository.findOneForUpdateByReservationId(reservationId));
 
 		return true;
 	}

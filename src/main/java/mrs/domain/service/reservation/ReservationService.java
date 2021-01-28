@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import mrs.domain.model.ReservableRoom;
 import mrs.domain.model.ReservableRoomId;
 import mrs.domain.model.Reservation;
-import mrs.domain.model.RoleName;
 import mrs.domain.model.User;
 import mrs.domain.repository.reservation.ReservationRepository;
 import mrs.domain.repository.room.ReservableRoomRepository;
@@ -46,7 +45,7 @@ public class ReservationService {
 		ReservableRoomId reservableRoomId = reservation.getReservableRoom().getReservableRoomId();
 
 		//予約指定日が現在より前の場合
-		if(reservableRoomId.getReservedDate().isBefore(LocalDate.now())){
+		if (reservableRoomId.getReservedDate().isBefore(LocalDate.now())) {
 			//例外ステートメントをスローする
 			throw new UnavailableReservationException("日付が間違っています");
 		}
@@ -60,8 +59,6 @@ public class ReservationService {
 			//例外ステートメントをスローする
 			throw new UnavailableReservationException("その日の指定会議室は使えません。");
 		}
-
-
 
 		/*	overlapメソッドにて重複チェック
 			１件でもtrueが返された場合は重複と判定
@@ -99,13 +96,13 @@ public class ReservationService {
 
 	//予約キャンセルメソッド
 	public Boolean checkCancel(Integer reservationId, User requestUser) {
-		//Reservation reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
 
-//		if (RoleName.ADMIN != requestUser.getRoleName()
-//				&& !Objects.equals(reservation.getUser().getUserId(), requestUser.getUserId())) {
-//
-//			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
-//		}
+		Reservation reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
+
+		if (!"ADMIN".equals(requestUser.getRoleName())
+				&& !Objects.equals(reservation.getUser().getUserId(), requestUser.getUserId())) {
+			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
+		}
 
 		reservationRepository.delete(reservationRepository.findOneForUpdateByReservationId(reservationId));
 
@@ -117,7 +114,7 @@ public class ReservationService {
 
 		Reservation reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
 
-		if (RoleName.ADMIN != requestUser.getRoleName()
+		if (!"ADMIN".equals(requestUser.getRoleName())
 				&& !Objects.equals(reservation.getUser().getUserId(), requestUser.getUserId())) {
 
 			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
@@ -127,18 +124,18 @@ public class ReservationService {
 	}
 
 	//予約情報通知メール送信メソッド
-	public void sendInfoMail(Reservation reservation ) {
+	public void sendInfoMail(Reservation reservation) {
 		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
-					  "メールアドレス: " + reservation.getUser().getUserId() + "\n" +
-					  "ご予約内容: \n" +
-					  "ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n";
-
+				"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
+				"ご予約内容: \n" +
+				"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n";
 
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setFrom(reservation.getUser().getUserId());
 		msg.setTo("shunjimunemoto@gmail.com");
-		msg.setText("ご予約内容は下記の通りです。\n\n------------------------------------------\n" + body + "\n------------------------------------------");
+		msg.setText("ご予約内容は下記の通りです。\n\n------------------------------------------\n" + body
+				+ "\n------------------------------------------");
 		mailSender.send(msg);
 	}
 
@@ -163,7 +160,8 @@ public class ReservationService {
 			}
 		};
 
-		LocalDateTime dt = LocalDateTime.of(reservation.getReservableRoom().getReservableRoomId().getReservedDate(), reservation.getStartTime());
+		LocalDateTime dt = LocalDateTime.of(reservation.getReservableRoom().getReservableRoomId().getReservedDate(),
+				reservation.getStartTime());
 		//30分引く
 		dt = dt.minusMinutes(30);
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");

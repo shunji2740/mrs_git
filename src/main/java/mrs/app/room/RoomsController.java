@@ -26,6 +26,12 @@ public class RoomsController {
 	@RequestMapping(method = RequestMethod.GET)
 	String listRooms(Model model) {
 
+		// Flash Scopeから値の取り出し
+		Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
+		model.addAttribute("booleanResult", booleanResult);
+		String message = (String) model.getAttribute("message");
+		model.addAttribute("message", message);
+
 		LocalDate today = LocalDate.now();
 		List<ReservableRoom> rooms = roomService.findReservableRooms(today);
 

@@ -3,10 +3,9 @@ package mrs.domain.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -22,6 +21,7 @@ public class User implements Serializable {
 
 	@Id
 	@NotBlank(groups=ValidGroup1.class)
+	@Email(groups=ValidGroup2.class)
 	private String userId;
 
 	@NotBlank(groups=ValidGroup1.class)
@@ -51,8 +51,9 @@ public class User implements Serializable {
 	@Size(max = 200, groups=ValidGroup2.class)
 	private String address;
 
-	@Enumerated(EnumType.STRING)
-	private RoleName roleName;
+	//@Enumerated(EnumType.STRING)
+	@NotBlank(groups=ValidGroup1.class)
+	private String roleName;
 
 
 	public String getUserId() {
@@ -87,11 +88,11 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public RoleName getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 
-	public void setRoleName(RoleName roleName) {
+	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
 

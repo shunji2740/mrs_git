@@ -195,6 +195,10 @@ public class ReservationsController {
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
 	String confirmedReservation(RedirectAttributes redirectAttributes, Model model) {
 
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		System.out.println("hogehogehogehogehogehogehogehogehogehoe");
+		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+
 		//セッションからreservationエンティティを取得
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 		//予約を登録する

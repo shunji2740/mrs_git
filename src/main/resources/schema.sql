@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS reservation (
   reserved_date DATE NOT NULL,
   room_id INT4 NOT NULL,
   user_id VARCHAR(255) NOT NULL,
-  input_single_check VARCHAR(255),
+  notification_mail_check VARCHAR(255),
   total_price Integer NOT NULL,
   reservation_id_for_timer UUID,
   additional_equipments text[6],

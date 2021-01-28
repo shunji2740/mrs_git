@@ -19,18 +19,9 @@ import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
 @TypeDefs({
-    @TypeDef(
-        name = "string-array",
-        typeClass = ListArrayType.class
-    ),
-    @TypeDef(
-        name = "int-array",
-        typeClass = IntArrayType.class
-    ),
-    @TypeDef(
-    	name = "list-array",
-    	typeClass = ListArrayType.class
-    )
+		@TypeDef(name = "string-array", typeClass = ListArrayType.class),
+		@TypeDef(name = "int-array", typeClass = IntArrayType.class),
+		@TypeDef(name = "list-array", typeClass = ListArrayType.class)
 })
 
 @MappedSuperclass
@@ -44,7 +35,7 @@ public class ReservationBaseEntity {
 	private LocalTime endTime;
 
 	@Pattern(regexp = "checked")
-	private String inputSingleCheck;
+	private String notificationMailCheck;
 
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "reserved_date"), @JoinColumn(name = "room_id") })
@@ -58,14 +49,8 @@ public class ReservationBaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-
-
 	//1件でもtrueが返された場合はtrue(重複あり)となる
 	public boolean overlap(Reservation target) {
-
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-		System.out.println("hogehogehogehogehogehoge");
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 		//自分自身のreservableroomIdとtargetのreservableroomIdを比較し、重複判定を行っている
 		if (!Objects.equals(this.reservableRoom.getReservableRoomId(),
 				target.getReservableRoom().getReservableRoomId())) {
@@ -81,11 +66,6 @@ public class ReservationBaseEntity {
 
 		return target.getEndTime().isAfter(this.startTime) && this.endTime.isAfter(target.getStartTime());
 	}
-
-
-
-
-
 
 	public Integer getReservationId() {
 		return reservationId;
@@ -111,12 +91,12 @@ public class ReservationBaseEntity {
 		this.endTime = endTime;
 	}
 
-	public String getInputSingleCheck() {
-		return inputSingleCheck;
+	public String getNotificationMailCheck() {
+		return notificationMailCheck;
 	}
 
-	public void setInputSingleCheck(String inputSingleCheck) {
-		this.inputSingleCheck = inputSingleCheck;
+	public void setNotificationMailCheck(String notificationMailCheck) {
+		this.notificationMailCheck = notificationMailCheck;
 	}
 
 	public ReservableRoom getReservableRoom() {
@@ -134,6 +114,5 @@ public class ReservationBaseEntity {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 
 }

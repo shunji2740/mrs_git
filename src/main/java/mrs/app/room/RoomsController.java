@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import mrs.app.sendMail.ContactForm;
 import mrs.domain.model.ReservableRoom;
+import mrs.domain.repository.user.UserRepository;
 import mrs.domain.service.room.RoomService;
 
 @Controller
@@ -22,6 +23,9 @@ public class RoomsController {
 
 	@Autowired
 	RoomService roomService;
+
+	@Autowired
+	UserRepository userRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	String listRooms(Model model) {
@@ -39,6 +43,15 @@ public class RoomsController {
 		model = restoreEachRoomsToModel(rooms, model);
 		model.addAttribute("date", today);
 		model.addAttribute("rooms", rooms);
+
+
+
+		if(userRepository.countByUserId("hoge@gmail.com") != 0) {
+			System.out.println("★★★★★★★★★");
+			System.out.println("koooooooooooooooooooooooookokooooooooooooooo");
+			System.out.println("★★★★★★★★★");
+		}
+
 
 		return "room/listRooms";
 	}

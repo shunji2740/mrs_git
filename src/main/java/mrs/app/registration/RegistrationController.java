@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import mrs.domain.model.GroupOrder;
 import mrs.domain.model.User;
+import mrs.domain.repository.user.UserRepository;
 import mrs.domain.service.registration.RegistrationService;
 
 @Controller
@@ -18,6 +19,9 @@ public class RegistrationController {
 
 	@Autowired
 	private RegistrationService registrationService;
+
+	@Autowired
+	UserRepository userRepository;
 
 	@GetMapping("/registration")
 	public String getRegistration(@ModelAttribute User user, Model model) {
@@ -35,6 +39,7 @@ public class RegistrationController {
 			//エラーなら入力フォームにもどす
 			return getRegistration(user, model);
 		}
+
 
 		/*
 		 * あとは登録画面.htmlを作成後に各項目の値を持ったuserインスタンスを

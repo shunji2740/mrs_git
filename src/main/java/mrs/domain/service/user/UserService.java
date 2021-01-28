@@ -7,12 +7,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mrs.domain.model.User;
 import mrs.domain.repository.user.EditUserRepositoryJdbc;
+import mrs.domain.repository.user.UserRepository;
 
 @Service
 public class UserService {
 
 	@Autowired
 	EditUserRepositoryJdbc userRepositoryJdbc;
+
+	@Autowired
+	UserRepository userRepository;
+
+
 
 	@Transactional
 	public void saveOrUpdate(User user, String userId) throws DataAccessException {
@@ -23,6 +29,19 @@ public class UserService {
 		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 
 		userRepositoryJdbc.update(user,userId);
+	}
+
+	public boolean checkDuplicate(String userId) {
+
+		if(userRepository.countByUserId("hoge@gmail.com") != 0) {
+			System.out.println("★★★★★★★★★");
+			System.out.println("koooooooooooooooooooooooookokooooooooooooooo");
+			System.out.println("★★★★★★★★★");
+
+			return false;
+		}
+
+		return true;
 	}
 
 }

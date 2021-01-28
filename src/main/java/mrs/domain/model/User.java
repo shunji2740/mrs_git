@@ -12,11 +12,14 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
+import mrs.app.user.UserIdDuplicateCheck;
+
 
 //会議室予約システムを利用するユーザー情報を格納するテーブル
 //Userエンティティー
 @Entity
 @Table(name = "usr")
+@UserIdDuplicateCheck(message="このユーザーIDは既に登録されています")
 public class User implements Serializable {
 
 	@Id

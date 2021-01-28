@@ -96,7 +96,7 @@ public class ReservationsController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, params = "schedule")
-	String confirmSchedule(ReservationForm form,RedirectAttributes redirectAttributes, Model model) {
+	String confirmSchedule(ReservationForm form, RedirectAttributes redirectAttributes, Model model) {
 		LocalDate schedule_date = form.getDate();
 		redirectAttributes.addFlashAttribute("schedule_date", schedule_date);
 
@@ -113,7 +113,7 @@ public class ReservationsController {
 			@RequestParam(value = "equipments", required = false) List<String> additionalEquipments,
 			@RequestParam(value = "fdn", required = false) int[] cateringQuantity,
 			@RequestParam(value = "fd", required = false) List<String> selectedCateringStrs,
-			@RequestParam(value = "inputSingleCheck", required = false) String inputSingleCheck,
+			@RequestParam(value = "notificationMailCheck", required = false) String notificationMailCheck,
 			Model model) {
 
 		if (bindingResult.hasErrors()) {
@@ -127,8 +127,6 @@ public class ReservationsController {
 			System.out.println(additionalEquipments.get(0));
 		}
 
-		//System.out.println(list.stream().allMatch(val -> val.length() >= 5)); //=> true
-
 		if (selectedCateringStrs == null || Arrays.stream(cateringQuantity).allMatch(val -> val == 0)) {
 			List<String> selectedCateringStrs1 = new ArrayList<>();
 			selectedCateringStrs1.add("なし");
@@ -141,7 +139,7 @@ public class ReservationsController {
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
-		reservation.setInputSingleCheck(form.getInputSingleCheck());
+		reservation.setNotificationMailCheck(form.getNotificationMailCheck());
 		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, form.getDate()));
 		reservation.setReservableRoom(reservableRoom);
 		reservation.setUser(userDetails.getUser());
@@ -175,7 +173,6 @@ public class ReservationsController {
 		//予約番号、timerオブジェクトをmapに格納
 		mapIdForTimer.put(reservation.getReservationIdForTimer(), timer);
 
-
 		try {
 			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする
 			reservationService.checkReservation(reservation);
@@ -194,24 +191,22 @@ public class ReservationsController {
 	//予約完了(現金払いの場合)
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
 	String confirmedReservation(RedirectAttributes redirectAttributes, Model model) {
-
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-		System.out.println("hogehogehogehogehogehogehogehogehogehoe");
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-
 		//セッションからreservationエンティティを取得
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 		//予約を登録する
 		reservationService.reserve(reservation);
 
 		try {
-			reservationService.sendNotificationMail(reservation, mapIdForTimer);
+			if (reservation.getNotificationMailCheck().equals("checked")) {
+				reservationService.sendNotificationMail(reservation, mapIdForTimer);
+			}
+
 			reservationService.sendInfoMail(reservation);
+
 		} catch (ParseException e2) {
 			// TODO 自動生成された catch ブロック
 			e2.printStackTrace();
 		}
-
 
 		//リダイレクト先に値を渡す
 		redirectAttributes.addFlashAttribute("message", "予約が完了しました");

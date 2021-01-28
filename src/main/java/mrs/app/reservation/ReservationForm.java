@@ -27,7 +27,7 @@ public class ReservationForm implements Serializable {
 	private LocalDate date;
 
 	@Pattern(regexp="checked")
-	private String inputSingleCheck;
+	private String notificationMailCheck;
 
 	//選択されたお支払方法
 	@NotNull(message = "必須です")
@@ -38,13 +38,16 @@ public class ReservationForm implements Serializable {
 		return date;
 	}
 
-	public String getInputSingleCheck() {
-		return inputSingleCheck;
+
+	public String getNotificationMailCheck() {
+		return notificationMailCheck;
 	}
 
-	public void setInputSingleCheck(String inputSingleCheck) {
-		this.inputSingleCheck = inputSingleCheck;
+
+	public void setNotificationMailCheck(String notificationMailCheck) {
+		this.notificationMailCheck = notificationMailCheck;
 	}
+
 
 	public void setDate(LocalDate date) {
 		this.date = date;

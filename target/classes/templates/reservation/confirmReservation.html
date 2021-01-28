@@ -141,7 +141,7 @@
 		<div class="col text-center">
 		<div th:if="${reservation.selectedPaymentMethod == 'cash'}">
 			<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
-				<input class="btn btn-primary btn btn-default" type="submit" value="予約完了" />
+				<input class="btn btn-primary btn btn-default" name="cash" type="submit" value="予約完了" />
 			</form>
 		</div>
 
@@ -163,7 +163,7 @@
 <script type="text/javascript">
 //送信ボタンを押した際に送信ボタンを無効化する（連打による多数送信回避）
 $(function(){
-	$('[type="submit"]').click(function(){
+	$('[name="cash"]').click(function(){
 		$(this).prop('disabled',true);//ボタンを無効化する
 		$('form').append('<input type="hidden" name="confirmedReservation" />');
 		$('form').submit();//フォームを送信する

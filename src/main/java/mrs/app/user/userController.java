@@ -26,6 +26,10 @@ public class userController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	
+
 
 	@RequestMapping(method = RequestMethod.GET)
 	String getEditForm(@ModelAttribute User user,@AuthenticationPrincipal ReservationUserDetails userDetails, Model model) {

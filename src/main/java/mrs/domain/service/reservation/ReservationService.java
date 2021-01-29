@@ -131,6 +131,7 @@ public class ReservationService {
 				"ご予約内容: \n" +
 				"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n";
 
+
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setFrom(reservation.getUser().getUserId());
 		msg.setTo("shunjimunemoto@gmail.com");

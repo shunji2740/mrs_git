@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -33,8 +32,6 @@ public class ReservationBaseEntity {
 
 	private LocalTime startTime;
 	private LocalTime endTime;
-
-	@Pattern(regexp = "checked")
 	private String notificationMailCheck;
 
 	@ManyToOne

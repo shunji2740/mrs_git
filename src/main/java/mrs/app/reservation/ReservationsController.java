@@ -139,13 +139,19 @@ public class ReservationsController {
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
-		reservation.setNotificationMailCheck(form.getNotificationMailCheck());
 		ReservableRoom reservableRoom = new ReservableRoom(new ReservableRoomId(roomId, form.getDate()));
 		reservation.setReservableRoom(reservableRoom);
 		reservation.setUser(userDetails.getUser());
 		reservation.setCateringQuantity(cateringQuantity);
 		reservation.setCateringSelection(selectedCateringStrs);
 		reservation.setSelectedPaymentMethod(form.getSelectedPaymentMethod());
+
+		//予約通知の設定
+		if(form.getNotificationMailCheck() != null) {
+			reservation.setNotificationMailCheck(form.getNotificationMailCheck());
+		}else {
+			reservation.setNotificationMailCheck("not checked");
+		}
 
 		//追加設備を格納
 		if (additionalEquipments != null) {

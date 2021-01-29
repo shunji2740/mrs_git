@@ -4,12 +4,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import mrs.domain.model.User;
 import mrs.domain.service.user.UserService;
 
-
+@Component
 public class UserIdDuplicateCheckValidator
 		implements ConstraintValidator<UserIdDuplicateCheck, User> {
 
@@ -18,7 +18,6 @@ public class UserIdDuplicateCheckValidator
 	@Autowired
 	UserService userService;
 
-	@Bean
 
 	@Override
 	public void initialize(UserIdDuplicateCheck constraintAnnotation) {
@@ -29,14 +28,12 @@ public class UserIdDuplicateCheckValidator
 	public boolean isValid(User value, ConstraintValidatorContext context) {
 
 		String userId = value.getUserId();
-
 		Boolean blResult = userService.checkDuplicate(userId);
 
 		if(!blResult) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(message).addPropertyNode("userId").addConstraintViolation();
 		}
-
 
 		return true;
 	}

@@ -249,11 +249,11 @@
 			<span th:if="${#fields.hasErrors('selectedPaymentMethod')}" th:errors="*{selectedPaymentMethod}" style="color: red">error!</span> <br />
 			<div class="form-group">
 		      <div class="radio-inline">
-		        <input type="radio" value="cash" name="money" th:field="*{selectedPaymentMethod}" checked="checked">
+		        <input type="radio" value="現金払い" name="money" th:field="*{selectedPaymentMethod}" checked="checked">
 		          <label for="cash">現金</label>
 		      </div>
 		      <div class="radio-inline">
-		        <input type="radio" value="credit" name="money" th:field="*{selectedPaymentMethod}">
+		        <input type="radio" value="クレジットカード決済" name="money" th:field="*{selectedPaymentMethod}">
 		        <label for="credit">クレジットカード決済</label>
 		      </div>
 		    </div>

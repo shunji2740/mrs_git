@@ -26,18 +26,15 @@ public class userController {
 
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	
-
 
 	@RequestMapping(method = RequestMethod.GET)
-	String getEditForm(@ModelAttribute User user,@AuthenticationPrincipal ReservationUserDetails userDetails, Model model) {
+	String getEditForm(@ModelAttribute User user, @AuthenticationPrincipal ReservationUserDetails userDetails,
+			Model model) {
 
 		/*userDetailsで取得したuserインスタンスをそのままmodelにaddした場合
 		エラーメッセージが表示されなかった為、すべての要素をuserにセットしていく
 		*/
-		 User authenticatedUser = userDetails.getUser();
+		User authenticatedUser = userDetails.getUser();
 
 		user.setUserId(authenticatedUser.getUserId());
 		user.setFirstName(authenticatedUser.getFirstName());
@@ -57,11 +54,10 @@ public class userController {
 	String listRooms(@AuthenticationPrincipal ReservationUserDetails userDetails,
 			@ModelAttribute @Validated(GroupOrder.class) User user, BindingResult bindingResult, Model model) {
 
-
 		//validationのチェック
 		if (bindingResult.hasErrors()) {
 			//エラーなら入力フォームにもどす
-			return getEditForm(user,userDetails, model);
+			return getEditForm(user, userDetails, model);
 		}
 
 		//セッションからreservationエンティティを取得

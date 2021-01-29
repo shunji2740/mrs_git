@@ -94,7 +94,7 @@
                     <th class="active">お支払方法</th>
                     <td class="table-light">
                         <div class="form-group">
-							<span>現金</span>
+							<span th:text="${reservation.selectedPaymentMethod}"></span>
                         </div>
                     </td>
                 </tr>
@@ -139,13 +139,13 @@
 
 		<!-- 登録完了処理 -->
 		<div class="col text-center">
-		<div th:if="${reservation.selectedPaymentMethod == 'cash'}">
+		<div th:if="${reservation.selectedPaymentMethod == '現金払い'}">
 			<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
 				<input class="btn btn-primary btn btn-default" name="cash" type="submit" value="予約完了" />
 			</form>
 		</div>
 
-		<div th:if="${reservation.selectedPaymentMethod == 'credit'}">
+		<div th:if="${reservation.selectedPaymentMethod == 'クレジットカード決済'}">
 			<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
 			   <p>テスト用ダミーカード番号: 4000002500001001</p>
 			   <script

@@ -103,9 +103,9 @@
 
 		<!-- Strinpe -->
 		<dependency>
-		    <groupId>com.stripe</groupId>
-		    <artifactId>stripe-java</artifactId>
-		    <version>14.3.0</version>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>14.3.0</version>
 		</dependency>
 
 	</dependencies>

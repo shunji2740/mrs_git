@@ -19,7 +19,7 @@ import mrs.app.user.UserIdDuplicateCheck;
 //Userエンティティー
 @Entity
 @Table(name = "usr")
-@UserIdDuplicateCheck(message="このユーザーIDは既に登録されています")
+@UserIdDuplicateCheck(message = "既に登録されています")
 public class User implements Serializable {
 
 	@Id

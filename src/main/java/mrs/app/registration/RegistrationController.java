@@ -37,14 +37,13 @@ public class RegistrationController {
 	@GetMapping("/registration")
 	public String getRegistration(@ModelAttribute User user, Model model) {
 
-		//ここの書き方いやだー
+		//もう少しいい条件式を考える
 		if ((Boolean) session.getAttribute("bl") != null) {
 			String es = "このユーザーIDは既に使用されています";
 			model.addAttribute("message", es);
 			//セッションを開放する
 			session.removeAttribute("bl");
 		}
-
 		//registration.htmlに画面遷移
 		return "registration/registration";
 	}
@@ -55,7 +54,7 @@ public class RegistrationController {
 
 		int resultCountUserId = userRepository.countByUserId(user.getUserId());
 
-		//ここの書き方いやだー
+		//もう少しいい条件式を考える
 		if (bindingResult.hasErrors() || resultCountUserId != 0) {
 			if (resultCountUserId != 0) {
 				Boolean bl = true;
@@ -64,11 +63,6 @@ public class RegistrationController {
 			//エラーなら入力フォームにもどす
 			return getRegistration(user, model);
 		}
-		/*
-		 * あとは登録画面.htmlを作成後に各項目の値を持ったuserインスタンスを
-		 * こちらで受け取り登録する。
-		 * returnは登録成功後と失敗用の画面を用意する。
-		 */
 		registrationService.save(user);
 
 		//login.htmlに画面遷移

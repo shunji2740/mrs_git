@@ -8,7 +8,6 @@ public class EndTimeMustBeAfterStartTimeValidator
 
 	private String message;
 
-
 	@Override
 	public void initialize(EndTimeMustBeAfterStartTime constraintAnnotation) {
 		message = constraintAnnotation.message();

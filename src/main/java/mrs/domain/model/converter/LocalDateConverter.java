@@ -19,5 +19,4 @@ public class LocalDateConverter implements AttributeConverter<LocalDate,Date>{
 		return value == null ? null : value.toLocalDate(); //java.sql.DateオブジェクトをLocalDateオブジェクトに変換
 	}
 
-
 }

@@ -2,23 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"></meta>
- 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
-	<!-- Bootstrapの設定 -->
+	 <!-- Bootstrapの設定 -->
     <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
-
-    <!-- CSSの読込 -->
+    <!-- jQuery -->
+    <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+    <!-- Bootstrap-datepicker -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.ja.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+	<!-- CSSの読み込み -->
 	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
-	<!-- Antonの読み込み -->
-	<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
-    <title>ユーザー登録画面</title>
+    <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
+    <title>ユーザー修正画面</title>
 </head>
 <body>
-    <div class="container">
-        <div class="page-header">
-            <h1>Registration Page</h1>
-        </div>
 
+<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    	<div class = "row">
+
+        <div>
+            <!-- ログアウト処理 -->
+			<form class="col text-center" th:action="@{/logout}" method="post">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト　　</button>
+			</form>
+        </div>
+        <div>
+			<form th:action="@{/user}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">アカウント設定</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/transition}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" name="coronaMeasure" type="submit">コロナ対策について</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/transition}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" name="introductionOfRooms" type="submit">各会議室のご案内</button>
+			</form>
+    	</div>
+    	<div>
+			<form th:action="@{/transition}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" name="priceList" type="submit">料金表</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/rooms}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">Home</button>
+			</form>
+    	</div>
+        </div>
+    </nav>
+
+	<br>
+	<br>
+	<br>
+	<br>
+
+    <div class="container">
 
         <form method="post" th:action="@{/user}" th:object="${user}" id="Registrationform">
             <table class="table table-bordered table-hover">
@@ -150,11 +192,10 @@
             	<button class="btn btn-primary" type="submit">ユーザー更新</button>
             </div>
             <br>
-            <div class="col text-center">
-            	<!-- ログイン画面へのリンク -->
-   	 			<a th:href="@{'/loginForm'}"><button class="btn btn-primary btn-sm" type="button">ログイン画面に戻る</button></a>
-            </div>
         </form>
+		<div class="col text-center">
+			<h4><a th:href="@{'/rooms'}">会議室一覧に戻る</a></h4>
+		</div>
     </div>
 </body>
 	<script>

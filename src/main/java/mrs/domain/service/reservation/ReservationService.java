@@ -125,12 +125,19 @@ public class ReservationService {
 
 	//予約情報通知メール送信メソッド
 	public void sendInfoMail(Reservation reservation) {
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
-				"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
-				"ご予約内容: \n" +
-				"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n";
+		String selectedCatering = "";
 
+		for(String cateringService : reservation.getCateringSelection()) {
+			selectedCatering = selectedCatering + cateringService + "、";
+		}
+		selectedCatering = selectedCatering.substring(0,selectedCatering.length());
+
+		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
+		"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
+		"ご予約内容: \n" +
+		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
+		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
+		"お支払方法: " + reservation.getSelectedPaymentMethod();
 
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setFrom(reservation.getUser().getUserId());
@@ -146,6 +153,14 @@ public class ReservationService {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
+		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
+		"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
+		"ご予約内容: \n" +
+		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
+		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
+		"お支払方法: " + reservation.getSelectedPaymentMethod();
+
+
 		Timer timer = mapIdForTimer.get(reservation.getReservationIdForTimer());
 		TimerTask task = new TimerTask() {
 			@Override
@@ -154,8 +169,8 @@ public class ReservationService {
 				msg.setFrom("shunjimunemoto@gmail.com");
 				msg.setTo("shunjimunemoto@gmail.com");
 				msg.setText("ご予約時間の30分前となりました。"
-						+ "\n\n------------------------------------------\n" +
-						"\n------------------------------------------");
+						+ "\n\n------------------------------------------\n" + body
+						+ "\n------------------------------------------");
 				mailSender.send(msg);
 				timer.cancel();
 			}
@@ -210,7 +225,6 @@ public class ReservationService {
 
 		Map<String, Integer> cateringMapCategoryForQuantity = new HashMap<>();
 
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 		for (String selectedCateringStr : selectedCateringStrs) {
 			switch (selectedCateringStr) {
 			case "お弁当":
@@ -241,8 +255,6 @@ public class ReservationService {
 			System.out.println(k);
 			System.out.println(v);
 		});
-
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 
 		return cateringMapCategoryForQuantity;
 	}

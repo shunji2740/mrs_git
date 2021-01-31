@@ -3,56 +3,175 @@
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-spring-security5">
 <head>
 <meta charset="UTF-8">
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
-	 <!-- Bootstrapの設定 -->
-    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
+   <!-- Bootstrapの設定 -->
+   <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
+   <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+   <!-- CSSの読込 -->
+   <link th:href="@{/css/home.css}" rel="stylesheet"></link>
+    <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
+	<!-- Atonの読み込み -->
+   <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
 </head>
 <body>
-	<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
+<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Home</a>
-            </div>
+    	<div class = "row">
+
+        <div>
             <!-- ログアウト処理 -->
 			<form class="col text-center" th:action="@{/logout}" method="post">
-				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト</button>
+				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト　　</button>
 			</form>
+        </div>
+        <div>
+			<form th:action="@{/user}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">アカウント設定</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/transition}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" name="coronaMeasure" type="submit">コロナ対策について</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/transition}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" name="introductionOfRooms" type="submit">各会議室のご案内</button>
+			</form>
+    	</div>
+    	<div>
+			<form th:action="@{/transition}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" name="priceList" type="submit">料金表</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/rooms}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">Home</button>
+			</form>
+    	</div>
         </div>
     </nav>
 
+	<br>
+	<br>
+	<br>
+
 	<div class="container">
-		<h2>予約キャンセル内容の確認</h2>
+		<h2>キャンセル内容の確認</h2>
 
-		<table class="table table-bordered table-hover table-striped">
-				<tr>
-               		<th class="info col-sm-2">時間帯</th>
-                	<th class="info col-sm-2">予約者</th>
-				</tr>
+		<table class="table table-bordered table-hover">
+ 				<!-- 名前のエリア -->
+                <tr>
+                    <th class="active">お名前</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.user.lastName}"></span>
+							<span th:text="${reservation.user.firstName} + ' 様'"></span>
+                        </div>
+                    </td>
+                </tr>
+				<!-- 予約時間のエリア -->
+                <tr>
+                    <th class="active">予約時間</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.startTime} + ' ～'"></span>
+							<span th:text="${reservation.endTime}"></span>
+                        </div>
+                    </td>
+                </tr>
+                 <!-- 追加設備のご利用 -->
+                <tr>
+                    <th class="active">追加設備のご利用内容</th>
+                    <td class="table-light">
+                        <div class="form-group">
+                        	<span th:each="equipmentsName : ${reservation.additionalEquipments}" th:text="${equipmentsName + '　'}"></span>
+                        </div>
+                    </td>
+                </tr>
 
-				<tr>
-					<td>
-						<span th:text="${reservation.startTime} + ' ～'"></span>
-						<span th:text="${reservation.endTime}"></span>
-					</td>
-					<td>
-						<span th:text="${reservation.user.lastName}"></span>
-						<span th:text="${reservation.user.firstName} + ' 様'"></span>
-					</td>
-				</tr>
+                <!-- ケータリングサービスのご利用金額 -->
+                <tr>
+                    <th class="active">ケータリングサービスのご利用内容</th>
+                    <td class="table-light">
+                    	<div class="form-group" th:if="${reservation.cateringSelection.get(0) eq 'なし'}">
+                        		<span th:text="${reservation.cateringSelection.get(0)}"></span>
+                        </div>
+                        <div class="form-group">
+							<span th:each="entry : ${cateringMap}" th:text="${entry.key + ': ' + entry.value + '個　'}"></span><br/>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- 合計金額 -->
+                <tr>
+                    <th class="active">お支払金額</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.totalPrice} + '円'"></span>
+                        </div>
+                    </td>
+                </tr>
+
+				<!-- 支払い方法のエリア -->
+                <tr>
+                    <th class="active">お支払方法</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.selectedPaymentMethod}"></span>
+                        </div>
+                    </td>
+                </tr>
+
+				<!-- 電話番号のエリア -->
+                <tr>
+                    <th class="active">電話番号</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.user.phoneNumber}"></span>
+                        </div>
+                    </td>
+                </tr>
+                <!-- メールアドレスのエリア -->
+                <tr>
+                    <th class="active">メールアドレス</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.user.userId}"></span>
+                        </div>
+                    </td>
+                </tr>
+                <!-- 郵便番号のエリア -->
+                <tr>
+                    <th class="active">郵便番号</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.user.zipCode}"></span>
+                        </div>
+                    </td>
+                </tr>
+                <!-- 住所のエリア -->
+                <tr>
+                    <th class="active">住所</th>
+                    <td class="table-light">
+                        <div class="form-group">
+							<span th:text="${reservation.user.address}"></span>
+                        </div>
+                    </td>
+                </tr>
 		</table>
 
-		<!-- 登録完了処理 -->
+		<!-- キャンセル完了処理 -->
 		<div class="col text-center">
 		<form th:action="@{'/reservations/' + ${date} + '/' + ${roomId}}" method="post" >
 			<input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
 			<input class="btn btn-primary btn-sm" type="submit" name="confirmedCancellation" value="キャンセル完了" />
 		</form>
+		<br>
+		<br>
+		<div>
+			<h4><a th:href="@{'/reservations/' + ${date} + '/' + ${roomId}}">予約フォームに戻る</a></h4>
 		</div>
-
+		</div>
 	</div>
-
-
 </body>
 </html>

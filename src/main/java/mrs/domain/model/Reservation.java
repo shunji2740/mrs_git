@@ -23,7 +23,7 @@ public class Reservation extends ReservationBaseEntity implements Serializable {
 	@Column(name = "additional_equipments", columnDefinition = "text[]")
 	private List<String> additionalEquipments;
 
-	//ケータリング
+	//ケータリング数量
 	@Type(type = "int-array")
 	@Column(name = "catering", columnDefinition = "int[]")
 	private int[] cateringQuantity;

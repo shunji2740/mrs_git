@@ -2,23 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"></meta>
- 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
-	<!-- Bootstrapの設定 -->
+	 <!-- Bootstrapの設定 -->
     <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
-
-    <!-- CSSの読込 -->
+    <!-- jQuery -->
+    <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+    <!-- Bootstrap-datepicker -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.ja.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+	<!-- CSSの読み込み -->
 	<link th:href="@{/css/home.css}" rel="stylesheet"></link>
-	<!-- Antonの読み込み -->
-	<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
     <title>ユーザー登録画面</title>
 </head>
 <body>
 
+	<br>
+	<br>
+	<br>
+	<br>
+
     <div class="container">
-        <div class="page-header">
-            <h1>Registration Page</h1>
-        </div>
 
         <form method="post" th:action="@{/registration}" th:object="${user}" id="Registrationform">
             <table class="table table-bordered table-hover">

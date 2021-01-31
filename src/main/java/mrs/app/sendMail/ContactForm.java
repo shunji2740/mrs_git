@@ -33,7 +33,6 @@ public class ContactForm implements Serializable {
 
 	}
 
-
 	public String getEmail() {
 		return email;
 	}

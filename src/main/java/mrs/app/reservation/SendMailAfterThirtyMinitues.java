@@ -35,12 +35,10 @@ public class SendMailAfterThirtyMinitues {
 						  "\n------------------------------------------");
 
 				mailSenderAfterThirtyMinitues.send(msg);
-
 				timer.cancel();
 			}
 		};
 
 		timer.schedule(task,sdf.parse("2021/01/15 15:24"));
-
 	}
 }

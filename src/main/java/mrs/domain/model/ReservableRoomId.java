@@ -65,7 +65,6 @@ public class ReservableRoomId implements Serializable{
 	}
 
 
-
 	public Integer getRoomId() {
 		return roomId;
 	}

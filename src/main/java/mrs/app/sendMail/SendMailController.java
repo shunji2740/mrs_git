@@ -39,10 +39,6 @@ public class SendMailController {
 			return sendmail(model);
 		}
 
-		System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-		System.out.println(form.getName());
-		System.out.println(form.getMessage());
-
 		String body = "お名前: " + form.getName() + "\n" +
 				"メールアドレス: " + form.getEmail() + "\n" +
 				"メッセージ: \n" + form.getMessage();

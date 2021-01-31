@@ -28,11 +28,6 @@ public class StartTimeMustBeAfterPresentValidator
 			return true;
 		}
 
-		//LocalTime presentTime = LocalTime.now();
-
-		//終了時間が開始時間より後にきていないかをチェック
-		///boolean isStartTimeMustBeAfterPresent = value.getStartTime().isAfter(presentTime);
-
 		LocalDateTime localDateTimeOfReservation = LocalDateTime.of(value.getDate(), value.getStartTime());
 		boolean isStartTimeMustBeAfterPresent = localDateTimeOfReservation.isAfter(LocalDateTime.now());
 

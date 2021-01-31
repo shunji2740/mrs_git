@@ -33,12 +33,12 @@
     	</div>
         <div>
 			<form th:action="@{/transition}" method="get">
-				<button class="btn btn-link pull-right navbar-brand" name="coronameasure" type="submit">コロナ対策について</button>
+				<button class="btn btn-link pull-right navbar-brand" name="coronaMeasure" type="submit">コロナ対策について</button>
 			</form>
     	</div>
         <div>
 			<form th:action="@{/transition}" method="get">
-				<button class="btn btn-link pull-right navbar-brand" name="introductionOfrooms" type="submit">各会議室のご案内</button>
+				<button class="btn btn-link pull-right navbar-brand" name="introductionOfRooms" type="submit">各会議室のご案内</button>
 			</form>
     	</div>
     	<div>
@@ -71,11 +71,6 @@
 			</div>
 		</div>
 		<br/>
-
-		<a th:href="@{'/rooms/' + ${date.minusDays(1)}}">&lt; 前日</a>
-		<sapn th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</sapn>
-		<a th:href="@{'/rooms/' + ${date.plusDays(1)}}">翌日 &gt; </a>
-
 
 		<ul class="top-banner">
 			<a th:href="@{'/reservations/' + ${date} + '/' + ${room_shinkiba.meetingRoom.roomId}}">

@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("transition")
 public class pageTransitionController {
 
-	@RequestMapping(method=RequestMethod.GET, params="coronameasure")
+	@RequestMapping(method=RequestMethod.GET, params="coronaMeasure")
 	public String transitToCorona(Model model) {
-		return "coronameasures/coronameasures";
+		return "coronaMeasure/coronaMeasure";
 	}
 
 
-	@RequestMapping(method=RequestMethod.GET, params="introductionOfrooms")
+	@RequestMapping(method=RequestMethod.GET, params="introductionOfRooms")
 	public String transitToIntroduction(Model model) {
-		return "introductionrooms/introductionrooms";
+		return "introductionRooms/introductionRooms";
 	}
 
 	@RequestMapping(method=RequestMethod.GET, params="priceList")

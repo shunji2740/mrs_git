@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import mrs.app.sendMail.ContactForm;
+import mrs.app.sendContactMail.ContactForm;
 import mrs.domain.model.ReservableRoom;
 import mrs.domain.repository.user.UserRepository;
 import mrs.domain.service.room.RoomService;

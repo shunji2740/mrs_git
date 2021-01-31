@@ -1,4 +1,4 @@
-package mrs.app.sendMail;
+package mrs.app.sendContactMail;
 
 import java.io.Serializable;
 

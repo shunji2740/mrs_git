@@ -1,4 +1,4 @@
-package mrs.app.sendMail;
+package mrs.app.sendContactMail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
@@ -16,7 +16,7 @@ import mrs.domain.model.GroupOrder;
 
 @Controller
 @RequestMapping("sendmail")
-public class SendMailController {
+public class SendContactMailController {
 	@Autowired
 	private MailSender mailSender;
 

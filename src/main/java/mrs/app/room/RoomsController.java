@@ -44,15 +44,6 @@ public class RoomsController {
 		model.addAttribute("date", today);
 		model.addAttribute("rooms", rooms);
 
-
-
-		if(userRepository.countByUserId("hoge@gmail.com") != 0) {
-			System.out.println("★★★★★★★★★");
-			System.out.println("koooooooooooooooooooooooookokooooooooooooooo");
-			System.out.println("★★★★★★★★★");
-		}
-
-
 		return "room/listRooms";
 	}
 

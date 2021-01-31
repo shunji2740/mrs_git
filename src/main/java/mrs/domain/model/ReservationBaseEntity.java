@@ -17,6 +17,8 @@ import org.hibernate.annotations.TypeDefs;
 import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
+import mrs.app.user.User;
+
 @TypeDefs({
 		@TypeDef(name = "string-array", typeClass = ListArrayType.class),
 		@TypeDef(name = "int-array", typeClass = IntArrayType.class),

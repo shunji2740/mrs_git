@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+   <!-- Bootstrapの設定 -->
+   <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
+   <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+   <!-- CSSの読込 -->
+   <link th:href="@{/css/home.css}" rel="stylesheet"></link>
+    <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
+	<!-- Atonの読み込み -->
+   <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+
+   <title th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</title>
+</head>
+<body>
+
+
+<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    	<div class = "row">
+
+        <div>
+            <!-- ログアウト処理 -->
+			<form class="col text-center" th:action="@{/logout}" method="post">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト　　</button>
+			</form>
+        </div>
+        <div>
+			<form th:action="@{/user}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">アカウント設定</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/rooms}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">コロナ対策について</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/rooms}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">各会議室のご案内</button>
+			</form>
+    	</div>
+    	<div>
+			<form th:action="@{/rooms}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">料金表</button>
+			</form>
+    	</div>
+        <div>
+			<form th:action="@{/rooms}" method="get">
+				<button class="btn btn-link pull-right navbar-brand" type="submit">Home</button>
+			</form>
+    	</div>
+        </div>
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div th:if="${booleanResult}">
+			<!-- モーダルウィンドウここから -->
+			<div id="modal-content">
+				<span th:text="${message}"></span>
+				<p><a id="modal-close" class="button-link" onclick="modal_onclick_close()" >閉じる</a></p>
+			</div>
+			<!-- 2番目に表示されるモーダル（オーバーウエィ)半透明な膜 -->
+			<div id="modal-overlay" ></div>
+			<!-- モーダルウィンドウここまで -->
+
+			<!-- JavaScript -->
+			<script type="text/javascript">
+			function modal_onclick_close(){
+			document.getElementById("modal-content").style.display = "none";
+			document.getElementById("modal-overlay").style.display = "none";
+			}
+			</script>
+		</div>
+
+</body>
+	<script type="text/javascript">
+	//送信ボタンを押した際に送信ボタンを無効化する（連打による多数送信回避）
+	$(function(){
+		$('[id="inquiry"]').click(function(){
+			$(this).prop('disabled',true);//ボタンを無効化する
+			$('form').submit();//フォームを送信する
+		});
+	});
+	</script>
+	<script>
+		$(function() {
+		  // 一旦hide()で隠してフェードインさせる
+		  $('p').hide().fadeIn('slow');
+		});
+	</script>
+</html>

@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import mrs.domain.model.User;
+import mrs.app.user.User;
 import mrs.domain.repository.registration.RegistrationRepository;
 
 @Service
@@ -35,6 +35,5 @@ public class RegistrationService {
 		registrationRepository.save(user);
 		//registrationRepository.saveAndFlush(user);
 	}
-
 
 }

@@ -35,10 +35,10 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 
+import mrs.app.user.User;
 import mrs.domain.model.ReservableRoom;
 import mrs.domain.model.ReservableRoomId;
 import mrs.domain.model.Reservation;
-import mrs.domain.model.User;
 import mrs.domain.repository.reservation.ReservationRepository;
 import mrs.domain.service.reservation.AlreadyReservedException;
 import mrs.domain.service.reservation.ReservationService;

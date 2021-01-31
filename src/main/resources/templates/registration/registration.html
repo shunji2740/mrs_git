@@ -14,11 +14,11 @@
     <title>ユーザー登録画面</title>
 </head>
 <body>
+
     <div class="container">
         <div class="page-header">
             <h1>Registration Page</h1>
         </div>
-
 
         <form method="post" th:action="@{/registration}" th:object="${user}" id="Registrationform">
             <table class="table table-bordered table-hover">
@@ -27,14 +27,16 @@
                     <th class="active">ユーザID</th>
                     <td class="table-light">
                         <div class="form-group" th:classappend="${#fields.hasErrors('userId')} ? 'has-error'">
+
                             <input type="text" class="form-control"
                                 th:field="*{userId}" />
-
+                            <span style="color: red" th:if="${message != null and !#fields.hasErrors('userId')}" th:text="${message}"></span>
                             <span class="text-danger"
-                                th:if="${#fields.hasErrors('userId')}"
+                                th:if="${#fields.hasErrors('userId')} "
                                 th:errors="*{userId}">
                                 userId error
                             </span>
+
                         </div>
                     </td>
                 </tr>

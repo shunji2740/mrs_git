@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import mrs.domain.model.User;
+import mrs.app.user.User;
 
 //springsecurityで定義されているUserDetailsを実装する.
 public class ReservationUserDetails implements UserDetails {

@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import mrs.domain.model.User;
+import mrs.app.user.User;
 
 @Repository
 public class EditUserRepositoryJdbc {

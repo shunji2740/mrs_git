@@ -116,10 +116,6 @@ public class ReservationsController {
 			@RequestParam(value = "notificationMailCheck", required = false) String notificationMailCheck,
 			Model model) {
 
-		if (bindingResult.hasErrors()) {
-			return reserveForm(date, roomId, model);
-		}
-
 		if (additionalEquipments == null) {
 			List<String> additionalEquipments1 = new ArrayList<>();
 			additionalEquipments1.add("なし");
@@ -146,10 +142,26 @@ public class ReservationsController {
 		reservation.setCateringSelection(selectedCateringStrs);
 		reservation.setSelectedPaymentMethod(form.getSelectedPaymentMethod());
 
+		//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする
+		try {
+			if(reservation.getReservableRoom().getReservableRoomId().getReservedDate() != null) {
+				reservationService.checkReservation(reservation);
+			}
+
+		} catch (UnavailableReservationException | AlreadyReservedException e) {
+			model.addAttribute("error", e.getMessage());
+			return reserveForm(date, roomId, model);
+		}
+
+		//validationチェック
+		if (bindingResult.hasErrors()) {
+			return reserveForm(date, roomId, model);
+		}
+
 		//予約通知の設定
-		if(form.getNotificationMailCheck() != null) {
+		if (form.getNotificationMailCheck() != null) {
 			reservation.setNotificationMailCheck(form.getNotificationMailCheck());
-		}else {
+		} else {
 			reservation.setNotificationMailCheck("not checked");
 		}
 
@@ -178,15 +190,6 @@ public class ReservationsController {
 		Timer timer = new Timer(false);
 		//予約番号、timerオブジェクトをmapに格納
 		mapIdForTimer.put(reservation.getReservationIdForTimer(), timer);
-
-		try {
-			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする
-			reservationService.checkReservation(reservation);
-
-		} catch (UnavailableReservationException | AlreadyReservedException e) {
-			model.addAttribute("error", e.getMessage());
-			return reserveForm(date, roomId, model);
-		}
 
 		session.setAttribute("reservation", reservation);
 		model.addAttribute("reservation", reservation);

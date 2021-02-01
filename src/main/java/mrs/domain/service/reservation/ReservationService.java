@@ -47,7 +47,7 @@ public class ReservationService {
 		//予約指定日が現在より前の場合
 		if (reservableRoomId.getReservedDate().isBefore(LocalDate.now())) {
 			//例外ステートメントをスローする
-			throw new UnavailableReservationException("日付が間違っています");
+			throw new UnavailableReservationException("その日付は指定できません");
 		}
 
 		//複合キーによって指定された日の予約可能な指定会議室を取得
@@ -137,6 +137,7 @@ public class ReservationService {
 		"ご予約内容: \n" +
 		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
 		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
+		"合計金額: " + reservation.getTotalPrice() + "円" + "\n" +
 		"お支払方法: " + reservation.getSelectedPaymentMethod();
 
 		SimpleMailMessage msg = new SimpleMailMessage();
@@ -158,6 +159,7 @@ public class ReservationService {
 		"ご予約内容: \n" +
 		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
 		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
+		"合計金額: " + reservation.getTotalPrice() + "円" + "\n" +
 		"お支払方法: " + reservation.getSelectedPaymentMethod();
 
 

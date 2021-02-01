@@ -13,16 +13,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 @StartTimeMustBeAfterPresent(message = "指定時刻の予約は無効です")
 public class ReservationForm implements Serializable {
 	@ThirtyMinutesUnit(message = "30分単位で入力してください")
-	@NotNull(message = "必須です")
+	@NotNull(message = "開始時間を指定してください")
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime startTime;
 
 	@ThirtyMinutesUnit(message = "30分単位で入力してください")
-	@NotNull(message = "必須です")
+	@NotNull(message = "終了時間を指定してください")
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime endTime;
 
-	@NotNull(message = "必須です")
+	@NotNull(message = "予約日を指定してください")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
 
@@ -30,14 +30,13 @@ public class ReservationForm implements Serializable {
 	private String notificationMailCheck;
 
 	//選択されたお支払方法
-	@NotNull(message = "必須です")
+	@NotNull(message = "お支払方法を指定してください")
 	private String selectedPaymentMethod;
 
 
 	public LocalDate getDate() {
 		return date;
 	}
-
 
 	public String getNotificationMailCheck() {
 		return notificationMailCheck;

@@ -66,16 +66,13 @@
 	<br>
 	<br>
 
-		<!-- 予約が出来なかった場合の処理 -->
-		<p style="color: red" th:if="${error != null}" th:text="${error}"></p>
-
 			<div class="container" style="width: 700px; text-align: center;">
 			<br/>
 			<br/>
 			<div>
-			  <p>指定日の予約状況を確認の上、ご予約下さい。</p>
-			  <p>30分あたり、500円となります。</p>
-			  <p>予約可能日は本日から7日までとさせて頂きます。</p>
+			  <p><font size="4">指定日の予約状況を確認の上、ご予約下さい。</font></p>
+			  <p><font size="4">30分あたり、500円となります。</font></p>
+			  <p><font size="4">予約可能日は本日から7日までとさせて頂きます。</font></p>
 			</div>
 			</div>
 
@@ -127,7 +124,7 @@
 			<label class="control-label">会議室:</label>
 			 <span th:text="${room.roomName}"></span> <br/>
 			<label class="control-label">予約者名:</label>
-			 <span th:text="${user.lastName + '' + user.firstName}"></span> <br/>
+			 <span th:text="${user.lastName + '' + user.firstName}" ></span> <br/>
 			 <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color: red">error!</p>
 			 <p th:if="${error != null}" th:text="${error}" style="color: red">error!</p>
 			<label class="control-label">日付:</label>
@@ -254,7 +251,7 @@
 
 			<!-- 決済方法の選択 -->
 			<p>決済方法を選択してください</p>
-			<span th:if="${#fields.hasErrors('selectedPaymentMethod')}" th:errors="*{selectedPaymentMethod}" style="color: red">error!</span> <br />
+			<p th:if="${#fields.hasErrors('selectedPaymentMethod')}" th:errors="*{selectedPaymentMethod}" style="color: red">error!</p>
 			<div class="form-group">
 		      <div class="radio-inline">
 		        <input type="radio" value="現金払い" name="money" th:field="*{selectedPaymentMethod}" checked="checked">

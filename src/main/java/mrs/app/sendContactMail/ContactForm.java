@@ -2,27 +2,23 @@ package mrs.app.sendContactMail;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.Length;
-
 import mrs.domain.model.ValidGroup1;
-import mrs.domain.model.ValidGroup2;
 
 public class ContactForm implements Serializable {
 
-	@NotBlank(groups=ValidGroup1.class)
-	@Length(min=4, max=100, groups=ValidGroup2.class)
+	@NotBlank(groups = ValidGroup1.class)
+	//@Length(min=4, max=100, groups=ValidGroup2.class)
 	private String name;
 
-	@NotBlank(groups=ValidGroup1.class)
-	@Email(groups=ValidGroup2.class)
+	@NotBlank(groups = ValidGroup1.class)
+	//@Email(groups=ValidGroup2.class)
 	private String email;
 
-	@NotBlank(groups=ValidGroup1.class)
-	@Length(min=10, max=500, groups=ValidGroup2.class)
-	private String message;
+	@NotBlank(groups = ValidGroup1.class)
+	//@Length(min=10, max=500, groups=ValidGroup2.class)
+	private String msgContents;
 
 	public String getName() {
 		return name;
@@ -41,12 +37,12 @@ public class ContactForm implements Serializable {
 		this.email = email;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getMsgContents() {
+		return msgContents;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMsgContents(String msgContents) {
+		this.msgContents = msgContents;
 	}
 
 }

@@ -1,4 +1,4 @@
-package mrs.app.user;
+package mrs.domain.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import mrs.app.user.User;
 import mrs.domain.repository.user.EditUserRepositoryJdbc;
 import mrs.domain.repository.user.UserRepository;
 
@@ -27,4 +28,14 @@ public class UserService {
 
 		userRepositoryJdbc.update(user, userId);
 	}
+
+
+//	public boolean checkDuplicate(String userId) {
+//
+//		if(userRepository.countByUserId(userId) != 0) {
+//			return false;
+//		}
+//
+//		return true;
+//	}
 }

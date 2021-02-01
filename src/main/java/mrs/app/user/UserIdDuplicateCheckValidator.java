@@ -4,10 +4,8 @@
 //import javax.validation.ConstraintValidatorContext;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Component;
 //
 //
-//@Component
 //public class UserIdDuplicateCheckValidator
 //		implements ConstraintValidator<UserIdDuplicateCheck, User> {
 //

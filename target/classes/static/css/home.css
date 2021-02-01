@@ -33,9 +33,6 @@ h1:before {
   transform: translateX(-50%);
 }
 
-p {
-	font-size: large;
-}
 
 td {
 	background-color: white;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import mrs.domain.model.GroupOrder;
 import mrs.domain.service.user.ReservationUserDetails;
+import mrs.domain.service.user.UserService;
 
 @Controller
 @RequestMapping("user")

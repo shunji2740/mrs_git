@@ -37,11 +37,14 @@ public class RegistrationController {
 	@GetMapping("/registration")
 	public String getRegistration(@ModelAttribute User user, Model model) {
 
-		//もう少しいい条件式を考える
+		/*
+		 * bindingResultが問題なかった場合、session.getAttribute("bl")がnullになるのでこのような条件式にしている
+		 * blにboolean値を入れているが、判定はnullかどうかなので意味がない。(改善の余地あり)
+		 */
 		if ((Boolean) session.getAttribute("bl") != null) {
 			String es = "このユーザーIDは既に使用されています";
 			model.addAttribute("message", es);
-			//セッションを開放する
+
 			session.removeAttribute("bl");
 		}
 		//registration.htmlに画面遷移
@@ -49,18 +52,19 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/registration")
-	public String saveOrUpdateUser(@ModelAttribute @Validated(GroupOrder.class) User user, BindingResult bindingResult,
+	public String save(@ModelAttribute @Validated(GroupOrder.class) User user, BindingResult bindingResult,
 			Model model) {
 
+		//既にuserIdが登録されていないか確認
 		int resultCountUserId = userRepository.countByUserId(user.getUserId());
 
-		//もう少しいい条件式を考える
+		//bindingResultがエラー、もしくはuserIdが既に登録されていた場合はTRUE(最終的にこの条件式で落ち着いた)
 		if (bindingResult.hasErrors() || resultCountUserId != 0) {
 			if (resultCountUserId != 0) {
 				Boolean bl = true;
 				session.setAttribute("bl", bl);
 			}
-			//エラーなら入力フォームにもどす
+			//入力フォームにもどす
 			return getRegistration(user, model);
 		}
 		registrationService.save(user);

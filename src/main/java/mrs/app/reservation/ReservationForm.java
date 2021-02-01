@@ -26,6 +26,7 @@ public class ReservationForm implements Serializable {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
 
+	//通知メールのチェック値
 	@Pattern(regexp="checked")
 	private String notificationMailCheck;
 

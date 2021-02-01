@@ -40,6 +40,7 @@ public class RoomsController {
 	String listRooms(Model model) {
 
 		// Flash Scopeから値の取り出し
+		//モーダルウィンドウに表示するメッセージとTRUE値をmodelにセットする
 		Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
 		model.addAttribute("booleanResult", booleanResult);
 		String message = (String) model.getAttribute("message");
@@ -69,16 +70,13 @@ public class RoomsController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String sendmail(RedirectAttributes redirectAttributes,
+	public String sendContactMail(RedirectAttributes redirectAttributes,
 			@ModelAttribute @Validated(GroupOrder.class) ContactForm contactForm,
 			BindingResult bindingResult,
 			Model model) {
 
 		//validationのチェック
 		if (bindingResult.hasErrors()) {
-			System.out.println("★★★★★★★");
-			System.out.println("お問い合わせフォームエラー");
-			System.out.println("★★★★★★★");
 			//エラーなら入力フォームにもどす
 			return listRooms(model);
 		}
@@ -101,7 +99,9 @@ public class RoomsController {
 		return "redirect:/rooms";
 	}
 
-	//各会議室をmodelに登録するメソッド
+
+
+	//各会議室をmodelに登録する処理メソッド
 	public Model restoreEachRoomsToModel(List<ReservableRoom> rooms, Model model) {
 
 		for (ReservableRoom room : rooms) {

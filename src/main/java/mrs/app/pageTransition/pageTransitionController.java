@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
+//ページ遷移専用のコントローラ
 @Controller
 @RequestMapping("transition")
 public class pageTransitionController {

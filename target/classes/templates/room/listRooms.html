@@ -139,22 +139,22 @@
         <div class="form-group">
           <label for="inputName" class="col-sm-3">お名前</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" th:field="*{name}" placeholder="お名前">
-            <span class="text-danger" th:if="${#fields.hasErrors('name')} " th:errors="*{name}">error<br></span>
+          	<span class="text-danger" th:if="${#fields.hasErrors('name')} " th:errors="*{name}">error</span>
+            <input type="text" class="form-control" th:field="*{name}" placeholder="お名前"><br>
           </div>
         </div>
         <div class="form-group">
           <label for="inputEmail" class="col-sm-3">メールアドレス</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" th:field="*{email}" placeholder="メールアドレス">
-             <span class="text-danger" th:if="${#fields.hasErrors('email')} " th:errors="*{email}">error<br></span>
+          	<span class="text-danger" th:if="${#fields.hasErrors('email')} " th:errors="*{email}">error</span>
+            <input type="email" class="form-control" th:field="*{email}" placeholder="メールアドレス"><br>
           </div>
         </div>
         <div class="form-group">
           <label for="inputMessage" class="col-sm-3">お問い合わせ内容</label>
           <div class="col-sm-9">
-            <textarea class="form-control" th:field="*{msgContents}" rows="5" placeholder="お問い合わせ内容"><br></textarea>
-            <span class="text-danger" th:if="${#fields.hasErrors('msgContents')} " th:errors="*{msgContents}">error</span>
+          	<span class="text-danger" th:if="${#fields.hasErrors('msgContents')} " th:errors="*{msgContents}">error</span>
+            <textarea class="form-control" th:field="*{msgContents}" rows="5" placeholder="お問い合わせ内容"></textarea><br>
           </div>
         </div>
 

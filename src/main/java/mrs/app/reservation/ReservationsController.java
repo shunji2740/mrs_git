@@ -102,10 +102,10 @@ public class ReservationsController {
 	/*
 	 * 選択された日付をreserveFormにリダイレクトするメソッド
 	 */
-	@RequestMapping(method = RequestMethod.POST, params = "schedule")
-	String confirmSchedule(ReservationForm form, RedirectAttributes redirectAttributes, Model model) {
+	@RequestMapping(method = RequestMethod.POST, params = "selectedDay")
+	String confirmSchedule(ReservationForm reservationForm, RedirectAttributes redirectAttributes, Model model) {
 
-		LocalDate selectedDay = form.getDate();
+		LocalDate selectedDay = reservationForm.getDate();
 		redirectAttributes.addFlashAttribute("selectedDay", selectedDay);
 
 		return "redirect:/reservations/{date}/{roomId}";

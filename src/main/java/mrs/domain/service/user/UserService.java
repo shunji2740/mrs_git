@@ -23,9 +23,6 @@ public class UserService {
 
 	public void saveOrUpdate(User user, String userId) throws DataAccessException {
 
-		System.out.println("beforeFix: " + userId);
-		System.out.println("fixed: " + user.getUserId());
-
 		userRepositoryJdbc.update(user, userId);
 	}
 }

@@ -33,7 +33,6 @@ public class RegistrationService {
 		user.setPassword(password);
 
 		registrationRepository.save(user);
-		//registrationRepository.saveAndFlush(user);
 	}
 
 }

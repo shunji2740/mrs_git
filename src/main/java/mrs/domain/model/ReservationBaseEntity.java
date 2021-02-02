@@ -50,14 +50,14 @@ public class ReservationBaseEntity {
 
 	//1件でもtrueが返された場合はtrue(重複あり)となる
 	public boolean overlap(Reservation target) {
-		//自分自身のreservableroomIdとtargetのreservableroomIdを比較し、重複判定を行っている
+		//自身のreservableroomIdとtargetのreservableroomIdを比較し、重複判定を行っている
 		if (!Objects.equals(this.reservableRoom.getReservableRoomId(),
 				target.getReservableRoom().getReservableRoomId())) {
-			//roomIdが違った時点で予約可能なのでfalseを返す
+			//reservableroomIdが違った時点で予約可能なのでfalseを返す
 			return false;
 		}
 
-		//roomIdが同じなら、時間帯で判定しないといけない
+		//reservableroomIdが同じなら、時間帯で判定する
 		//予約時間が重複していないかを判定
 		if (this.startTime.equals(target.getStartTime()) && this.endTime.equals(target.getEndTime())) {
 			return true;

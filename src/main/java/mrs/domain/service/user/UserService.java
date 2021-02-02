@@ -28,14 +28,4 @@ public class UserService {
 
 		userRepositoryJdbc.update(user, userId);
 	}
-
-
-//	public boolean checkDuplicate(String userId) {
-//
-//		if(userRepository.countByUserId(userId) != 0) {
-//			return false;
-//		}
-//
-//		return true;
-//	}
 }

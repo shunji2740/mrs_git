@@ -1,4 +1,4 @@
-package mrs.app.sendContactMail;
+package mrs.app.home;
 
 import java.io.Serializable;
 
@@ -6,6 +6,9 @@ import javax.validation.constraints.NotBlank;
 
 import mrs.domain.model.ValidGroup1;
 
+/*
+ * お問い合わせフォームオブジェクト
+ */
 public class ContactForm implements Serializable {
 
 	@NotBlank(groups = ValidGroup1.class)

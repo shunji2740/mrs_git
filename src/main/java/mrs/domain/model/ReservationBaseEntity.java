@@ -36,12 +36,12 @@ public class ReservationBaseEntity {
 	private LocalTime endTime;
 	private String notificationMailCheck;
 
+	/*
+	 * reservableRoomのフィールドにReservableRoomIdインスタンスがあり、
+	 * ReservableRoomIdのフィールドにroomIdとreservedDateがある
+	 */
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "reserved_date"), @JoinColumn(name = "room_id") })
-	/*reserved_date,room_idが格納されている
-	(reservableRoomのフィールドにReservableRoomIdクラスがあり、
-	ReservableRoomIdのフィールドに
-	roomIdとreservedDateがある)*/
 	private ReservableRoom reservableRoom;
 
 	@ManyToOne

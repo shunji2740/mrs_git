@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 public class MeetingRoom {
 
-	//テーブルのidentity列を利用して，主キー値を生成します。identity列..自動でインクリメントされた連番
+	//テーブルのidentity列を利用して，主キー値を生成。identity列..自動でインクリメントされた連番
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer roomId;

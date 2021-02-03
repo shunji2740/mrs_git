@@ -38,7 +38,7 @@ public class ReservationService {
 	@Autowired
 	private MailSender mailSender;
 
-	//引数reservationには予約情報のすべてが格納されている(予約したい状態)
+	//予約可能か判定するメソッド
 	public Reservation checkReservation(Reservation reservation) {
 
 		//複合キー(会議室IDと指定日)を取得
@@ -47,11 +47,10 @@ public class ReservationService {
 		//予約指定日が現在より前の場合
 		if (reservableRoomId.getReservedDate().isBefore(LocalDate.now())) {
 			//例外ステートメントをスローする
-			throw new UnavailableReservationException("日付が間違っています");
+			throw new UnavailableReservationException("その日付は指定できません");
 		}
 
-		//複合キーによって指定された日の予約可能な指定会議室を取得
-		//ここで初めてreservableroomに登録されているかどうかを識別している
+		//複合キーによって指定された日＆予約可能な指定会議室を取得
 		ReservableRoom reservable = reservableRoomRepository.findOneForUpdateByReservableRoomId(reservableRoomId);
 
 		//指定日の指定会議室が取得できなかったら場合
@@ -62,12 +61,11 @@ public class ReservationService {
 
 		/*	overlapメソッドにて重複チェック
 			１件でもtrueが返された場合は重複と判定
-			ここでは指定の日の時間帯が予約可能かを判定している
 			[処理の流れ]
-			①reservableRoomId(指定の日に使える指定の会議室ID)を引数に
+			①reservableRoomId(複合キー)を引数に
 			findByReservableRoom_ReservableRoomIdOrderByStartTimeAscで
-			その日指定の会議室の一覧をList<Reservation>で返す。
-			②stream()を使い、１個づつ重複がないかを確認していく。
+			指定日＆指定会議室の予約一覧をList<Reservation>で返す
+			②overlap()で１個づつ重複がないかを確認していく
 		*/
 		boolean overlap = reservationRepository
 				.findByReservableRoom_ReservableRoomIdOrderByStartTimeAsc(reservableRoomId)
@@ -82,13 +80,13 @@ public class ReservationService {
 
 	}
 
-	//予約情報の登録
+	//予約情報の登録メソッド
 	public void reserve(Reservation reservation) {
 		reservationRepository.save(reservation);
 
 	}
 
-	//予約リストを返却
+	//予約リストを返却メソッド
 	public List<Reservation> findReservations(ReservableRoomId reservableRoomId) {
 
 		return reservationRepository.findByReservableRoom_ReservableRoomIdOrderByStartTimeAsc(reservableRoomId);
@@ -109,7 +107,7 @@ public class ReservationService {
 		return true;
 	}
 
-	//予約キャンセル完了
+	//予約キャンセル完了メソッド
 	public void cancell(Integer reservationId, User requestUser) {
 
 		Reservation reservation = reservationRepository.findOneForUpdateByReservationId(reservationId);
@@ -130,13 +128,14 @@ public class ReservationService {
 		for(String cateringService : reservation.getCateringSelection()) {
 			selectedCatering = selectedCatering + cateringService + "、";
 		}
-		selectedCatering = selectedCatering.substring(0,selectedCatering.length());
+		selectedCatering = selectedCatering.substring(0, selectedCatering.length());
 
 		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
 		"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
 		"ご予約内容: \n" +
 		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
 		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
+		"合計金額: " + reservation.getTotalPrice() + "円" + "\n" +
 		"お支払方法: " + reservation.getSelectedPaymentMethod();
 
 		SimpleMailMessage msg = new SimpleMailMessage();
@@ -158,6 +157,7 @@ public class ReservationService {
 		"ご予約内容: \n" +
 		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
 		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
+		"合計金額: " + reservation.getTotalPrice() + "円" + "\n" +
 		"お支払方法: " + reservation.getSelectedPaymentMethod();
 
 
@@ -182,8 +182,6 @@ public class ReservationService {
 		dt = dt.minusMinutes(30);
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 		String dtFormated = dt.format(dateTimeFormatter);
-
-		//timer.schedule(task, sdf.parse("2021/01/17 21:36"));
 		timer.schedule(task, sdf.parse(dtFormated));
 
 		//予約番号をセットする
@@ -193,6 +191,7 @@ public class ReservationService {
 
 	}
 
+	//各ケータリングの価格を計算するメソッド
 	public int calculateCateringPrice(int[] cateringQuantity, List<String> selectedCateringStrs) {
 		int totalPrice = 0;
 
@@ -220,6 +219,7 @@ public class ReservationService {
 		return totalPrice;
 	}
 
+	//各ケータリングの注文数量をMapに格納するメソッド
 	public Map<String, Integer> createMapCategoryForQuantity(int[] cateringQuantity,
 			List<String> selectedCateringStrs) {
 
@@ -249,12 +249,6 @@ public class ReservationService {
 				break;
 			}
 		}
-
-		// forEachのパターン
-		cateringMapCategoryForQuantity.forEach((k, v) -> {
-			System.out.println(k);
-			System.out.println(v);
-		});
 
 		return cateringMapCategoryForQuantity;
 	}

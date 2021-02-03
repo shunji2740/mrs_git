@@ -32,12 +32,9 @@
                     <td class="table-light">
                         <div class="form-group" th:classappend="${#fields.hasErrors('userId')} ? 'has-error'">
 
-                            <input type="text" class="form-control"
-                                th:field="*{userId}" />
+                            <input type="text" class="form-control"  th:field="*{userId}" />
                             <span style="color: red" th:if="${message != null and !#fields.hasErrors('userId')}" th:text="${message}"></span>
-                            <span class="text-danger"
-                                th:if="${#fields.hasErrors('userId')} "
-                                th:errors="*{userId}">
+                            <span class="text-danger" th:if="${#fields.hasErrors('userId')} " th:errors="*{userId}">
                                 userId error
                             </span>
 

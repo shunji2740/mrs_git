@@ -24,24 +24,25 @@ public class ReservationForm implements Serializable {
 	private UUID reservationIdForTimer;
 
 	@ThirtyMinutesUnit(message = "30分単位で入力してください")
-	@NotNull(message = "必須です")
+	@NotNull(message = "開始時間を指定してください")
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime startTime;
 
 	@ThirtyMinutesUnit(message = "30分単位で入力してください")
-	@NotNull(message = "必須です")
+	@NotNull(message = "終了時間を指定してください")
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime endTime;
 
-	@NotNull(message = "必須です")
+	@NotNull(message = "予約日を指定してください")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
 
-	@Pattern(regexp = "checked")
+	//通知メールのチェック値
+	@Pattern(regexp="checked")
 	private String notificationMailCheck;
 
 	//選択されたお支払方法
-	@NotNull(message = "必須です")
+	@NotNull(message = "お支払方法を指定してください")
 	private String selectedPaymentMethod;
 
 	//追加備品

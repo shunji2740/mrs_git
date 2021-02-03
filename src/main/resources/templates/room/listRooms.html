@@ -16,10 +16,9 @@
 <body>
 
 
-<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
+	<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
     	<div class = "row">
-
         <div>
             <!-- ログアウト処理 -->
 			<form class="col text-center" th:action="@{/logout}" method="post">
@@ -56,17 +55,16 @@
 
 	<h1>Meeting Room Booking System</h1>
 
-
-		<br/>
-		<br/>
+	<br/>
+	<br/>
 	<div class = "container">
 		<div class="row" >
 			<div class="col-md-6 col-md-offset-3">
-			  <p>ようこそ、Meeting Room Booking Systemへ。</p>
+			  <p><font size="4">ようこそ、Meeting Room Booking Systemへ。</font></p>
 			  <br/>
-			  <p>私たちMeeting Room Booking Systemは快適なミーティングルームを提供し、お客様から満足度の高い評価を頂いております。</p>
+			  <p><font size="4">私たちMeeting Room Booking Systemは快適なミーティングルームを提供し、お客様から満足度の高い評価を頂いております。</font></p>
 			  <br/>
-			  <p>リーズナブルな価格で、快適な空間をぜひご利用ください。</p>
+			  <p><font size="4">リーズナブルな価格で、快適な空間をぜひご利用ください。</font></p>
 			  <br/>
 			</div>
 		</div>
@@ -135,24 +133,26 @@
     </h3>
     <div>
       <p>以下を入力して送信ボタンをクリックしてください。</p>
-      <form th:object="${contactForm}"th:action="@{'/sendmail'}" method="post">
+      <form th:object="${contactForm}"th:action="@{'/rooms'}" method="post">
         <div class="form-group">
           <label for="inputName" class="col-sm-3">お名前</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" th:field="*{name}" placeholder="お名前">
+          	<span class="text-danger" th:if="${#fields.hasErrors('name')} " th:errors="*{name}">error</span>
+            <input type="text" class="form-control" th:field="*{name}" placeholder="お名前"><br>
           </div>
         </div>
         <div class="form-group">
           <label for="inputEmail" class="col-sm-3">メールアドレス</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" th:field="*{email}" placeholder="メールアドレス">
+          	<span class="text-danger" th:if="${#fields.hasErrors('email')} " th:errors="*{email}">error</span>
+            <input type="email" class="form-control" th:field="*{email}" placeholder="メールアドレス"><br>
           </div>
         </div>
         <div class="form-group">
           <label for="inputMessage" class="col-sm-3">お問い合わせ内容</label>
           <div class="col-sm-9">
-            <textarea class="form-control" th:field="*{message}" rows="5" placeholder="お問い合わせ内容">
-            </textarea>
+          	<span class="text-danger" th:if="${#fields.hasErrors('msgContents')} " th:errors="*{msgContents}">error</span>
+            <textarea class="form-control" th:field="*{msgContents}" rows="5" placeholder="お問い合わせ内容"></textarea><br>
           </div>
         </div>
 
@@ -163,6 +163,10 @@
     </div>
   </div>
 </div>
+<br/>
+<br/>
+<br/>
+
         <div th:if="${booleanResult}">
 		<!-- モーダルウィンドウここから -->
 		<div id="modal-content">

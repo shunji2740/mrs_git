@@ -64,29 +64,32 @@ public class ReservationsController {
 
 	static Map<UUID, Timer> mapIdForTimer = new HashMap<>();
 
-	//予約確認・予約一覧画面
-	//予約可能かの確認作業はreserve()にて
+	//予約確認・予約一覧画面に遷移
 	@RequestMapping(method = RequestMethod.GET)
 	String reserveForm(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId, Model model) {
 
 		ReservableRoomId reservableRoomId;
-		LocalDate selected_date = (LocalDate) model.getAttribute("schedule_date");
-		reservableRoomId = new ReservableRoomId(roomId, selected_date);
 
-		//指定日かつ指定会議室の予約リストを取得
-		List<Reservation> reservations = reservationService.findReservations(reservableRoomId);
+		// Flash Scopeからリダイレクトされた値の取り出し
+		LocalDate selectedDay = (LocalDate) model.getAttribute("selectedDay");
 
-		//LocalDateオブジェクトを作成してリストに格納する
+		reservableRoomId = new ReservableRoomId(roomId, selectedDay);
+
+		//reservableRoomIdを使用し、指定日・指定会議室の予約リストを取得
+		List<Reservation> reservationListOfTheDay = reservationService.findReservations(reservableRoomId);
+
+		//30分間隔の23:30までのLocalTimeリストを作成
 		List<LocalTime> timeList = Stream.iterate(LocalTime.of(0, 0), t -> t.plusMinutes(30))
 				.limit(24 * 2)
 				.collect(Collectors.toList());
 
 		model.addAttribute("room", roomService.findMeetingRomm(roomId));
-		model.addAttribute("reservations", reservations);
+		model.addAttribute("reservationListOfTheDay", reservationListOfTheDay);
 		model.addAttribute("timeList", timeList);
 
-		// Flash Scopeから値の取り出し
+		// Flash Scopeからリダイレクトされた値の取り出し
+		//予約またはキャンセル完了の際、モーダルウィンドウに表示するメッセージとTRUE値をmodelにセット
 		Boolean booleanResult = (Boolean) model.getAttribute("booleanResult");
 		model.addAttribute("booleanResult", booleanResult);
 		String message = (String) model.getAttribute("message");
@@ -95,15 +98,19 @@ public class ReservationsController {
 		return "reservation/reserveForm";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, params = "schedule")
-	String confirmSchedule(ReservationForm form, RedirectAttributes redirectAttributes, Model model) {
-		LocalDate schedule_date = form.getDate();
-		redirectAttributes.addFlashAttribute("schedule_date", schedule_date);
+	/*
+	 * 選択された日付をreserveFormにリダイレクトするメソッド
+	 */
+	@RequestMapping(method = RequestMethod.POST, params = "selectedDay")
+	String confirmSchedule(ReservationForm reservationForm, RedirectAttributes redirectAttributes, Model model) {
+
+		LocalDate selectedDay = reservationForm.getDate();
+		redirectAttributes.addFlashAttribute("selectedDay", selectedDay);
 
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-	//予約処理・予約可能かの処理
+	//予約可能判定・予約処理実行をするメソッド
 	@SuppressWarnings("null")
 	@RequestMapping(method = RequestMethod.POST)
 	String reserve(@Validated ReservationForm form, BindingResult bindingResult,
@@ -115,10 +122,6 @@ public class ReservationsController {
 			@RequestParam(value = "fd", required = false) List<String> selectedCateringStrs,
 			@RequestParam(value = "notificationMailCheck", required = false) String notificationMailCheck,
 			Model model) {
-
-		if (bindingResult.hasErrors()) {
-			return reserveForm(date, roomId, model);
-		}
 
 		if (additionalEquipments == null) {
 			List<String> additionalEquipments1 = new ArrayList<>();
@@ -146,10 +149,26 @@ public class ReservationsController {
 		reservation.setCateringSelection(selectedCateringStrs);
 		reservation.setSelectedPaymentMethod(form.getSelectedPaymentMethod());
 
+		//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする
+		try {
+			if(reservation.getReservableRoom().getReservableRoomId().getReservedDate() != null) {
+				reservationService.checkReservation(reservation);
+			}
+
+		} catch (UnavailableReservationException | AlreadyReservedException e) {
+			model.addAttribute("error", e.getMessage());
+			return reserveForm(date, roomId, model);
+		}
+
+		//validationチェック
+		if (bindingResult.hasErrors()) {
+			return reserveForm(date, roomId, model);
+		}
+
 		//予約通知の設定
-		if(form.getNotificationMailCheck() != null) {
+		if (form.getNotificationMailCheck() != null) {
 			reservation.setNotificationMailCheck(form.getNotificationMailCheck());
-		}else {
+		} else {
 			reservation.setNotificationMailCheck("not checked");
 		}
 
@@ -179,22 +198,13 @@ public class ReservationsController {
 		//予約番号、timerオブジェクトをmapに格納
 		mapIdForTimer.put(reservation.getReservationIdForTimer(), timer);
 
-		try {
-			//★ここではじめてreservable_roomに登録されているか、重複していないかをチェックする
-			reservationService.checkReservation(reservation);
-
-		} catch (UnavailableReservationException | AlreadyReservedException e) {
-			model.addAttribute("error", e.getMessage());
-			return reserveForm(date, roomId, model);
-		}
-
 		session.setAttribute("reservation", reservation);
 		model.addAttribute("reservation", reservation);
 
 		return "reservation/confirmReservation";
 	}
 
-	//予約完了(現金払いの場合)
+	//予約完了(現金払いの場合)処理メソッド
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservation")
 	String confirmedReservation(RedirectAttributes redirectAttributes, Model model) {
 		//セッションからreservationエンティティを取得
@@ -203,14 +213,13 @@ public class ReservationsController {
 		reservationService.reserve(reservation);
 
 		try {
+
 			if (reservation.getNotificationMailCheck().equals("checked")) {
 				reservationService.sendNotificationMail(reservation, mapIdForTimer);
 			}
-
 			reservationService.sendInfoMail(reservation);
 
 		} catch (ParseException e2) {
-			// TODO 自動生成された catch ブロック
 			e2.printStackTrace();
 		}
 
@@ -223,7 +232,7 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-	//予約完了(クレジットカード決済の場合)
+	//予約完了(クレジットカード決済の場合)処理メソッド
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedReservationCredit")
 	String confirmedReservationCredit(
 			@RequestParam("stripeToken") String stripeToken,
@@ -235,10 +244,13 @@ public class ReservationsController {
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 
 		try {
-			reservationService.sendNotificationMail(reservation, mapIdForTimer);
+
+			if (reservation.getNotificationMailCheck().equals("checked")) {
+				reservationService.sendNotificationMail(reservation, mapIdForTimer);
+			}
 			reservationService.sendInfoMail(reservation);
+
 		} catch (ParseException e2) {
-			// TODO 自動生成された catch ブロック
 			e2.printStackTrace();
 		}
 
@@ -272,7 +284,7 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-	//予約削除可能かの処理
+	//予約削除可能かの処理メソッド
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")
 	String cancel(@RequestParam("reservationId") Integer reservationId,
 			@AuthenticationPrincipal ReservationUserDetails userDetails,
@@ -296,7 +308,7 @@ public class ReservationsController {
 		return "reservation/confirmCancellation";
 	}
 
-	//予約キャンセル完了
+	//予約キャンセル完了処理メソッド
 	@RequestMapping(method = RequestMethod.POST, params = "confirmedCancellation")
 	String confirmedCancellation(RedirectAttributes redirectAttributes, Model model) {
 
@@ -323,7 +335,7 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-	//予約時間のデフォルトForm
+	//予約時間のデフォルトForm作成メソッド
 	@ModelAttribute
 	ReservationForm setUpForm() {
 		ReservationForm form = new ReservationForm();

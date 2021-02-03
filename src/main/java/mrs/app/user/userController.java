@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import mrs.domain.model.GroupOrder;
 import mrs.domain.service.user.ReservationUserDetails;
+import mrs.domain.service.user.UserService;
 
 @Controller
 @RequestMapping("user")
@@ -25,15 +26,16 @@ public class userController {
 	@Autowired
 	UserService userService;
 
+	//アカウント登録情報の更新処理を行うメソッド
 	@RequestMapping(method = RequestMethod.GET)
 	String getEditForm(@ModelAttribute User user, @AuthenticationPrincipal ReservationUserDetails userDetails,
 			Model model) {
 
-		/*userDetailsで取得したuserインスタンスをそのままmodelにaddした場合
-		エラーメッセージが表示されなかった為、すべての要素をuserにセットしていく
-		*/
+		/*
+		 * userDetailsで取得したuserインスタンスをそのままmodelにaddした場合
+		 * エラーメッセージが表示されなかった為、すべての要素をuserにセットしていく
+		 */
 		User authenticatedUser = userDetails.getUser();
-
 		user.setUserId(authenticatedUser.getUserId());
 		user.setFirstName(authenticatedUser.getFirstName());
 		user.setLastName(authenticatedUser.getLastName());
@@ -58,11 +60,12 @@ public class userController {
 			return getEditForm(user, userDetails, model);
 		}
 
-		//セッションからreservationエンティティを取得
+		//セッションからuserIdを取得
 		String userId = (String) session.getAttribute("userId");
+
+		//userの登録更新
 		userService.saveOrUpdate(user, userId);
 
-		System.out.println("ユーザー登録更新完了。");
 		return "login/loginForm";
 	}
 

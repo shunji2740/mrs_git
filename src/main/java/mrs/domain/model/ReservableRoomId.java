@@ -8,6 +8,7 @@ import javax.persistence.Embeddable;
 
 import com.sun.istack.NotNull;
 
+//複合クラス
 @Embeddable
 public class ReservableRoomId implements Serializable{
 
@@ -82,4 +83,3 @@ public class ReservableRoomId implements Serializable{
 	}
 
 }
-

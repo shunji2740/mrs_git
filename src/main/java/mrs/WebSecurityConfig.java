@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/login")
 				.usernameParameter("username")
 				.passwordParameter("password")
-				.defaultSuccessUrl("/rooms", true)
+				.defaultSuccessUrl("/rooms", true)//認証に成功した場合、rooms.htmlに画面遷移
 				.failureUrl("/loginForm?error=true").permitAll();
 	}
 

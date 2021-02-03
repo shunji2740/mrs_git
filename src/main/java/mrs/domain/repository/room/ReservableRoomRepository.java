@@ -18,7 +18,6 @@ public interface ReservableRoomRepository extends JpaRepository<ReservableRoom, 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	ReservableRoom findOneForUpdateByReservableRoomId(ReservableRoomId reservableRoomId);
 
-	//命名reservedDateの違和感は保留
 	List<ReservableRoom> findByReservableRoomId_reservedDateOrderByReservableRoomId_roomIdAsc(LocalDate reservaedDate);
 
 }

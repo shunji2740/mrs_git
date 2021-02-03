@@ -29,14 +29,14 @@ public class StartTimeMustBeAfterPresentValidator
 		}
 
 		LocalDateTime localDateTimeOfReservation = LocalDateTime.of(value.getDate(), value.getStartTime());
-		boolean isStartTimeMustBeAfterPresent = localDateTimeOfReservation.isAfter(LocalDateTime.now());
+		boolean blStartTimeMustBeAfterPresent = localDateTimeOfReservation.isAfter(LocalDateTime.now());
 
 		//終了時間が開始時間より後にきていた場合の処理
-				if (!isStartTimeMustBeAfterPresent) {
-					context.disableDefaultConstraintViolation();
-					context.buildConstraintViolationWithTemplate(message).addPropertyNode("endTime").addConstraintViolation();
-				}
+		if (!blStartTimeMustBeAfterPresent) {
+			context.disableDefaultConstraintViolation();
+			context.buildConstraintViolationWithTemplate(message).addPropertyNode("endTime").addConstraintViolation();
+		}
 
-		return isStartTimeMustBeAfterPresent;
+		return blStartTimeMustBeAfterPresent;
 	}
 }

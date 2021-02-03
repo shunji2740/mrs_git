@@ -64,8 +64,7 @@ public class ReservationsController {
 
 	static Map<UUID, Timer> mapIdForTimer = new HashMap<>();
 
-	//予約確認・予約一覧画面
-	//予約可能かの確認作業はreserve()にて
+	//予約確認・予約一覧画面に遷移するメソッド
 	@RequestMapping(method = RequestMethod.GET)
 	String reserveForm(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId, Model model) {

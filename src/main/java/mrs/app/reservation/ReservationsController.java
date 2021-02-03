@@ -64,7 +64,7 @@ public class ReservationsController {
 
 	static Map<UUID, Timer> mapIdForTimer = new HashMap<>();
 
-	//予約確認・予約一覧画面に遷移するメソッド
+	//予約確認・予約一覧画面に遷移
 	@RequestMapping(method = RequestMethod.GET)
 	String reserveForm(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 			@PathVariable("roomId") Integer roomId, Model model) {
@@ -110,7 +110,7 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-	//予約処理・予約可能かの処理するメソッド
+	//予約可能判定・予約処理をするメソッド
 	@SuppressWarnings("null")
 	@RequestMapping(method = RequestMethod.POST)
 	String reserve(@Validated ReservationForm form, BindingResult bindingResult,

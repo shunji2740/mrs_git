@@ -59,7 +59,7 @@ public class RegistrationController {
 		int resultCountUserId = userRepository.countByUserId(user.getUserId());
 
 		//bindingResultがエラー、もしくはuserIdが既に登録されていた場合はTRUE(最終的にこの条件式で落ち着いた)
-		if (bindingResult.hasErrors() || resultCountUserId != 0) {
+		if (bindingResult.hasErrors() || resultCountUserId > 0) {
 			if (resultCountUserId != 0) {
 				Boolean bl = true;
 				session.setAttribute("bl", bl);

@@ -132,7 +132,7 @@ public class ReservationService {
 
 		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
 		"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
-		"ご予約内容: \n" +
+		"ご予約内容\n" +
 		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
 		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
 		"合計金額: " + reservation.getTotalPrice() + "円" + "\n" +
@@ -154,7 +154,7 @@ public class ReservationService {
 
 		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
 		"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
-		"ご予約内容: \n" +
+		"ご予約内容\n" +
 		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
 		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
 		"合計金額: " + reservation.getTotalPrice() + "円" + "\n" +

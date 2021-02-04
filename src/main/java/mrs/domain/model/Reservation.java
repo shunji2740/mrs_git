@@ -84,6 +84,4 @@ public class Reservation extends ReservationBaseEntity implements Serializable {
 		this.selectedPaymentMethod = selectedPaymentMethod;
 	}
 
-
-
 }

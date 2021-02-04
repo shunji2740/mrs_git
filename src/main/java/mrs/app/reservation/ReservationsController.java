@@ -123,6 +123,7 @@ public class ReservationsController {
 			@RequestParam(value = "notificationMailCheck", required = false) String notificationMailCheck,
 			Model model) {
 
+		//追加サービスの選択がなかった場合の処理
 		if (additionalEquipments == null) {
 			List<String> additionalEquipments1 = new ArrayList<>();
 			additionalEquipments1.add("なし");
@@ -130,6 +131,7 @@ public class ReservationsController {
 			System.out.println(additionalEquipments.get(0));
 		}
 
+		//ケータリングサービスの選択がなかった場合の処理
 		if (selectedCateringStrs == null || Arrays.stream(cateringQuantity).allMatch(val -> val == 0)) {
 			List<String> selectedCateringStrs1 = new ArrayList<>();
 			selectedCateringStrs1.add("なし");
@@ -139,6 +141,7 @@ public class ReservationsController {
 		//合計金額を格納する変数
 		int totalPrice = 0;
 
+		//各予約情報をreservationにセット
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
@@ -213,10 +216,11 @@ public class ReservationsController {
 		reservationService.reserve(reservation);
 
 		try {
-
+			//sendNotificationMail()で予約時間前通知メール送信
 			if (reservation.getNotificationMailCheck().equals("checked")) {
 				reservationService.sendNotificationMail(reservation, mapIdForTimer);
 			}
+			//sendInfoMail()で予約情報メールの送信
 			reservationService.sendInfoMail(reservation);
 
 		} catch (ParseException e2) {
@@ -244,16 +248,18 @@ public class ReservationsController {
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 
 		try {
-
+			//sendNotificationMail()で予約時間前通知メール送信
 			if (reservation.getNotificationMailCheck().equals("checked")) {
 				reservationService.sendNotificationMail(reservation, mapIdForTimer);
 			}
+			//sendInfoMail()で予約情報メールの送信
 			reservationService.sendInfoMail(reservation);
 
 		} catch (ParseException e2) {
 			e2.printStackTrace();
 		}
 
+		//StripeのpaiKeyを設定
 		Stripe.apiKey = "sk_test_51IBK2tBYXTAwdZzcBTT70XqkVatAilqmwW7Ogt3mxF3TbtmLnJe5sA7JmIw3kAmmIa7rxBWeoKR5OOjc2AJBst9C001NQ16bBt";
 
 		Map<String, Object> chargeMap = new HashMap<String, Object>();
@@ -263,6 +269,7 @@ public class ReservationsController {
 		chargeMap.put("source", stripeToken);
 
 		try {
+			//クレジットカード決済実行
 			Charge charge = Charge.create(chargeMap);
 			System.out.println(charge);
 		} catch (StripeException e) {

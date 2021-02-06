@@ -1,4 +1,4 @@
-package mrs.app.home;
+package mrs.app.room;
 
 import java.io.Serializable;
 

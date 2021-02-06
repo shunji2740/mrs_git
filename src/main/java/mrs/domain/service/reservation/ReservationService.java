@@ -225,6 +225,7 @@ public class ReservationService {
 
 		Map<String, Integer> cateringMapCategoryForQuantity = new HashMap<>();
 
+		//各ケータリングと注文数をMapに格納
 		for (String selectedCateringStr : selectedCateringStrs) {
 			switch (selectedCateringStr) {
 			case "お弁当":

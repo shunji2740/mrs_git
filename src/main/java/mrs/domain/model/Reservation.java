@@ -1,90 +1,87 @@
+
 package mrs.domain.model;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.List;
+import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
+import org.hibernate.annotations.Type;
 
-import com.vladmihalcea.hibernate.type.array.IntArrayType;
-import com.vladmihalcea.hibernate.type.array.ListArrayType;
-
-import mrs.app.reservation.ReservationForm;
-import mrs.app.user.User;
-
-@TypeDefs({
-		@TypeDef(name = "string-array", typeClass = ListArrayType.class),
-		@TypeDef(name = "int-array", typeClass = IntArrayType.class),
-		@TypeDef(name = "list-array", typeClass = ListArrayType.class)
-})
-
+//予約情報を格納するテーブル
 @Entity
-public class Reservation extends ReservationForm implements Serializable {
+public class Reservation extends ReservationBaseEntity implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer reservationId;
+	private Integer totalPrice;
 
-	@ManyToOne
-	@JoinColumns({ @JoinColumn(name = "reserved_date"), @JoinColumn(name = "room_id") })
-	/*reserved_date,room_idが格納されている
-	(reservableRoomのフィールドにReservableRoomIdクラスがあり、
-	ReservableRoomIdのフィールドに
-	roomIdとreservedDateがある)*/
-	private ReservableRoom reservableRoom;
+	private UUID reservationIdForTimer;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	//追加備品
+	@Type(type = "list-array")
+	@Column(name = "additional_equipments", columnDefinition = "text[]")
+	private List<String> additionalEquipments;
 
-	//1件でもtrueが返された場合はtrue(重複あり)となる
-	public boolean overlap(Reservation target) {
-		//自分自身のreservableroomIdとtargetのreservableroomIdを比較し、重複判定を行っている
-		if (!Objects.equals(this.reservableRoom.getReservableRoomId(),
-				target.getReservableRoom().getReservableRoomId())) {
-			//roomIdが違った時点で予約可能なのでfalseを返す
-			return false;
-		}
+	//ケータリング数量
+	@Type(type = "int-array")
+	@Column(name = "catering", columnDefinition = "int[]")
+	private int[] cateringQuantity;
 
-		//roomIdが同じなら、時間帯で判定しないといけない
-		//予約時間が重複していないかを判定
-		if (this.getStartTime().equals(target.getStartTime()) && this.getEndTime().equals(target.getEndTime())) {
-			return true;
-		}
+	//選択されたケータリングを格納
+	@Type(type = "list-array")
+	@Column(name = "catering_selection", columnDefinition = "text[]")
+	private List<String> cateringSelection;
 
-		return target.getEndTime().isAfter(this.getStartTime()) && this.getEndTime().isAfter(target.getStartTime());
+	//選択されたお支払方法
+	private String selectedPaymentMethod;
+
+	public Integer getTotalPrice() {
+		return totalPrice;
 	}
 
-	public Integer getReservationId() {
-		return reservationId;
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
-	public void setReservationId(Integer reservationId) {
-		this.reservationId = reservationId;
+	public UUID getReservationIdForTimer() {
+		return reservationIdForTimer;
 	}
 
-	public ReservableRoom getReservableRoom() {
-		return reservableRoom;
+	public void setReservationIdForTimer(UUID uuid) {
+		this.reservationIdForTimer = uuid;
 	}
 
-	public void setReservableRoom(ReservableRoom reservableRoom) {
-		this.reservableRoom = reservableRoom;
+	public List<String> getAdditionalEquipments() {
+		return additionalEquipments;
 	}
 
-	public User getUser() {
-		return user;
+	public void setAdditionalEquipments(List<String> additionalEquipments) {
+		this.additionalEquipments = additionalEquipments;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public int[] getCateringQuantity() {
+		return cateringQuantity;
+	}
+
+	public void setCateringQuantity(int[] cateringQuantity) {
+		this.cateringQuantity = cateringQuantity;
+	}
+
+	public List<String> getCateringSelection() {
+		return cateringSelection;
+	}
+
+	public void setCateringSelection(List<String> cateringSelection) {
+		this.cateringSelection = cateringSelection;
+	}
+
+	public String getSelectedPaymentMethod() {
+		return selectedPaymentMethod;
+	}
+
+	public void setSelectedPaymentMethod(String selectedPaymentMethod) {
+		this.selectedPaymentMethod = selectedPaymentMethod;
 	}
 
 }

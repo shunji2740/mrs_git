@@ -1,4 +1,4 @@
-package mrs.app.home;
+package mrs.app.room;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,7 +24,7 @@ import mrs.domain.service.room.RoomService;
 
 @Controller
 @RequestMapping("rooms")
-public class HomeController {
+public class RoomController {
 
 	@Autowired
 	RoomService roomService;

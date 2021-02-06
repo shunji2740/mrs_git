@@ -139,8 +139,8 @@ public class ReservationService {
 		"お支払方法: " + reservation.getSelectedPaymentMethod();
 
 		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setFrom(reservation.getUser().getUserId());
-		msg.setTo("shunjimunemoto@gmail.com");
+		msg.setFrom("shunjimunemoto@gmail.com");
+		msg.setTo(reservation.getUser().getUserId());
 		msg.setText("ご予約内容は下記の通りです。\n\n------------------------------------------\n" + body
 				+ "\n------------------------------------------");
 		mailSender.send(msg);
@@ -167,7 +167,7 @@ public class ReservationService {
 			public void run() {
 				SimpleMailMessage msg = new SimpleMailMessage();
 				msg.setFrom("shunjimunemoto@gmail.com");
-				msg.setTo("shunjimunemoto@gmail.com");
+				msg.setTo(reservation.getUser().getUserId());
 				msg.setText("ご予約時間の30分前となりました。"
 						+ "\n\n------------------------------------------\n" + body
 						+ "\n------------------------------------------");

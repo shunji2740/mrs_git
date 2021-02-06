@@ -132,15 +132,15 @@ public class ReservationService {
 
 		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
 		"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
-		"ご予約内容: \n" +
+		"ご予約内容\n" +
 		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
 		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
 		"合計金額: " + reservation.getTotalPrice() + "円" + "\n" +
 		"お支払方法: " + reservation.getSelectedPaymentMethod();
 
 		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setFrom(reservation.getUser().getUserId());
-		msg.setTo("shunjimunemoto@gmail.com");
+		msg.setFrom("shunjimunemoto@gmail.com");
+		msg.setTo(reservation.getUser().getUserId());
 		msg.setText("ご予約内容は下記の通りです。\n\n------------------------------------------\n" + body
 				+ "\n------------------------------------------");
 		mailSender.send(msg);
@@ -154,7 +154,7 @@ public class ReservationService {
 
 		String body = "お名前: " + reservation.getUser().getFirstName() + "\n" +
 		"メールアドレス: " + reservation.getUser().getUserId() + "\n" +
-		"ご予約内容: \n" +
+		"ご予約内容\n" +
 		"ご予約時間: " + reservation.getStartTime() + "～" + reservation.getEndTime() + "\n" +
 		"追加備品: " + reservation.getAdditionalEquipments() + "\n" +
 		"合計金額: " + reservation.getTotalPrice() + "円" + "\n" +
@@ -167,7 +167,7 @@ public class ReservationService {
 			public void run() {
 				SimpleMailMessage msg = new SimpleMailMessage();
 				msg.setFrom("shunjimunemoto@gmail.com");
-				msg.setTo("shunjimunemoto@gmail.com");
+				msg.setTo(reservation.getUser().getUserId());
 				msg.setText("ご予約時間の30分前となりました。"
 						+ "\n\n------------------------------------------\n" + body
 						+ "\n------------------------------------------");
@@ -225,6 +225,7 @@ public class ReservationService {
 
 		Map<String, Integer> cateringMapCategoryForQuantity = new HashMap<>();
 
+		//各ケータリングと注文数をMapに格納
 		for (String selectedCateringStr : selectedCateringStrs) {
 			switch (selectedCateringStr) {
 			case "お弁当":

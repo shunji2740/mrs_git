@@ -110,7 +110,7 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 
-	//予約可能判定・予約処理をするメソッド
+	//予約可能判定・予約処理実行をするメソッド
 	@SuppressWarnings("null")
 	@RequestMapping(method = RequestMethod.POST)
 	String reserve(@Validated ReservationForm form, BindingResult bindingResult,

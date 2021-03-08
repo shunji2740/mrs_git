@@ -24,10 +24,9 @@
 
 
 
-<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
+	<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
     	<div class = "row">
-
         <div>
             <!-- ログアウト処理 -->
 			<form class="col text-center" th:action="@{/logout}" method="post">
@@ -40,17 +39,17 @@
 			</form>
     	</div>
         <div>
-			<form th:action="@{/transition}" method="get">
+			<form th:action="@{/coronaMeasure}" method="get">
 				<button class="btn btn-link pull-right navbar-brand" name="coronaMeasure" type="submit">コロナ対策について</button>
 			</form>
     	</div>
         <div>
-			<form th:action="@{/transition}" method="get">
+			<form th:action="@{/introductionOfRooms}" method="get">
 				<button class="btn btn-link pull-right navbar-brand" name="introductionOfRooms" type="submit">各会議室のご案内</button>
 			</form>
     	</div>
     	<div>
-			<form th:action="@{/transition}" method="get">
+			<form th:action="@{/priceList}" method="get">
 				<button class="btn btn-link pull-right navbar-brand" name="priceList" type="submit">料金表</button>
 			</form>
     	</div>

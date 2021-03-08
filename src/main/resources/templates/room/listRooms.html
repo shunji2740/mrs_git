@@ -31,17 +31,17 @@
 			</form>
     	</div>
         <div>
-			<form th:action="@{/transition}" method="get">
+			<form th:action="@{/coronaMeasure}" method="get">
 				<button class="btn btn-link pull-right navbar-brand" name="coronaMeasure" type="submit">コロナ対策について</button>
 			</form>
     	</div>
         <div>
-			<form th:action="@{/transition}" method="get">
+			<form th:action="@{/introductionOfRooms}" method="get">
 				<button class="btn btn-link pull-right navbar-brand" name="introductionOfRooms" type="submit">各会議室のご案内</button>
 			</form>
     	</div>
     	<div>
-			<form th:action="@{/transition}" method="get">
+			<form th:action="@{/priceList}" method="get">
 				<button class="btn btn-link pull-right navbar-brand" name="priceList" type="submit">料金表</button>
 			</form>
     	</div>
@@ -160,12 +160,12 @@
           <button type="submit" id="inquiry" class="btn btn-success">送信する</button>
         </div>
       </form>
-    </div>
-  </div>
-</div>
-<br/>
-<br/>
-<br/>
+	  </div>
+	  </div>
+	  </div>
+	<br/>
+	<br/>
+	<br/>
 
         <div th:if="${booleanResult}">
 		<!-- モーダルウィンドウここから -->

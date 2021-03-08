@@ -1,4 +1,4 @@
-package mrs.app.room;
+package mrs.app.pageTransition;
 
 import java.io.Serializable;
 

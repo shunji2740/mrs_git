@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+.box {
+  background-color: #D3DEF1;
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 10px auto;
+}
+
+.box > div{
+  padding:30px;
+}
+
+.box-img {
+  width: 470px;
+}
+
+.box-img img {
+  max-width: 100%;
+}
+
+.box-text {
+  flex:1;
+  /* 以下は説明文を縦位置中央にするため */
+  display: flex;
+  align-items: center;
+}
+
+

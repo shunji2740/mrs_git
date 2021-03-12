@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS usr (
   PRIMARY KEY (user_id)
 );
 
+
 ALTER TABLE reservable_room DROP CONSTRAINT IF EXISTS FK_f4wnx2qj0d59s9tl1q5800fw7;
 ALTER TABLE reservation DROP CONSTRAINT IF EXISTS FK_p1k4iriqd4eo1cpnv79uvni9g;
 ALTER TABLE reservation DROP CONSTRAINT IF EXISTS FK_recqnfjcp370rygd9hjjxjtg;

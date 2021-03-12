@@ -9,17 +9,22 @@
    <link th:href="@{/css/home.css}" rel="stylesheet"></link>
    <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
    <link th:href="@{/css/imageStyle.css}" rel="stylesheet"></link>
+   <link th:href="@{/css/introductionRooms.css}" rel="stylesheet"></link>
 
 	<!-- Atonの読み込み -->
    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
 
-   <title th:text="|${#temporals.format(date, 'yyyy/M/d')}の会議室|">2016/5/20の会議室</title>
+   <title>各会議室紹介ページ</title>
 </head>
 <body>
 
+<div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+
 	<!-- ===== ヘッダー（ナビゲーションバー） =====  -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
-    	<div class = "row">
+    <div class = "row">
         <div>
             <!-- ログアウト処理 -->
 			<form class="col text-center" th:action="@{/logout}" method="post">
@@ -51,7 +56,7 @@
 				<button class="btn btn-link pull-right navbar-brand" type="submit">Home</button>
 			</form>
     	</div>
-        </div>
+    </div>
     </nav>
 
 	<br/>
@@ -59,60 +64,54 @@
 	<br/>
 	<br/>
 
-	<div class = "container">
+	<div class="box">
+	  <div class="box-img"><img alt="" src="https://www.work-design.co.jp/up_file/20140305171024_2.jpg"></div>
+	  <div class="box-text">ここに説明文を載せる</div>
+	</div>
 
-		<div class="img-container">
-			<img class="mr-3" src="https://www.work-design.co.jp/up_file/20140305171024_2.jpg"  width="30%" height="30%" />
-			<p>こちらは新木場会議室となります</p>
-			<p>こちらは新木場会議室となります</p>
-			<p>こちらは新木場会議室となります</p>
-			<p>こちらは新木場会議室となります</p>
-			<p>こちらは新木場会議室となります</p>
-			<p>こちらは新木場会議室となります</p>
-			<p>こちらは新木場会議室となります</p>
-		</div>
+	<div class="box">
+	  <div class="box-img"><img alt="" src="https://static.amanaimages.com/imgroom/rf_preview640/10132/10132103874.jpg"></div>
+	  <div class="box-text">ここに説明文を載せる</div>
+	</div>
 
+	<div class="box">
+	  <div class="box-img"><img alt="" src="https://ayaemo.skr.jp/images/material/office/800x600/office08_day%20by%20mercedes818.jpg"></div>
+	  <div class="box-text">ここに説明文を載せる</div>
+	</div>
 
+	<div class="box">
+	  <div class="box-img"><img alt="" src="https://publicdomainq.net/images/201704/28s/publicdomainq-0008542srd.jpg" ></div>
+	  <div class="box-text">ここに説明文を載せる</div>
+	</div>
 
+	<div class="box">
+	  <div class="box-img"><img alt="" src="https://static.amanaimages.com/imgroom/rf_preview640/11019/11019020028.jpg"></div>
+	  <div class="box-text">ここに説明文を載せる</div>
+	</div>
+
+	<div class="box">
+	  <div class="box-img"><img alt="" src="https://www.photolibrary.jp/mhd5/img525/450-20170515084848261.jpg"></div>
+	  <div class="box-text">ここに説明文を載せる</div>
 	</div>
 
 
+    <div th:if="${booleanResult}">
+	<!-- モーダルウィンドウここから -->
+	<div id="modal-content">
+		<span th:text="${message}"></span>
+		<p><a id="modal-close" class="button-link" onclick="modal_onclick_close()" >閉じる</a></p>
+	</div>
+	<!-- 2番目に表示されるモーダル（オーバーウエィ)半透明な膜 -->
+	<div id="modal-overlay" ></div>
+	<!-- モーダルウィンドウここまで -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       <div th:if="${booleanResult}">
-		<!-- モーダルウィンドウここから -->
-		<div id="modal-content">
-			<span th:text="${message}"></span>
-			<p><a id="modal-close" class="button-link" onclick="modal_onclick_close()" >閉じる</a></p>
-		</div>
-		<!-- 2番目に表示されるモーダル（オーバーウエィ)半透明な膜 -->
-		<div id="modal-overlay" ></div>
-		<!-- モーダルウィンドウここまで -->
-
-		<!-- JavaScript -->
-		<script type="text/javascript">
+	<!-- JavaScript -->
+	<script type="text/javascript">
 		function modal_onclick_close(){
 		document.getElementById("modal-content").style.display = "none";
 		document.getElementById("modal-overlay").style.display = "none";
 		}
-		</script>
+	</script>
 	</div>
 
 </body>

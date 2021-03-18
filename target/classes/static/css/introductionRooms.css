@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .box {
-  background-color: #D3DEF1;
+  background-color: #EEFFFF;
   display: flex;
   flex-wrap: nowrap;
   margin: 10px auto;
@@ -12,7 +12,7 @@
 }
 
 .box-img {
-  width: 470px;
+  width: 450px;
 }
 
 .box-img img {
@@ -21,9 +21,6 @@
 
 .box-text {
   flex:1;
-  /* 以下は説明文を縦位置中央にするため */
-  display: flex;
-  align-items: center;
 }
 
 

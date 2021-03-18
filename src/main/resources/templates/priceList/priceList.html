@@ -7,7 +7,8 @@
    <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
    <!-- CSSの読込 -->
    <link th:href="@{/css/home.css}" rel="stylesheet"></link>
-    <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
+   <link th:href="@{/css/modal.css}" rel="stylesheet"></link>
+   <link th:href="@{/css/priceList.css}" rel="stylesheet"></link>
 	<!-- Atonの読み込み -->
    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
 
@@ -55,7 +56,68 @@
         </div>
     </nav>
 
+	<br/>
+	<br/>
+	<br/>
+	<br/>
 
+
+		<table>
+        <thead>
+            <tr>
+                <td></td>
+                <th scope="col">内容</th>
+                <th scope="col">価格(月額)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>ベーシックプラン</th>
+                <td data-label="内容" class="txt">はじめての方向け。ベーシックなお試しプラン</td>
+                <td data-label="価格" class="price">¥3,000</td>
+            </tr>
+            <tr>
+                <th>カスタムプラン</th>
+                <td data-label="内容" class="txt">必要なものだけ揃えられるカスタムプラン</td>
+                <td data-label="価格"class="price">¥4,000</td>
+            </tr>
+            <tr>
+                <th>プレミアムプラン</th>
+                <td data-label="内容" class="txt">全ておまかせのプレミアムプラン</td>
+                <td data-label="価格"class="price">¥10,000</td>
+            </tr>
+          <tr>
+                <th>ベーシックプラン</th>
+                <td data-label="内容" class="txt">はじめての方向け。ベーシックなお試しプラン</td>
+                <td data-label="価格" class="price">¥3,000</td>
+            </tr>
+            <tr>
+                <th>カスタムプラン</th>
+                <td data-label="内容" class="txt">必要なものだけ揃えられるカスタムプラン</td>
+                <td data-label="価格"class="price">¥4,000</td>
+            </tr>
+            <tr>
+                <th>プレミアムプラン</th>
+                <td data-label="内容" class="txt">全ておまかせのプレミアムプラン</td>
+                <td data-label="価格"class="price">¥10,000</td>
+            </tr>
+          <tr>
+                <th>ベーシックプラン</th>
+                <td data-label="内容" class="txt">はじめての方向け。ベーシックなお試しプラン</td>
+                <td data-label="価格" class="price">¥3,000</td>
+            </tr>
+            <tr>
+                <th>カスタムプラン</th>
+                <td data-label="内容" class="txt">必要なものだけ揃えられるカスタムプラン</td>
+                <td data-label="価格"class="price">¥4,000</td>
+            </tr>
+            <tr>
+                <th>プレミアムプラン</th>
+                <td data-label="内容" class="txt">全ておまかせのプレミアムプラン</td>
+                <td data-label="価格"class="price">¥10,000</td>
+            </tr>
+        </tbody>
+    </table>
 
 
 

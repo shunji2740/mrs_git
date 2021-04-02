@@ -24,7 +24,7 @@ table td {
   border-bottom: 1px solid #eee;
 }
 table thead th {
-    font-size: .85em;
+
     padding: 1em;
 }
 table thead tr{
@@ -33,11 +33,11 @@ table thead tr{
 }
 table tbody th {
   text-align: left;
-  font-size: .8em;
+
 }
 .txt{
    text-align: left;
-   font-size: .75em;
+
 }
 .price{
   text-align: right;

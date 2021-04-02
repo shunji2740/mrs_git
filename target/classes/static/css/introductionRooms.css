@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .box {
-  background-color: #EEFFFF;
+  background-color: #faebd7;
   display: flex;
   flex-wrap: nowrap;
   margin: 10px auto;
